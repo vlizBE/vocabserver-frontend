@@ -1,6 +1,6 @@
 /**
  * Catch-all for ember-data.
  */
-export default interface ModelRegistry {
-  [key: string]: unknown;
-}
+import Model from '@ember-data/model';
+
+export default interface ModelRegistry extends Record<string, Model> {}

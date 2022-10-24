@@ -13,6 +13,9 @@
       "frontend-vocab-search-admin/*": [
         "app/*"
       ],
+      "fetch": [
+        "node_modules/ember-fetch"
+      ],
       "*": [
         "types/*"
       ]

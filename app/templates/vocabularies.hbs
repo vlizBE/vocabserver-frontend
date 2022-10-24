@@ -1,0 +1,18 @@
+{{#if @model.length}}
+  <ul>
+    {{#each @model as |vocab|}}
+      <li><a href={{vocab.url}}>{{vocab.name}}</a><button
+          type='button'
+          {{on 'click' (fn this.deleteVocab vocab.id)}}
+        >🗑️</button><button
+          type='button'
+          {{on 'click' (fn this.downloadVocab vocab.id)}}
+        >{{this.downloadBtnTxt}}</button><span
+          style='color: #cccccc; font-size:small; padding-left: 1em'
+        >{{vocab.id}}</span></li>
+    {{/each}}
+  </ul>
+{{else}}
+  <p>No vocabularies were found</p>
+{{/if}}
+<AddVocab />
