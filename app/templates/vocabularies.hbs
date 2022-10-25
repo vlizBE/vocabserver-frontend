@@ -6,7 +6,7 @@
           {{on 'click' (fn this.deleteVocab vocab.id)}}
         >🗑️</button><button
           type='button'
-          {{on 'click' (fn this.downloadVocab vocab.id)}}
+          {{on 'click' (fn this.createDownloadJob vocab.uri)}}
         >{{this.downloadBtnTxt}}</button><span
           style='color: #cccccc; font-size:small; padding-left: 1em'
         >{{vocab.id}}</span></li>
