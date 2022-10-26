@@ -29,9 +29,7 @@ export default class VocabulariesController extends Controller {
   }
 
   @action
-  async deleteVocab(id: string) {
-    const record = await this.store.findRecord('vocabulary', id);
-    record.deleteRecord();
-    await record.save();
+  async deleteVocab(vocabulary: any) { // TODO: typechecking serves no purpose when used this way
+    await vocabulary.destroyRecord();
   }
 }

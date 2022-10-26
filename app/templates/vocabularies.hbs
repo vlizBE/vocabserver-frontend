@@ -3,7 +3,7 @@
     {{#each @model as |vocab|}}
       <li><a href={{vocab.url}}>{{vocab.name}}</a><button
           type='button'
-          {{on 'click' (fn this.deleteVocab vocab.id)}}
+          {{on 'click' (fn this.deleteVocab vocab)}}
         >🗑️</button><button
           type='button'
           {{on 'click' (fn this.createDownloadJob vocab.uri)}}
