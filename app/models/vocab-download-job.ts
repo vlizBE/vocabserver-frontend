@@ -6,4 +6,7 @@ export default class VocabDownloadJob extends Model {
 
   @attr('string')
   declare sources?: string;
+
+  @attr('string')
+  declare status?: string;
 }

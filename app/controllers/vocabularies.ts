@@ -22,7 +22,7 @@ export default class VocabulariesController extends Controller {
   @action
   async createDownloadJob(vocabUri: string) {
     const record = this.store.createRecord('vocab-download-job', {
-      created: Date.now(),
+      created: new Date(),
       sources: vocabUri,
     });
     await record.save();
