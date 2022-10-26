@@ -13,19 +13,24 @@ export default class VocabulariesController extends Controller {
   @action
   async downloadVocab(id: string) {
     this.downloadBtnTxt = '⏳';
-    try {
-    let res = await fetch(`/fetch/${id}`, {
+    await fetch(`/fetch/${id}`, {
       method: 'POST',
     });
-    } catch (e) {
-      
-    }
     this.downloadBtnTxt = '⬇️';
   }
 
   @action
+  async createDownloadJob(vocabUri: string) {
+    const record = this.store.createRecord('vocab-download-job', {
+      created: Date.now(),
+      sources: vocabUri,
+    });
+    await record.save();
+  }
+
+  @action
   async deleteVocab(id: string) {
-    let record = await this.store.findRecord('vocabulary', id);
+    const record = await this.store.findRecord('vocabulary', id);
     record.deleteRecord();
     await record.save();
   }

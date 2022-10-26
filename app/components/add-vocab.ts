@@ -1,4 +1,4 @@
-import Component from '@ember/component';
+import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
 import { service } from '@ember/service';
@@ -13,7 +13,7 @@ export default class AddVocabComponent extends Component {
   @action
   async submitVocab(event: Event) {
     event.preventDefault();
-    let record = this.store.createRecord('vocabulary', {
+    const record = this.store.createRecord('vocabulary', {
       url: this.vocabUrl,
       name: this.vocabName,
     });
