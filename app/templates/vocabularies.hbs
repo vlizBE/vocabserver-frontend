@@ -6,7 +6,7 @@
           {{on 'click' (fn this.deleteVocab vocab)}}
         >🗑️</button><button
           type='button'
-          {{on 'click' (fn this.createDownloadJob vocab.uri)}}
+          {{on 'click' (fn this.createAndRunDownloadJob vocab.url)}}
         >{{this.downloadBtnTxt}}</button>{{vocab.id}}</li>
     {{/each}}
   </ul>
