@@ -13,17 +13,15 @@ export default class VocabulariesController extends Controller {
   @action
   async downloadVocab(id: string) {
     this.downloadBtnTxt = '⏳';
-    try {
-      let res = await fetch(`/fetch/${id}`, {
-        method: 'POST',
-      });
-    } catch (e) {}
+    await fetch(`/fetch/${id}`, {
+      method: 'POST',
+    });
     this.downloadBtnTxt = '⬇️';
   }
 
   @action
   async createDownloadJob(vocabUri: string) {
-    let record = this.store.createRecord('vocab-download-job', {
+    const record = this.store.createRecord('vocab-download-job', {
       created: Date.now(),
       sources: vocabUri,
     });
@@ -32,7 +30,7 @@ export default class VocabulariesController extends Controller {
 
   @action
   async deleteVocab(id: string) {
-    let record = await this.store.findRecord('vocabulary', id);
+    const record = await this.store.findRecord('vocabulary', id);
     record.deleteRecord();
     await record.save();
   }
