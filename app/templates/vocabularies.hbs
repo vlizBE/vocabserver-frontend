@@ -1,13 +1,22 @@
 {{#if @model.length}}
   <ul>
     {{#each @model as |vocab|}}
-      <li><a href={{vocab.url}}>{{vocab.name}}</a><button
+      <li>
+        <a href={{vocab.url}}>{{vocab.name}}</a>
+        <button
           type='button'
           {{on 'click' (fn this.deleteVocab vocab)}}
-        >🗑️</button><button
+        >🗑️</button>
+        <button
           type='button'
-          {{on 'click' (fn this.createDownloadJob vocab.uri)}}
-        >{{this.downloadBtnTxt}}</button>{{vocab.id}}</li>
+          {{on 'click' (perform this.createAndRunDownloadJob vocab.url)}}
+        >
+          {{if
+            this.createAndRunDownloadJob.isRunning
+            '⏳'
+            '⬇️'
+          }}
+        </button>{{vocab.id}}</li>
     {{/each}}
   </ul>
 {{else}}
