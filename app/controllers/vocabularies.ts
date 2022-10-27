@@ -1,9 +1,8 @@
+import Model from '@ember-data/model';
+import Store from '@ember-data/store';
 import Controller from '@ember/controller';
 import { action } from '@ember/object';
 import { service } from '@ember/service';
-import Store from '@ember-data/store';
-import fetch from 'fetch';
-import { tracked } from '@glimmer/tracking';
 import { task } from 'ember-concurrency';
 
 export default class VocabulariesController extends Controller {
@@ -19,7 +18,7 @@ export default class VocabulariesController extends Controller {
   @task
   *createAndRunDownloadJob(vocabUri: string) {
     const record = this.store.createRecord('vocab-download-job', {
-      created: Date.now(),
+      created: new Date(),
       sources: vocabUri,
     });
     yield record.save();
@@ -27,7 +26,7 @@ export default class VocabulariesController extends Controller {
   }
 
   @action
-  async deleteVocab(vocabulary: any) { // TODO: typechecking serves no purpose when used this way
+  async deleteVocab(vocabulary: Model) {
     await vocabulary.destroyRecord();
   }
 }

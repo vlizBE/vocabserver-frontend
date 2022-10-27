@@ -11,11 +11,7 @@
           type='button'
           {{on 'click' (perform this.createAndRunDownloadJob vocab.url)}}
         >
-          {{if
-            this.createAndRunDownloadJob.isRunning
-            '⏳'
-            '⬇️'
-          }}
+          {{if this.createAndRunDownloadJob.isRunning '⏳' '⬇️'}}
         </button>{{vocab.id}}</li>
     {{/each}}
   </ul>
