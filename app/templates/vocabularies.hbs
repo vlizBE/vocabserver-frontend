@@ -2,7 +2,7 @@
   <ul>
     {{#each @model as |vocab|}}
       <li>
-        <a href={{vocab.url}}>{{vocab.name}}</a>
+        <LinkTo @route="vocabulary" @model={{vocab.id}}>{{vocab.name}}</LinkTo>
         <button
           type='button'
           {{on 'click' (fn this.deleteVocab vocab)}}
