@@ -1,9 +1,10 @@
+import Model from '@ember-data/model';
+import Store from '@ember-data/store';
 import Controller from '@ember/controller';
 import { action } from '@ember/object';
 import { service } from '@ember/service';
-import Store from '@ember-data/store';
-import fetch from 'fetch';
 import { tracked } from '@glimmer/tracking';
+import fetch from 'fetch';
 
 export default class VocabulariesController extends Controller {
   @service declare store: Store;
@@ -29,7 +30,7 @@ export default class VocabulariesController extends Controller {
   }
 
   @action
-  async deleteVocab(vocabulary: any) { // TODO: typechecking serves no purpose when used this way
+  async deleteVocab(vocabulary: Model) {
     await vocabulary.destroyRecord();
   }
 }
