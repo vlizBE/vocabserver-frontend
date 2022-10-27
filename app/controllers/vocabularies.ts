@@ -3,30 +3,26 @@ import Store from '@ember-data/store';
 import Controller from '@ember/controller';
 import { action } from '@ember/object';
 import { service } from '@ember/service';
-import { tracked } from '@glimmer/tracking';
-import fetch from 'fetch';
+import { task } from 'ember-concurrency';
 
 export default class VocabulariesController extends Controller {
   @service declare store: Store;
 
-  @tracked downloadBtnTxt = '⬇️';
-
   @action
   async downloadVocab(id: string) {
-    this.downloadBtnTxt = '⏳';
-    await fetch(`/fetch/${id}`, {
+    await fetch(`/vocab-download-jobs/${id}/run`, {
       method: 'POST',
     });
-    this.downloadBtnTxt = '⬇️';
   }
 
-  @action
-  async createDownloadJob(vocabUri: string) {
+  @task
+  *createAndRunDownloadJob(vocabUri: string) {
     const record = this.store.createRecord('vocab-download-job', {
       created: new Date(),
       sources: vocabUri,
     });
-    await record.save();
+    yield record.save();
+    yield this.downloadVocab(record.id);
   }
 
   @action
