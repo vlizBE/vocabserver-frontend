@@ -6,6 +6,6 @@
     label='unify'
     {{on 'click' (perform this.createAndRunDownloadJob job.results)}}
   >
-    {{if this.createAndRunDownloadJob.isRunning '⏳' '↩️'}}
+    {{if this.createAndRunUnifyVocabJob.isRunning '⏳' '↩️'}}
   </button>
 {{/each}}
