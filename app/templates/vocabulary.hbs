@@ -1,4 +1,11 @@
 <h1>{{this.model.name}}</h1>
 {{#each this.jobs as |job|}}
   <div>{{job.id}} {{job.created}} {{job.status}}</div>
+  <button
+    type='button'
+    label='unify'
+    {{on 'click' (perform this.createAndRunDownloadJob job.results)}}
+  >
+    {{if this.createAndRunDownloadJob.isRunning '⏳' '↩️'}}
+  </button>
 {{/each}}
