@@ -1,12 +1,3 @@
-import Model, { attr } from '@ember-data/model';
+import Job from './job';
 
-export default class VocabDownloadJob extends Model {
-  @attr('date')
-  declare created?: Date;
-
-  @attr('string')
-  declare sources?: string;
-
-  @attr('string')
-  declare status?: string;
-}
+export default class VocabDownloadJob extends Job {}
