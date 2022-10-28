@@ -4,7 +4,7 @@
   <button
     type='button'
     label='unify'
-    {{on 'click' (perform this.createAndRunDownloadJob job.results)}}
+    {{on 'click' (perform this.createAndRunUnifyVocabJob job.results)}}
   >
     {{if this.createAndRunUnifyVocabJob.isRunning '⏳' '↩️'}}
   </button>
