@@ -22,7 +22,7 @@ export default class VocabulariesController extends Controller {
       sources: vocabUri,
     });
     yield record.save();
-    yield this.downloadVocab(record.id);
+    // yield this.downloadVocab(record.id);
   }
 
   @action
