@@ -9,4 +9,5 @@ export default class Router extends EmberRouter {
 Router.map(function () {
   this.route('vocabularies');
   this.route('vocabulary', { path: '/vocabulary/:vocabulary_id' });
+  this.route('search');
 });

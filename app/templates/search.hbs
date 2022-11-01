@@ -1,0 +1,20 @@
+<input value={{this.qBuffer}} {{on "input" (perform this.setQAndSearch)}}/>
+
+{{#if this.model.length}}
+  <table>
+    <tr>
+      <th>URI</th>
+      <th>prefLabel</th>
+      <th>In scheme</th>
+    </tr>
+    {{#each this.model as |term|}}
+      <tr>
+        <td><a href={{term.uri}}>{{term.uri}}</a></td>
+        <td>{{term.prefLabel}}</td>
+        <td>{{term.schemePrefLabel}}</td>
+      </tr>
+    {{/each}}
+  </table>
+{{else}}
+  No results
+{{/if}}
