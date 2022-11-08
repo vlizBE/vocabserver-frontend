@@ -4,13 +4,11 @@ import { action } from '@ember/object';
 import { service } from '@ember/service';
 import Store from '@ember-data/store';
 
-export interface AddVocabComponentSignature {
-  Args: {
-    onClose: () => void;
-  }
-}
-
-export default class AddVocabComponent extends Component<AddVocabComponentSignature> {
+/**
+ * @argument onClose
+ * @argument onSubmit
+ */
+export default class AddVocabComponent extends Component {
   @service declare store: Store;
   @tracked vocabUrl = '';
   @tracked vocabName = '';
