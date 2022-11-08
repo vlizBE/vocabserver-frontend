@@ -1,4 +1,4 @@
-<form action='submit' {{on 'submit' this.submitVocab}}>
+{{!-- <form action='submit' {{on 'submit' this.submitVocab}}>
   <h2>Add vocabulary</h2>
   <label for='url-input'>URL:</label>
   <Input
@@ -16,4 +16,31 @@
 </form>
 {{#if this.errorMsg}}
 <p>{{this.errorMsg}}</p>
-{{/if}}
+{{/if}} --}}
+<BsButton @type='primary' @onClick={{set this 'showModal' true}}>Add Vocabulary</BsButton>
+<BsModal @open={{this.showModal}} @onSubmit={{this.submit}} as |modal|>
+  <modal.header>
+    <h4 class='modal-title'>
+      Add Vocabulary
+    </h4>
+  </modal.header>
+  <modal.body>
+    <BsForm
+      @formLayout='horizontal'
+      @model={{this}}
+      @onSubmit={{this.submitVocab}}
+      as |form|
+    >
+      <form.element @controlType='text' @label='URL' @property='url' as |el|>
+        <el.control placeholder='URL' required />
+      </form.element>
+      <form.element @controlType='text' @label='Name' @property='name' as |el|>
+        <el.control placeholder='Name' required />
+      </form.element>
+    </BsForm>
+  </modal.body>
+  <modal.footer>
+    <BsButton @onClick={{modal.close}}>Cancel</BsButton>
+    <BsButton @type='success' @onClick={{this.submitVocab}}>Add</BsButton>
+  </modal.footer>
+</BsModal>

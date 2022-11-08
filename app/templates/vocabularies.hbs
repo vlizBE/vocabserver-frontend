@@ -1,4 +1,6 @@
+<h1>Vocabularies</h1>
 {{#if @model.length}}
+  <AddVocab />
   <table class='table'>
     <thead>
       <tr>
@@ -19,7 +21,9 @@
           </th>
           <td>{{vocab.id}}</td>
           <td>
-            <BsButton @onClick={{(fn this.deleteVocab vocab)}} @icon="glyphicon glyphicon-download">Remove</BsButton>
+            <BsButton
+              @onClick={{(fn this.deleteVocab vocab)}}
+            >Remove</BsButton>
           </td>
           <td>
             <BsButton
@@ -33,5 +37,6 @@
     </tbody>
   </table>
 {{else}}
-  <p>No vocabularies were found</p>
+  <h4 class='card-header mb-4'>No vocabularies found</h4>
+  <AddVocab />
 {{/if}}

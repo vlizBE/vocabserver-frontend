@@ -9,6 +9,7 @@ export default class AddVocabComponent extends Component {
   @tracked vocabUrl = '';
   @tracked vocabName = '';
   @tracked errorMsg = '';
+  @tracked showModal = false;
 
   @action
   async submitVocab(event: Event) {
