@@ -17,8 +17,11 @@
 {{#if this.errorMsg}}
 <p>{{this.errorMsg}}</p>
 {{/if}} --}}
-<BsButton @type='primary' @onClick={{set this 'showModal' true}}>Add Vocabulary</BsButton>
-<BsModal @open={{this.showModal}} @onSubmit={{this.submit}} as |modal|>
+<BsModal
+  @onSubmit={{this.submit}}
+  @renderInPlace={{true}}
+  @onHide={{@onClose}}
+as |modal|>
   <modal.header>
     <h4 class='modal-title'>
       Add Vocabulary

@@ -4,12 +4,17 @@ import { action } from '@ember/object';
 import { service } from '@ember/service';
 import Store from '@ember-data/store';
 
-export default class AddVocabComponent extends Component {
+export interface AddVocabComponentSignature {
+  Args: {
+    onClose: () => void;
+  }
+}
+
+export default class AddVocabComponent extends Component<AddVocabComponentSignature> {
   @service declare store: Store;
   @tracked vocabUrl = '';
   @tracked vocabName = '';
   @tracked errorMsg = '';
-  @tracked showModal = false;
 
   @action
   async submitVocab(event: Event) {
@@ -29,5 +34,6 @@ export default class AddVocabComponent extends Component {
         this.errorMsg = String(error);
       }
     }
+    this.args.onClose();
   }
 }
