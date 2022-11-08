@@ -1,20 +1,30 @@
-<input value={{this.qBuffer}} {{on "input" (perform this.setQAndSearch)}}/>
+<h1 class='mb-4'>Search</h1>
+<input
+  id='search-field'
+  class='mb-4'
+  value={{this.qBuffer}}
+  {{on 'input' (perform this.setQAndSearch)}}
+/>
 
 {{#if this.model.length}}
-  <table>
-    <tr>
-      <th>URI</th>
-      <th>prefLabel</th>
-      <th>In scheme</th>
-    </tr>
-    {{#each this.model as |term|}}
+  <table class='table'>
+    <thead>
       <tr>
-        <td><a href={{term.uri}}>{{term.uri}}</a></td>
-        <td>{{term.prefLabel}}</td>
-        <td>{{term.schemePrefLabel}}</td>
+        <th>URI</th>
+        <th>prefLabel</th>
+        <th>In scheme</th>
       </tr>
-    {{/each}}
+    </thead>
+    <tbody>
+      {{#each this.model as |term|}}
+        <tr>
+          <td><a href={{term.uri}}>{{term.uri}}</a></td>
+          <td>{{term.prefLabel}}</td>
+          <td>{{term.schemePrefLabel}}</td>
+        </tr>
+      {{/each}}
+    </tbody>
   </table>
 {{else}}
-  No results
+  <p>No results</p>
 {{/if}}
