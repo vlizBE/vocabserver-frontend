@@ -1,2 +1,18 @@
 {{page-title 'FrontendVocabSearchAdmin'}}
+<BsNavbar @type='light' @fluid={{false}} @backgroundColor='light' as |navbar|>
+    <LinkTo @route='index' class='navbar-brand'>VocabSearch</LinkTo>
+    <navbar.toggle />
+    <navbar.content>
+      <navbar.nav as |nav|>
+        <nav.item>
+          <nav.link-to @route='vocabularies'>Vocabularies</nav.link-to>
+        </nav.item>
+        <nav.item>
+          <nav.link-to @route='search'>Search</nav.link-to>
+        </nav.item>
+      </navbar.nav>
+    </navbar.content>
+</BsNavbar>
+<div class="container">
 {{outlet}}
+</div>
