@@ -29,6 +29,12 @@ export default class VocabulariesController extends Controller {
   }
 
   @action
+  handleNewVocabulary(record: any) {
+    record.save();
+    this.showCreationModal = false;
+  }
+
+  @action
   async deleteVocab(vocabulary: Model) {
     await vocabulary.destroyRecord();
   }

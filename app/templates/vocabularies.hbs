@@ -3,7 +3,9 @@
   <BsButton @type='primary' @onClick={{set this "showCreationModal" true}}>Add Vocabulary</BsButton>
   {{#if this.showCreationModal}}
     {{log "Should render"}}
-    <AddVocab @onClose={{set this "showCreationModal" false}}/>
+    <AddVocab
+      @onSubmit={{this.handleNewVocabulary}}
+      @onClose={{set this "showCreationModal" false}}/>
   {{/if}}
   <table class='table'>
     <thead>
