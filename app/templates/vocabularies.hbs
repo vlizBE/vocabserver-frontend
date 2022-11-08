@@ -1,21 +1,37 @@
 {{#if @model.length}}
-  <ul>
-    {{#each @model as |vocab|}}
-      <li>
-        <LinkTo @route="vocabulary" @model={{vocab.id}}>{{vocab.name}}</LinkTo>
-        <button
-          type='button'
-          {{on 'click' (fn this.deleteVocab vocab)}}
-        >🗑️</button>
-        <button
-          type='button'
-          {{on 'click' (perform this.createAndRunDownloadJob vocab.url)}}
-        >
-          {{if this.createAndRunDownloadJob.isRunning '⏳' '⬇️'}}
-        </button>{{vocab.id}}</li>
-    {{/each}}
-  </ul>
+  <table class='table'>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>UUID</th>
+        <th>Remove</th>
+        <th>Create download job</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each @model as |vocab|}}
+        <tr>
+          <th>
+            <LinkTo
+              @route='vocabulary'
+              @model={{vocab.id}}
+            >{{vocab.name}}</LinkTo>
+          </th>
+          <td>{{vocab.id}}</td>
+          <td>
+            <BsButton @onClick={{(fn this.deleteVocab vocab)}} @icon="glyphicon glyphicon-download">Remove</BsButton>
+          </td>
+          <td>
+            <BsButton
+              {{on 'click' (perform this.createAndRunDownloadJob vocab.url)}}
+            >
+              {{if this.createAndRunDownloadJob.isRunning '⏳' '⬇️'}}
+            </BsButton>
+          </td>
+        </tr>
+      {{/each}}
+    </tbody>
+  </table>
 {{else}}
   <p>No vocabularies were found</p>
 {{/if}}
-<AddVocab />
