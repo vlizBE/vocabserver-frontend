@@ -1,11 +1,37 @@
-<h1>{{this.model.name}}</h1>
-{{#each this.jobs as |job|}}
-  <div>{{job.id}} {{job.created}} {{job.status}}</div>
-  <button
-    type='button'
-    label='unify'
-    {{on 'click' (perform this.createAndRunUnifyVocabJob job.results)}}
-  >
-    {{if this.createAndRunUnifyVocabJob.isRunning '⏳' '↩️'}}
-  </button>
-{{/each}}
+<h1>Vocabulary: {{this.model.name}}</h1>
+<h2>Unification Jobs</h2>
+<table class='table'>
+  <thead>
+    <tr>
+      <th>UUID</th>
+      <th>Date</th>
+      <th>Status</th>
+      <th>Start Unification</th>
+    </tr>
+  </thead>
+  <tbody>
+    {{#each this.jobs as |job|}}
+      <tr>
+        <td>
+          {{job.id}}
+        </td>
+        <td>
+          {{job.created}}
+        </td>
+        <td>
+          {{job.status}}
+        </td>
+        <td>
+          <button
+            type='button'
+            label='unify'
+            {{on 'click' (perform this.createAndRunUnifyVocabJob job.results)}}
+          >
+            {{if this.createAndRunUnifyVocabJob.isRunning '⏳' '↩️'}}
+          </button>
+        </td>
+      </tr>
+    {{/each}}
+
+  </tbody>
+</table>
