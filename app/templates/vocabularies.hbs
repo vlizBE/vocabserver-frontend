@@ -1,11 +1,12 @@
 <h1>Vocabularies</h1>
 {{#if @model.length}}
-  <BsButton @type='primary' @onClick={{set this "showCreationModal" true}}>Add Vocabulary</BsButton>
+  <BsButton @type='primary' @onClick={{set this 'showCreationModal' true}}>Add
+    Vocabulary</BsButton>
   {{#if this.showCreationModal}}
-    {{log "Should render"}}
     <AddVocab
       @onSubmit={{this.handleNewVocabulary}}
-      @onClose={{set this "showCreationModal" false}}/>
+      @onClose={{set this 'showCreationModal' false}}
+    />
   {{/if}}
   <table class='table'>
     <thead>
@@ -44,5 +45,12 @@
   </table>
 {{else}}
   <h4 class='card-header mb-4'>No vocabularies found</h4>
-  <AddVocab />
+  <BsButton @type='primary' @onClick={{set this 'showCreationModal' true}}>Add
+    Vocabulary</BsButton>
+  {{#if this.showCreationModal}}
+    <AddVocab
+      @onSubmit={{this.handleNewVocabulary}}
+      @onClose={{set this 'showCreationModal' false}}
+    />
+  {{/if}}
 {{/if}}
