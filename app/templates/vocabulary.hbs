@@ -12,7 +12,7 @@
     {{#each this.jobs as |job|}}
       <tr>
         <td>
-          {{job.created}}
+          {{format-date job.created "dd/MM/yyyy 'at' HH:mm"}}
         </td>
         <td>
           {{job.status}}
