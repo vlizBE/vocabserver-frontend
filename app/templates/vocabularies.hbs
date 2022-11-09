@@ -27,11 +27,13 @@
           <td>
             <BsButton
               @onClick={{(fn this.deleteVocab vocab)}}
-            >Remove</BsButton>
+              @outline={{true}}
+            >🗑️</BsButton>
           </td>
           <td>
             <BsButton
               {{on 'click' (perform this.createAndRunDownloadJob vocab.url)}}
+              @outline={{true}}
             >
               {{if this.createAndRunDownloadJob.isRunning '⏳' '⬇️'}}
             </BsButton>

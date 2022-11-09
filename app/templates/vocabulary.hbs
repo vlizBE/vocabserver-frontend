@@ -22,13 +22,12 @@
           {{job.status}}
         </td>
         <td>
-          <button
-            type='button'
-            label='unify'
-            {{on 'click' (perform this.createAndRunUnifyVocabJob job.results)}}
+          <BsButton
+            @onClick={{perform this.createAndRunUnifyVocabJob job.results}}
+            @outline={{true}}
           >
             {{if this.createAndRunUnifyVocabJob.isRunning '⏳' '↩️'}}
-          </button>
+          </BsButton>
         </td>
       </tr>
     {{/each}}
