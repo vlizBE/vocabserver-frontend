@@ -1,0 +1,45 @@
+<h1>Dataset:</h1>
+
+<h2>Classes</h2>
+<table class='table'>
+  <thead>
+    <tr>
+      <th>url</th>
+      <th>amount</th>
+    </tr>
+  </thead>
+  <tbody>
+    {{#each this.model.classes as |classDataset|}}
+      <tr>
+        <td>
+          {{classDataset.class}}
+        </td>
+        <td>
+          {{classDataset.entities}}
+        </td>
+      </tr>
+    {{/each}}
+  </tbody>
+</table>
+
+<h2>Properties</h2>
+<table class='table'>
+  <thead>
+    <tr>
+      <th>url</th>
+      <th>amount</th>
+    </tr>
+  </thead>
+  <tbody>
+    {{#each this.model.properties as |propertyDataset|}}
+      <tr>
+        <td>
+          {{propertyDataset.property}}
+        </td>
+        <td>
+          {{propertyDataset.entities}}
+        </td>
+      </tr>
+    {{/each}}
+  </tbody>
+</table>
