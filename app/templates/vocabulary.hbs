@@ -1,9 +1,8 @@
 <h1>Vocabulary: {{this.model.name}}</h1>
-<h2>Unification Jobs</h2>
+<h2>Download Jobs</h2>
 <table class='table'>
   <thead>
     <tr>
-      <th>UUID</th>
       <th>Date</th>
       <th>Status</th>
       <th>Start Unification</th>
@@ -12,9 +11,6 @@
   <tbody>
     {{#each this.jobs as |job|}}
       <tr>
-        <td>
-          {{job.id}}
-        </td>
         <td>
           {{job.created}}
         </td>
