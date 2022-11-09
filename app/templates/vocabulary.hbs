@@ -1,9 +1,8 @@
 <h1>Vocabulary: {{this.model.name}}</h1>
-<h2>Unification Jobs</h2>
+<h2>Download Jobs</h2>
 <table class='table'>
   <thead>
     <tr>
-      <th>UUID</th>
       <th>Date</th>
       <th>Status</th>
       <th>Start Unification</th>
@@ -13,22 +12,19 @@
     {{#each this.jobs as |job|}}
       <tr>
         <td>
-          {{job.id}}
+          {{format-date job.created "dd/MM/yyyy 'at' HH:mm"}}
         </td>
         <td>
-          {{job.created}}
+          <JobStatus @job={{job}}/>
         </td>
         <td>
-          {{job.status}}
-        </td>
-        <td>
-          <button
-            type='button'
-            label='unify'
-            {{on 'click' (perform this.createAndRunUnifyVocabJob job.results)}}
+          <BsButton
+            @onClick={{perform this.createAndRunUnifyVocabJob job.results}}
+            @outline={{true}}
+            disabled={{not job.succeeded}}
           >
-            {{if this.createAndRunUnifyVocabJob.isRunning '⏳' '↩️'}}
-          </button>
+            ↩️
+          </BsButton>
         </td>
       </tr>
     {{/each}}

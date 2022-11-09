@@ -17,30 +17,31 @@
 {{#if this.errorMsg}}
 <p>{{this.errorMsg}}</p>
 {{/if}} --}}
-<BsButton @type='primary' @onClick={{set this 'showModal' true}}>Add Vocabulary</BsButton>
-<BsModal @open={{this.showModal}} @onSubmit={{this.submit}} as |modal|>
+<BsModal
+  @renderInPlace={{true}}
+  @onHide={{@onClose}}
+as |modal|>
   <modal.header>
     <h4 class='modal-title'>
       Add Vocabulary
     </h4>
   </modal.header>
-  <modal.body>
-    <BsForm
-      @formLayout='horizontal'
-      @model={{this}}
-      @onSubmit={{this.submitVocab}}
-      as |form|
-    >
+  <BsForm
+    @formLayout='horizontal'
+    @onSubmit={{this.submit}}
+    as |form|
+  >
+    <modal.body>
       <form.element @controlType='text' @label='URL' @property='url' as |el|>
         <el.control placeholder='URL' required />
       </form.element>
       <form.element @controlType='text' @label='Name' @property='name' as |el|>
         <el.control placeholder='Name' required />
       </form.element>
-    </BsForm>
-  </modal.body>
-  <modal.footer>
-    <BsButton @onClick={{modal.close}}>Cancel</BsButton>
-    <BsButton @type='success' @onClick={{this.submitVocab}}>Add</BsButton>
-  </modal.footer>
+    </modal.body>
+    <modal.footer>
+      <BsButton @onClick={{modal.close}}>Cancel</BsButton>
+      <form.submitButton @type="success">Add</form.submitButton>
+    </modal.footer>
+  </BsForm>
 </BsModal>
