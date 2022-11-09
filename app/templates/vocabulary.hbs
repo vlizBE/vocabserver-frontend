@@ -15,14 +15,15 @@
           {{format-date job.created "dd/MM/yyyy 'at' HH:mm"}}
         </td>
         <td>
-          {{job.status}}
+          <JobStatus @job={{job}}/>
         </td>
         <td>
           <BsButton
             @onClick={{perform this.createAndRunUnifyVocabJob job.results}}
             @outline={{true}}
+            disabled={{not job.succeeded}}
           >
-            {{if this.createAndRunUnifyVocabJob.isRunning '⏳' '↩️'}}
+            ↩️
           </BsButton>
         </td>
       </tr>
