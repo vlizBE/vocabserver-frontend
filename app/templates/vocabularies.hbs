@@ -18,12 +18,12 @@
     <tbody>
       {{#each @model as |vocab|}}
         <tr>
-          <th>
+          <td>
             <LinkTo
               @route='vocabulary'
               @model={{vocab.id}}
             >{{vocab.name}}</LinkTo>
-          </th>
+          </td>
           <td>
             <BsButton
               @onClick={{(fn this.deleteVocab vocab)}}
