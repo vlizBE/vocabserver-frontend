@@ -5,6 +5,7 @@
     <tr>
       <th>Date</th>
       <th>Status</th>
+      <th>Start Dataset Generation</th>
       <th>Start Unification</th>
     </tr>
   </thead>
@@ -16,6 +17,15 @@
         </td>
         <td>
           <JobStatus @job={{job}}/>
+        </td>
+        <td>
+          <BsButton
+            @onClick={{perform this.createAndRunDatasetGenerationJob job.results}}
+            @outline={{true}}
+            disabled={{not job.succeeded}}
+          >
+            ↩️
+          </BsButton>
         </td>
         <td>
           <BsButton

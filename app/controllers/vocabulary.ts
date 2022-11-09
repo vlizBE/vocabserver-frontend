@@ -8,10 +8,27 @@ export default class VocabularyController extends Controller {
   @service declare store: Store;
 
   @action
+  async generateDataset(id: string) {
+    await fetch(`/dataset-generation-jobs/${id}/run`, {
+      method: 'POST',
+    });
+  }
+
+  @action
   async unifyVocab(id: string) {
     await fetch(`/content-unification-jobs/${id}/run`, {
       method: 'POST',
     });
+  }
+
+  @task
+  *createAndRunDatasetGenerationJob(fileUri: string) {
+    const record = this.store.createRecord('dataset-generation-job', {
+      created: new Date(),
+      sources: fileUri,
+    });
+    yield record.save();
+    yield this.generateDataset(record.id);
   }
 
   @task
