@@ -5,17 +5,13 @@ export default class Job extends Model {
   SUCCESS = 'http://vocab.deri.ie/cogs#Success';
   FAILED = 'http://vocab.deri.ie/cogs#Fail';
 
-  @attr('date')
-  declare created?: Date;
+  @attr('date') created;
 
-  @attr('string')
-  declare sources?: string;
+  @attr('string') sources;
 
-  @attr('string')
-  declare results?: string;
+  @attr('string') results;
 
-  @attr('string')
-  declare status?: string;
+  @attr('string') status;
 
   get hasEnded() {
     return this.status === this.SUCCESS || this.status === this.FAILED;

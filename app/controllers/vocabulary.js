@@ -1,21 +1,20 @@
-import Store from '@ember-data/store';
 import Controller from '@ember/controller';
 import { action } from '@ember/object';
 import { service } from '@ember/service';
 import { task } from 'ember-concurrency';
 
 export default class VocabularyController extends Controller {
-  @service declare store: Store;
+  @service store;
 
   @action
-  async unifyVocab(id: string) {
+  async unifyVocab(id) {
     await fetch(`/content-unification-jobs/${id}/run`, {
       method: 'POST',
     });
   }
 
   @task
-  *createAndRunUnifyVocabJob(fileUri: string) {
+  *createAndRunUnifyVocabJob(fileUri) {
     const record = this.store.createRecord('content-unification-job', {
       created: new Date(),
       sources: fileUri,
