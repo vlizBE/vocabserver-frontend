@@ -11,7 +11,14 @@ export default class AddVocabComponent extends Component {
 
   @action
   async submit(params) {
-    const record = this.store.createRecord('vocabulary', params);
-    this.args.onSubmit(record);
+    const vocabularyMeta = this.store.createRecord('vocabulary', params);
+    const sourceDataset = this.store.createRecord('dataset', params);
+    sourceDataset.downloadPage = params.downloadPage;
+    sourceDataset.format = params.format;
+    sourceDataset.sparqlEndpoint = params.sparqlEndpoint;
+
+    vocabularyMeta.sourceDataset = sourceDataset;
+    vocabularyMeta.name = params.name;
+    this.args.onSubmit(vocabularyMeta);
   }
 }

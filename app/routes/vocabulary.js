@@ -10,8 +10,12 @@ export default class VocabulariesRoute extends Route {
 
   async afterModel(model) {
     super.afterModel(...arguments);
+    this.sourceDataset = await this.store.query('dataset', {
+      'filter[vocabulary][:id:]': model.id,
+      include: 'data-dumps',
+    });
     this.jobs = await this.store.query('vocab-download-job', {
-      'filter[sources]': model.url,
+      'filter[sources]': this.sourceDataset.downloadPage,
       sort: '-created',
     });
   }

@@ -33,7 +33,7 @@
           </td>
           <td>
             <BsButton
-              {{on 'click' (perform this.createAndRunDownloadJob vocab.url)}}
+              {{on 'click' (perform this.createAndRunDownloadJob vocab.sourceDataset)}}
               @outline={{true}}
             >
               {{if this.createAndRunDownloadJob.isRunning '⏳' '⬇️'}}

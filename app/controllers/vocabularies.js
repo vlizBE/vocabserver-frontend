@@ -17,17 +17,18 @@ export default class VocabulariesController extends Controller {
   }
 
   @task
-  *createAndRunDownloadJob(vocabUri) {
+  *createAndRunDownloadJob(dataset) {
     const record = this.store.createRecord('vocab-download-job', {
       created: new Date(),
-      sources: vocabUri,
+      sources: dataset.get('uri'),
     });
     yield record.save();
     // yield this.downloadVocab(record.id); // Handled by delta
   }
 
   @action
-  handleNewVocabulary(record) {
+  async handleNewVocabulary(record) {
+    record.sourceDataset = await (await record.sourceDataset).save();
     record.save();
     this.showCreationModal = false;
   }

@@ -1,22 +1,3 @@
-{{!-- <form action='submit' {{on 'submit' this.submitVocab}}>
-  <h2>Add vocabulary</h2>
-  <label for='url-input'>URL:</label>
-  <Input
-    id='url-input'
-    @value={{this.vocabUrl}}
-    placeholder='https://some-url.com/vocab'
-  />
-  <label for="name-input">Name:</label>
-  <Input
-    id="name-input"
-    @value={{this.vocabName}}
-    placeholder="My Vocab"
-  />
-  <button type='submit'>Add</button>
-</form>
-{{#if this.errorMsg}}
-<p>{{this.errorMsg}}</p>
-{{/if}} --}}
 <BsModal
   @renderInPlace={{true}}
   @onHide={{@onClose}}
@@ -32,11 +13,17 @@ as |modal|>
     as |form|
   >
     <modal.body>
-      <form.element @controlType='text' @label='URL' @property='url' as |el|>
-        <el.control placeholder='URL' required />
-      </form.element>
       <form.element @controlType='text' @label='Name' @property='name' as |el|>
         <el.control placeholder='Name' required />
+      </form.element>
+      <form.element @controlType='text' @label='download URL' @property='downloadPage' as |el|>
+        <el.control placeholder='URL' required />
+      </form.element>
+      <form.element @controlType='text' @label='format (url)' @property='format' as |el|>
+        <el.control placeholder='Name' required />
+      </form.element>
+      <form.element @controlType='text' @label='sparqlEndpoint' @property='sparqlEndpoint' as |el|>
+        <el.control placeholder='Name' />
       </form.element>
     </modal.body>
     <modal.footer>
