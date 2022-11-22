@@ -1,0 +1,54 @@
+<BsAccordion as |acc|>
+  <acc.item @value="1" @title="{{if this.hasDump "✅" "🟥"}} Download source dataset dump">
+    <BsButton @onClick={{perform this.createAndRunDownloadJob this.model}}>Download dump</BsButton>
+  </acc.item>
+  <acc.item @value="2" @title="{{if this.hasMeta "✅" "🟥"}} Analyze source data structure (generate metadata)">
+    <BsButton @onClick={{perform this.createAndRunMetadataExtractionJob this.model}}>Analyze source</BsButton>
+  </acc.item>
+  <acc.item @value="3" @title="{{if false "✅" "🟥"}} Configure unification">
+    <h2>Classes</h2>
+    <table class='table'>
+      <thead>
+        <tr>
+          <th>url</th>
+          <th>amount</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{#each this.model.classes as |classDataset|}}
+          <tr>
+            {{log classDataset}}
+            <td>
+              {{classDataset.class}}
+            </td>
+            <td>
+              {{classDataset.entities}}
+            </td>
+          </tr>
+        {{/each}}
+      </tbody>
+    </table>
+
+    <h2>Properties</h2>
+    <table class='table'>
+      <thead>
+        <tr>
+          <th>url</th>
+          <th>amount</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{#each this.model.properties as |propertyDataset|}}
+          <tr>
+            <td>
+              {{propertyDataset.property}}
+            </td>
+            <td>
+              {{propertyDataset.entities}}
+            </td>
+          </tr>
+        {{/each}}
+      </tbody>
+    </table>
+  </acc.item>
+</BsAccordion>

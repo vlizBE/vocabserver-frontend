@@ -1,6 +1,6 @@
 import Model, { attr, hasMany } from '@ember-data/model';
 
-export default class DatasetModel extends Model {
+export default class Job extends Model {
   @attr uri;
 
   @attr title;
@@ -14,4 +14,7 @@ export default class DatasetModel extends Model {
   @attr property;
   @attr class;
   @attr entities;
+
+  @hasMany('dataset', { inverse: null }) classes;
+  @hasMany('dataset', { inverse: null }) properties;
 }
