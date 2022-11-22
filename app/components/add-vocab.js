@@ -7,7 +7,7 @@ import { service } from '@ember/service';
  * @argument onSubmit
  */
 export default class AddVocabComponent extends Component {
-  @service declare store;
+  @service store;
 
   @action
   async submit(params) {
