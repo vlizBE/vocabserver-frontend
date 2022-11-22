@@ -30,7 +30,7 @@ export default class VocabularyMappingWizardController extends Controller {
       sources: dataset.get('uri'),
     });
     yield record.save();
-    yield this.job.monitorProgress(record);
+    yield this.job.monitorProgress.perform(record);
   }
 
   @task
@@ -40,7 +40,7 @@ export default class VocabularyMappingWizardController extends Controller {
       sources: dataset.get('uri'),
     });
     yield record.save();
-    yield this.job.monitorProgress(record);
+    yield this.job.monitorProgress.perform(record);
   }
 
   @task
@@ -50,6 +50,6 @@ export default class VocabularyMappingWizardController extends Controller {
       sources: dataset.get('uri'),
     });
     yield record.save();
-    yield this.job.monitorProgress(record);
+    yield this.job.monitorProgress.perform(record);
   }
 }
