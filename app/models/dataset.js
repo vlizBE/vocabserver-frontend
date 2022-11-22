@@ -1,4 +1,4 @@
-import Model, { attr, hasMany } from '@ember-data/model';
+import Model, { attr, belongsTo, hasMany } from '@ember-data/model';
 
 export default class Job extends Model {
   @attr uri;
@@ -17,4 +17,6 @@ export default class Job extends Model {
 
   @hasMany('dataset', { inverse: null }) classes;
   @hasMany('dataset', { inverse: null }) properties;
+
+  @belongsTo('vocabulary') vocabulary;
 }

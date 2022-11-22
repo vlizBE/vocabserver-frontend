@@ -4,51 +4,58 @@
   </acc.item>
   <acc.item @value="2" @title="{{if this.hasMeta "✅" "🟥"}} Analyze source data structure (generate metadata)">
     <BsButton @onClick={{perform this.createAndRunMetadataExtractionJob this.model}}>Analyze source</BsButton>
-  </acc.item>
-  <acc.item @value="3" @title="{{if false "✅" "🟥"}} Configure unification">
+    {{#if this.hasMeta}}
     <h2>Classes</h2>
-    <table class='table'>
-      <thead>
-        <tr>
-          <th>url</th>
-          <th>amount</th>
-        </tr>
-      </thead>
-      <tbody>
-        {{#each this.model.classes as |classDataset|}}
+      <table class='table'>
+        <thead>
           <tr>
-            {{log classDataset}}
-            <td>
-              {{classDataset.class}}
-            </td>
-            <td>
-              {{classDataset.entities}}
-            </td>
+            <th>url</th>
+            <th>amount</th>
           </tr>
-        {{/each}}
-      </tbody>
-    </table>
+        </thead>
+        <tbody>
+          {{#each this.model.classes as |classDataset|}}
+            <tr>
+              {{log classDataset}}
+              <td>
+                {{classDataset.class}}
+              </td>
+              <td>
+                {{classDataset.entities}}
+              </td>
+            </tr>
+          {{/each}}
+        </tbody>
+      </table>
 
-    <h2>Properties</h2>
-    <table class='table'>
-      <thead>
-        <tr>
-          <th>url</th>
-          <th>amount</th>
-        </tr>
-      </thead>
-      <tbody>
-        {{#each this.model.properties as |propertyDataset|}}
+      <h2>Properties</h2>
+      <table class='table'>
+        <thead>
           <tr>
-            <td>
-              {{propertyDataset.property}}
-            </td>
-            <td>
-              {{propertyDataset.entities}}
-            </td>
+            <th>url</th>
+            <th>amount</th>
           </tr>
-        {{/each}}
-      </tbody>
-    </table>
+        </thead>
+        <tbody>
+          {{#each this.model.properties as |propertyDataset|}}
+            <tr>
+              <td>
+                {{propertyDataset.property}}
+              </td>
+              <td>
+                {{propertyDataset.entities}}
+              </td>
+            </tr>
+          {{/each}}
+        </tbody>
+      </table>
+    {{/if}}
+  </acc.item>
+  <acc.item @value="3" @title="{{if this.hasMapping "✅" "🟥"}} Configure unification">
+    <MappingShapeCreator
+      @dataset={{this.model}}
+      @nodeShape={{this.mappingShape}}
+      @onSubmit={{this.handleNewMappingShape}}
+    />
   </acc.item>
 </BsAccordion>

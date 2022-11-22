@@ -1,0 +1,7 @@
+<BsForm @formLayout="vertical" @model={{this}} @onSubmit={{this.submit}} as |form|>
+  <form.element @controlType="radio" @label="Pivot type" @property="type" @options={{@dataset.classes}} @optionLabelPath="class" />
+  <form.element @controlType='text' @label='label path' @property='labelPath' as |el|>
+    <el.control placeholder='http://www.w3.org/2004/02/skos/core#prefLabel' required />
+  </form.element>
+  <form.submitButton>Submit</form.submitButton>
+</BsForm>

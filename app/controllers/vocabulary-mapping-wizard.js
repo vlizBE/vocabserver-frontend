@@ -3,10 +3,13 @@ import { action } from '@ember/object';
 import { service } from '@ember/service';
 import { task } from 'ember-concurrency';
 import { isPresent } from '@ember/utils';
+import { tracked } from '@glimmer/tracking';
 
 export default class VocabularyMappingWizardController extends Controller {
   @service store;
   @service job;
+
+  @tracked vocabulary;
 
   get hasDump() {
     return isPresent(this.model.dataDumps);
@@ -14,6 +17,14 @@ export default class VocabularyMappingWizardController extends Controller {
 
   get hasMeta() {
     return isPresent(this.model.properties);
+  }
+
+  get hasMapping() {
+    return isPresent(this.mappingShape);
+  }
+
+  get mappingShape() {
+    return this.vocabulary.belongsTo('mappingShape').value();
   }
 
   @action
@@ -41,6 +52,16 @@ export default class VocabularyMappingWizardController extends Controller {
     });
     yield record.save();
     yield this.job.monitorProgress.perform(record);
+  }
+
+  @action
+  async handleNewMappingShape(nodeShape) {
+    nodeShape.vocabulary = this.model.get('vocabulary')
+    await nodeShape.save();
+    const propertyShape = nodeShape.propertyShapes.firstObject;
+    await propertyShape.save();
+    // propertyShape.nodeShape = await nodeShape.save();
+    // await propertyShape.save();
   }
 
   @task

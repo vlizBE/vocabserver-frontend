@@ -6,4 +6,5 @@ export default class VocabularyModel extends Model {
   @attr('string') uri;
 
   @belongsTo('dataset') sourceDataset;
+  @belongsTo('shacl-node-shape') mappingShape;
 }
