@@ -1,10 +1,10 @@
 <h1>Vocabulary: {{this.model.name}}</h1>
 
 <BsAccordion as |acc|>
-  <acc.item @value="1" @title="{{if this.hasDump "✅" "🟥"}} Download source dataset dump">
+  <acc.item @value="1" @title="{{if this.hasDump "✅" "❔"}} Download source dataset dump">
     <BsButton @onClick={{perform this.createAndRunDownloadJob this.model}}>Download dump</BsButton>
   </acc.item>
-  <acc.item @value="2" @title="{{if this.hasMeta "✅" "🟥"}} Analyze source data structure (generate metadata)">
+  <acc.item @value="2" @title="{{if this.hasMeta "✅" "❔"}} Analyze source data structure (generate metadata)">
     <BsButton @onClick={{perform this.createAndRunMetadataExtractionJob this.model}}>Analyze source</BsButton>
     {{#if this.hasMeta}}
     <h2>Classes</h2>
@@ -53,14 +53,14 @@
       </table>
     {{/if}}
   </acc.item>
-  <acc.item @value="3" @title="{{if this.hasMapping "✅" "🟥"}} Configure unification">
+  <acc.item @value="3" @title="{{if this.hasMapping "✅" "❔"}} Configure unification">
     <MappingShapeCreator
       @dataset={{this.model}}
       @nodeShape={{this.mappingShape}}
       @onSubmit={{this.handleNewMappingShape}}
     />
   </acc.item>
-  <acc.item @value="4" @title="{{if false "✅" "🟥"}} Run unification">
+  <acc.item @value="4" @title="{{if false "✅" "❔"}} Run unification">
     <BsButton @onClick={{perform this.createAndRunUnifyVocabJob this.vocabulary}}>Run unification</BsButton>
   </acc.item>
   <acc.item @value="5" @title="{{if false "✅" "🟥"}} Configure Webcomponent">
