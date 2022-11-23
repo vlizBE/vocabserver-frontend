@@ -19,9 +19,7 @@ as |modal|>
       <form.element @controlType='text' @label='download URL' @property='downloadPage' as |el|>
         <el.control placeholder='URL' required />
       </form.element>
-      <form.element @controlType='text' @label='format (url)' @property='format' as |el|>
-        <el.control placeholder='Name' required />
-      </form.element>
+      <form.element @controlType='radio' @label='format' @options={{this.formatOptions}} @property='format' @optionLabelPath='label'/>
       <form.element @controlType='text' @label='sparqlEndpoint' @property='sparqlEndpoint' as |el|>
         <el.control placeholder='Name' />
       </form.element>
