@@ -42,6 +42,7 @@ export default class VocabularyMappingWizardController extends Controller {
     });
     yield record.save();
     yield this.job.monitorProgress.perform(record);
+    this.send('reloadModel');
   }
 
   @task
@@ -52,11 +53,12 @@ export default class VocabularyMappingWizardController extends Controller {
     });
     yield record.save();
     yield this.job.monitorProgress.perform(record);
+    this.send('reloadModel');
   }
 
   @action
   async handleNewMappingShape(nodeShape) {
-    nodeShape.vocabulary = this.model.get('vocabulary')
+    nodeShape.vocabulary = this.model.get('vocabulary');
     await nodeShape.save();
     const propertyShape = nodeShape.propertyShapes.firstObject;
     await propertyShape.save();
@@ -72,5 +74,6 @@ export default class VocabularyMappingWizardController extends Controller {
     });
     yield record.save();
     yield this.job.monitorProgress.perform(record);
+    this.send('reloadModel');
   }
 }

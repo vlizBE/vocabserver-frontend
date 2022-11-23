@@ -1,4 +1,5 @@
 import Route from '@ember/routing/route';
+import { action } from '@ember/object';
 import { service } from '@ember/service';
 
 export default class VocabulariesRoute extends Route {
@@ -7,7 +8,7 @@ export default class VocabulariesRoute extends Route {
   async model(params) {
     const ds = await this.store.query('dataset', {
       'filter[vocabulary][:id:]': params.vocabulary_id,
-      include: 'vocabulary,vocabulary.mapping-shape,vocabulary.mapping-shape.property-shapes,classes,properties',
+      include: 'data-dumps,vocabulary,vocabulary.mapping-shape,vocabulary.mapping-shape.property-shapes,classes,properties',
     });
     if (ds.length) {
       return ds.firstObject;
@@ -21,5 +22,10 @@ export default class VocabulariesRoute extends Route {
   setupController(controller) {
     super.setupController(...arguments);
     controller.vocabulary = this.vocabulary;
+  }
+
+  @action
+  reloadModel() {
+    this.refresh();
   }
 }
