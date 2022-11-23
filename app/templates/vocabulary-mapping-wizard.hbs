@@ -1,3 +1,5 @@
+<h1>Vocabulary: {{this.model.name}}</h1>
+
 <BsAccordion as |acc|>
   <acc.item @value="1" @title="{{if this.hasDump "✅" "🟥"}} Download source dataset dump">
     <BsButton @onClick={{perform this.createAndRunDownloadJob this.model}}>Download dump</BsButton>
@@ -60,5 +62,10 @@
   </acc.item>
   <acc.item @value="4" @title="{{if false "✅" "🟥"}} Run unification">
     <BsButton @onClick={{perform this.createAndRunUnifyVocabJob this.vocabulary}}>Run unification</BsButton>
+  </acc.item>
+  <acc.item @value="5" @title="{{if false "✅" "🟥"}} Configure Webcomponent">
+    <pre><code>&lt;p&gt;Sample text here...&lt;/p&gt;
+&lt;p&gt;And another line of sample text here...&lt;/p&gt;
+</code></pre>
   </acc.item>
 </BsAccordion>

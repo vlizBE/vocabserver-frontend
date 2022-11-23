@@ -6,6 +6,7 @@ import { task } from 'ember-concurrency';
 
 export default class VocabulariesController extends Controller {
   @service store;
+  @service router;
 
   @tracked showCreationModal = false;
 
@@ -29,8 +30,9 @@ export default class VocabulariesController extends Controller {
   @action
   async handleNewVocabulary(record) {
     record.sourceDataset = await (await record.sourceDataset).save();
-    record.save();
+    await record.save();
     this.showCreationModal = false;
+    this.router.transitionTo('vocabulary-mapping-wizard', record.id);
   }
 
   @action
