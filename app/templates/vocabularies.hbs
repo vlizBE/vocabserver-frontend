@@ -13,7 +13,6 @@
       <tr>
         <th>Name</th>
         <th>Remove</th>
-        <th>Create download job</th>
       </tr>
     </thead>
     <tbody>
@@ -30,14 +29,6 @@
               @onClick={{(fn this.deleteVocab vocab)}}
               @outline={{true}}
             >🗑️</BsButton>
-          </td>
-          <td>
-            <BsButton
-              {{on 'click' (perform this.createAndRunDownloadJob vocab.sourceDataset)}}
-              @outline={{true}}
-            >
-              {{if this.createAndRunDownloadJob.isRunning '⏳' '⬇️'}}
-            </BsButton>
           </td>
         </tr>
       {{/each}}
