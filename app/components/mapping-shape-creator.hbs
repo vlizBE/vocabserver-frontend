@@ -17,6 +17,13 @@
     @property='labelPath'
     @options={{@dataset.properties}}
     @optionLabelPath='property'
-  />
+    as |el|
+  >
+    <el.control
+      @searchPlaceholder='Please select a label property'
+      @placeholder='Please select a label property'
+      @searchEnabled={{true}}
+    />
+  </form.element>
   <form.submitButton>Submit</form.submitButton>
 </BsForm>
