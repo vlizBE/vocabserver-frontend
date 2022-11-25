@@ -3,9 +3,11 @@
 <BsAccordion as |acc|>
   <acc.item @value="1" @title="{{if this.hasDump "✅" "❔"}} Download source dataset dump">
     <BsButton @onClick={{perform this.createAndRunDownloadJob this.model}}>Download dump</BsButton>
+    <RecentJobs @jobType="vocab-download-job" @source={{this.model}} />
   </acc.item>
   <acc.item @value="2" @title="{{if this.hasMeta "✅" "❔"}} Analyze source data structure (generate metadata)">
     <BsButton @onClick={{perform this.createAndRunMetadataExtractionJob this.model}}>Analyze source</BsButton>
+    <RecentJobs @jobType="metadata-extraction-job" @source={{this.model}} />
     {{#if this.hasMeta}}
       <DatasetMetadata @dataset={{this.model}}/>
     {{/if}}
@@ -19,6 +21,7 @@
   </acc.item>
   <acc.item @value="4" @title="{{if false "✅" "❔"}} Run unification">
     <BsButton @onClick={{perform this.createAndRunUnifyVocabJob this.vocabulary}}>Run unification</BsButton>
+    <RecentJobs @jobType="content-unification-job" @source={{this.vocabulary}} />
   </acc.item>
   <acc.item @value="5" @title="{{if false "✅" "❔"}} Configure Webcomponent">
     <WebcomponentSnippet
