@@ -1,5 +1,22 @@
-<BsForm @formLayout="vertical" @model={{this}} @onSubmit={{this.submit}} as |form|>
-  <form.element @controlType="radio" @label="Pivot type" @property="type" @options={{@dataset.classes}} @optionLabelPath="class" />
-  <form.element @controlType='power-select' @label='Label Path' @property='labelPath' @options={{@dataset.properties}} @optionLabelPath="property"/>
+<BsForm
+  @formLayout='vertical'
+  @model={{this}}
+  @onSubmit={{this.submit}}
+  as |form|
+>
+  <form.element
+    @controlType='radio'
+    @label='Pivot type'
+    @property='type'
+    @options={{@dataset.classes}}
+    @optionLabelPath='class'
+  />
+  <form.element
+    @controlType='power-select'
+    @label='Label Path'
+    @property='labelPath'
+    @options={{@dataset.properties}}
+    @optionLabelPath='property'
+  />
   <form.submitButton>Submit</form.submitButton>
 </BsForm>
