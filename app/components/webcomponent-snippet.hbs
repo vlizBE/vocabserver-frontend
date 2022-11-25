@@ -10,7 +10,11 @@
     &lt;/head&gt;
     &lt;body&gt;
       &lt;h1&gt;Search&lt;/h1&gt;
-      &lt;vocab-search-bar query="Mytilus edulis" sourceDataset="{{@dataset}}"&gt; &lt;/vocab-search-bar&gt;
+      &lt;vocab-search-bar
+        query="Mytilus edulis"
+        sourceDataset="{{@dataset}}"
+        search-endpoint="{{this.origin}}"
+      &gt; &lt;/vocab-search-bar&gt;
     &lt;/body&gt;
   &lt;/html&gt;
 </code></pre>

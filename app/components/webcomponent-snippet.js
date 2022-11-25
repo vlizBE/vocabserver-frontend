@@ -12,6 +12,10 @@ export default class WebcomponentSnippetComponent extends Component {
   }
 
   get baseUrl() {
-    return window.location.origin + '/widget';
+    return this.origin + '/webcomponent';
+  }
+
+  get origin() {
+    return window.location.origin;
   }
 }
