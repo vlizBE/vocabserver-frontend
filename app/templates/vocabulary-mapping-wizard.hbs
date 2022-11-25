@@ -23,7 +23,7 @@
     <BsButton @onClick={{perform this.createAndRunUnifyVocabJob this.vocabulary}}>Run unification</BsButton>
     <RecentJobs @jobType="content-unification-job" @source={{this.vocabulary}} />
   </acc.item>
-  <acc.item @value="5" @title="{{if false "✅" "❔"}} Configure Webcomponent">
+  <acc.item @value="5" @title="ℹ️ Configure Webcomponent">
     <WebcomponentSnippet
       @dataset={{this.model.uri}}
     />
