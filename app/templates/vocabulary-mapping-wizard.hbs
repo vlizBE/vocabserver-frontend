@@ -64,11 +64,8 @@
     <BsButton @onClick={{perform this.createAndRunUnifyVocabJob this.vocabulary}}>Run unification</BsButton>
   </acc.item>
   <acc.item @value="5" @title="{{if false "✅" "❔"}} Configure Webcomponent">
-    <pre><code>
-      &lt;vocab-search-bar
-          query="&lt;initial query&gt;"
-          schemeuri="https://some.uri.com"&gt;
-      &lt;/vocab-search-bar&gt;
-    </code></pre>
+    <WebcomponentSnippet
+      @dataset={{this.model.uri}}
+    />
   </acc.item>
 </BsAccordion>
