@@ -19,7 +19,7 @@
       @onSubmit={{this.handleNewMappingShape}}
     />
   </acc.item>
-  <acc.item @value="4" @title="{{if false "✅" "❔"}} Run unification">
+  <acc.item @value="4" @title="{{if this.lastUnification "✅" "❔"}} Run unification">
     <BsButton @onClick={{perform this.createAndRunUnifyVocabJob this.vocabulary}}>Run unification</BsButton>
     <RecentJobs @jobType="content-unification-job" @source={{this.vocabulary}} />
   </acc.item>
