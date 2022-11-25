@@ -7,6 +7,10 @@ module.exports = function (defaults) {
     'ember-bootstrap': {
       bootstrapVersion: 5,
       importBootstrapCSS: true
+    },
+
+    'ember-power-select': {
+      theme: 'bootstrap'
     }
   });
 
