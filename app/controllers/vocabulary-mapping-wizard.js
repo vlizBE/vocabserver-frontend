@@ -16,7 +16,7 @@ export default class VocabularyMappingWizardController extends Controller {
   }
 
   get hasMeta() {
-    return isPresent(this.model.properties);
+    return isPresent(this.model.properties) || isPresent(this.model.classes);
   }
 
   get hasMapping() {

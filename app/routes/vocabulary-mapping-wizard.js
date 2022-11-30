@@ -8,7 +8,7 @@ export default class VocabulariesRoute extends Route {
   async model(params) {
     const ds = await this.store.query('dataset', {
       'filter[vocabulary][:id:]': params.vocabulary_id,
-      include: 'data-dumps,vocabulary,vocabulary.mapping-shape,vocabulary.mapping-shape.property-shapes',
+      include: 'data-dumps,classes,properties,vocabulary,vocabulary.mapping-shape,vocabulary.mapping-shape.property-shapes',
     });
     if (ds.length) {
       return ds.firstObject;
