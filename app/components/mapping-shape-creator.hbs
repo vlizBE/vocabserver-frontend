@@ -1,7 +1,29 @@
-<BsForm @formLayout="vertical" @model={{this}} @onSubmit={{this.submit}} as |form|>
-  <form.element @controlType="radio" @label="Pivot type" @property="type" @options={{@dataset.classes}} @optionLabelPath="class" />
-  <form.element @controlType='text' @label='label path' @property='labelPath' as |el|>
-    <el.control placeholder='http://www.w3.org/2004/02/skos/core#prefLabel' required />
+<BsForm
+  @formLayout='vertical'
+  @model={{this}}
+  @onSubmit={{this.submit}}
+  as |form|
+>
+  <form.element
+    @controlType='radio'
+    @label='Pivot type'
+    @property='type'
+    @options={{@dataset.classes}}
+    @optionLabelPath='class'
+  />
+  <form.element
+    @controlType='power-select'
+    @label='Label Path'
+    @property='labelPath'
+    @options={{@dataset.properties}}
+    @optionLabelPath='property'
+    as |el|
+  >
+    <el.control
+      @searchPlaceholder='Please select a label property'
+      @placeholder='Please select a label property'
+      @searchEnabled={{true}}
+    />
   </form.element>
   <form.submitButton>{{#if @nodeShape}}Update{{else}}Submit{{/if}}</form.submitButton>
 </BsForm>
