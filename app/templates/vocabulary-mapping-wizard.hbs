@@ -3,54 +3,13 @@
 <BsAccordion as |acc|>
   <acc.item @value="1" @title="{{if this.hasDump "✅" "❔"}} Download source dataset dump">
     <BsButton @onClick={{perform this.createAndRunDownloadJob this.model}}>Download dump</BsButton>
+    <RecentJobs @jobType="vocab-download-job" @source={{this.model}} />
   </acc.item>
   <acc.item @value="2" @title="{{if this.hasMeta "✅" "❔"}} Analyze source data structure (generate metadata)">
     <BsButton @onClick={{perform this.createAndRunMetadataExtractionJob this.model}}>Analyze source</BsButton>
+    <RecentJobs @jobType="metadata-extraction-job" @source={{this.model}} />
     {{#if this.hasMeta}}
-    <h2>Classes</h2>
-      <table class='table'>
-        <thead>
-          <tr>
-            <th>url</th>
-            <th>amount</th>
-          </tr>
-        </thead>
-        <tbody>
-          {{#each this.model.classes as |classDataset|}}
-            <tr>
-              {{log classDataset}}
-              <td>
-                {{classDataset.class}}
-              </td>
-              <td>
-                {{classDataset.entities}}
-              </td>
-            </tr>
-          {{/each}}
-        </tbody>
-      </table>
-
-      <h2>Properties</h2>
-      <table class='table'>
-        <thead>
-          <tr>
-            <th>url</th>
-            <th>amount</th>
-          </tr>
-        </thead>
-        <tbody>
-          {{#each this.model.properties as |propertyDataset|}}
-            <tr>
-              <td>
-                {{propertyDataset.property}}
-              </td>
-              <td>
-                {{propertyDataset.entities}}
-              </td>
-            </tr>
-          {{/each}}
-        </tbody>
-      </table>
+      <DatasetMetadata @dataset={{this.model}}/>
     {{/if}}
   </acc.item>
   <acc.item @value="3" @title="{{if this.hasMapping "✅" "❔"}} Configure unification">
@@ -60,15 +19,13 @@
       @onSubmit={{this.handleNewMappingShape}}
     />
   </acc.item>
-  <acc.item @value="4" @title="{{if false "✅" "❔"}} Run unification">
+  <acc.item @value="4" @title="{{if this.lastUnification "✅" "❔"}} Run unification">
     <BsButton @onClick={{perform this.createAndRunUnifyVocabJob this.vocabulary}}>Run unification</BsButton>
+    <RecentJobs @jobType="content-unification-job" @source={{this.vocabulary}} />
   </acc.item>
-  <acc.item @value="5" @title="{{if false "✅" "❔"}} Configure Webcomponent">
-    <pre><code>
-      &lt;vocab-search-bar
-          query="&lt;initial query&gt;"
-          schemeuri="https://some.uri.com"&gt;
-      &lt;/vocab-search-bar&gt;
-    </code></pre>
+  <acc.item @value="5" @title="ℹ️ Configure Webcomponent">
+    <WebcomponentSnippet
+      @dataset={{this.model.uri}}
+    />
   </acc.item>
 </BsAccordion>

@@ -18,11 +18,18 @@ export default class VocabulariesRoute extends Route {
 
   async afterModel(model) {
     this.vocabulary = await model.vocabulary;
+    this.lastUnification = (await this.store.query('content-unification-job', {
+      'filter[sources]': this.vocabulary.uri,
+      'filter[status]': 'http://vocab.deri.ie/cogs#Success',
+      'page[size]': 1,
+      sort: '-created',
+    })).firstObject;
   }
 
   setupController(controller) {
     super.setupController(...arguments);
     controller.vocabulary = this.vocabulary;
+    controller.lastUnification = this.lastUnification;
   }
 
   @action

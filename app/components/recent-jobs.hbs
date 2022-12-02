@@ -1,0 +1,20 @@
+<table class='table'>
+  <thead>
+    <tr>
+      <th>Date</th>
+      <th>Status</th>
+    </tr>
+  </thead>
+  <tbody {{did-update (perform this.loadData)  this.job.monitorProgress.performCount}}>
+    {{#each this.jobs as |job|}}
+      <tr>
+        <td>
+          {{format-date job.created "dd/MM/yyyy 'at' HH:mm"}}
+        </td>
+        <td>
+          <JobStatus @job={{job}}/>
+        </td>
+      </tr>
+    {{/each}}
+  </tbody>
+</table>
