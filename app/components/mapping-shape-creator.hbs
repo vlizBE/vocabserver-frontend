@@ -25,5 +25,5 @@
       @searchEnabled={{true}}
     />
   </form.element>
-  <form.submitButton>Submit</form.submitButton>
+  <form.submitButton>{{#if @nodeShape}}Update{{else}}Submit{{/if}}</form.submitButton>
 </BsForm>
