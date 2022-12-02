@@ -33,7 +33,12 @@
     @label="Restrict search to this vocabulary"
     @property="searchCurrentVocabOnly"/>
   </BsForm>
-  <pre><code>
+  <CopyButton
+    @target='#webcomponent-snippet'
+  >
+    Copy To Clipboard
+</CopyButton>
+  <pre id="webcomponent-snippet"><code>
     &lt;!DOCTYPE html&gt;
     &lt;html lang="en"&gt;
       &lt;head&gt;
