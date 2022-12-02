@@ -28,6 +28,10 @@
         @searchEnabled={{true}}
       />
   </form.element>
+  <form.element
+    @controlType="checkbox"
+    @label="Restrict search to this vocabulary"
+    @property="searchCurrentVocabOnly"/>
   </BsForm>
   <pre><code>
     &lt;!DOCTYPE html&gt;
@@ -42,8 +46,8 @@
       &lt;body&gt;
         &lt;h1&gt;Search&lt;/h1&gt;
         &lt;vocab-search-bar{{#if this.query}}
-          query="{{this.query}}"{{/if}}
-          source-dataset="{{@dataset}}"{{#if this.searchEndpoint}}
+          query="{{this.query}}"{{/if}}{{#if this.searchCurrentVocabOnly}}
+          source-dataset="{{@dataset}}"{{/if}}{{#if this.searchEndpoint}}
           search-endpoint="{{this.searchEndpoint}}"{{/if}}{{#if this.selectedLanguages}}
           languages-string="{{this.selectedLanguageString}}"{{/if}}
         &gt; &lt;/vocab-search-bar&gt;

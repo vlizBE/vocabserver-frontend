@@ -10,6 +10,7 @@ export default class WebcomponentSnippetComponent extends Component {
   @tracked query;
   @tracked searchEndpoint;
   @tracked selectedLanguages;
+  @tracked searchCurrentVocabOnly = true;
 
   languages = [
     { label: 'Dutch', value: 'nl' },
