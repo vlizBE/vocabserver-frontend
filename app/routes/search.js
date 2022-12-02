@@ -6,6 +6,9 @@ export default class SearchRoute extends Route {
     q: {
       refreshModel: true,
     },
+    lang: {
+      refreshModel: true,
+    },
   };
 
   async model(params) {
@@ -13,11 +16,22 @@ export default class SearchRoute extends Route {
     const size = 15;
     const sort = null; // By relevance
     this.q = params.q;
+    let searchField;
+    if (params.lang) {
+      searchField = `prefLabel.${params.lang}`;
+    } else {
+      searchField = 'prefLabel.*';
+    }
     const filter = {
-      _all: params.q,
+      [searchField]: params.q,
     };
     return search('concepts', page, size, sort, filter, (searchData) => {
       const entry = searchData.attributes;
+      if (params.lang && entry.prefLabel[params.lang]) {
+        entry.prefLabel = entry.prefLabel[params.lang];
+      } else if (Object.values(entry.prefLabel).length) {
+        entry.prefLabel = Object.values(entry.prefLabel)[0];
+      }
       entry.id = searchData.id;
       return entry;
     });
