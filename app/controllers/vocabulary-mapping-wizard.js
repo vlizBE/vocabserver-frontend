@@ -12,11 +12,14 @@ export default class VocabularyMappingWizardController extends Controller {
   @tracked vocabulary;
 
   get hasDump() {
-    return isPresent(this.model.dataDumps);
+    return isPresent(this.model.dataset.dataDumps);
   }
 
   get hasMeta() {
-    return isPresent(this.model.properties);
+    return (
+      isPresent(this.model.dataset.properties) ||
+      isPresent(this.model.dataset.classes)
+    );
   }
 
   get hasMapping() {
@@ -24,7 +27,7 @@ export default class VocabularyMappingWizardController extends Controller {
   }
 
   get mappingShape() {
-    return this.vocabulary.belongsTo('mappingShape').value();
+    return this.model.vocabulary.belongsTo('mappingShape').value();
   }
 
   @action
@@ -58,12 +61,11 @@ export default class VocabularyMappingWizardController extends Controller {
 
   @action
   async handleNewMappingShape(nodeShape) {
-    nodeShape.vocabulary = this.model.get('vocabulary');
+    nodeShape.vocabulary = this.model.dataset.get('vocabulary');
     await nodeShape.save();
     const propertyShape = nodeShape.propertyShapes.firstObject;
     await propertyShape.save();
-    // propertyShape.nodeShape = await nodeShape.save();
-    // await propertyShape.save();
+    this.send('reloadModel');
   }
 
   @task

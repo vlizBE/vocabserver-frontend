@@ -12,11 +12,10 @@
     @optionLabelPath='class'
   />
   <form.element
-    @controlType='power-select'
     @label='Label Path'
     @property='labelPath'
     @options={{@dataset.properties}}
-    @optionLabelPath='property'
+    {{!-- @optionLabelPath='property' --}}
     as |el|
   >
     <el.control
@@ -25,5 +24,5 @@
       @searchEnabled={{true}}
     />
   </form.element>
-  <form.submitButton>Submit</form.submitButton>
+  <form.submitButton>{{#if @nodeShape}}Update{{else}}Submit{{/if}}</form.submitButton>
 </BsForm>

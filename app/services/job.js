@@ -3,11 +3,11 @@ import { task, timeout } from 'ember-concurrency';
 
 export default class JobService extends Service {
   @task
-  *monitorProgress(job) {
-    while (!job.hasEnded) {
+  *monitorProgress(jobRecord) {
+    while (!jobRecord.hasEnded) {
       yield timeout(1000);
-      yield job.reload();
+      yield jobRecord.reload();
     }
-    return job;
+    return jobRecord;
   }
 }
