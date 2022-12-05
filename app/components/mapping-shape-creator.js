@@ -24,11 +24,7 @@ export default class MappingShapeCreatorComponent extends Component {
 
   @service store;
 
-  constructor() {
-    super(...arguments);
-    this.initializeData();
-  }
-
+  @action
   async initializeData() {
     if (this.args.nodeShape) {
       this.nodeShape = this.args.nodeShape;

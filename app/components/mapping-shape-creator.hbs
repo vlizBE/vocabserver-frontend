@@ -1,4 +1,6 @@
 <BsForm
+  {{did-insert this.initializeData}}
+  {{did-update this.initializeData @dataset}}
   @formLayout='vertical'
   @model={{this.formModel}}
   @onSubmit={{this.submit}}
