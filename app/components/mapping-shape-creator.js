@@ -3,6 +3,28 @@ import { action } from '@ember/object';
 import { service } from '@ember/service';
 import { tracked } from '@glimmer/tracking';
 
+function splitPropertyPathStr(propertyPathStr) {
+  let properties = [];
+  let currentProperty = null;
+  for (const c of propertyPathStr) {
+    if (c === '>') {
+      properties.push(currentProperty);
+      currentProperty = null;
+      continue;
+    } else if (c === '<') {
+      currentProperty = '';
+    } else if (currentProperty !== null) {
+      currentProperty += c;
+    }
+  }
+
+  return properties;
+}
+
+function createPropertyPathStr(properties) {
+  return properties.map((x) => `<${x}>`).join('/');
+}
+
 class FormModel {
   constructor(pivotTypeOptions, labelPathOptions, initValues) {
     this.pivotTypeOptions = pivotTypeOptions;
@@ -49,14 +71,16 @@ export default class MappingShapeCreatorComponent extends Component {
     );
     this.formModel = new FormModel(pivotTypeOptions, labelPathOptions, {
       pivotType: this.nodeShape.targetClass,
-      labelPath: this.labelPropertyShape.path,
+      labelPath: this.labelPropertyShape.path
+        ? splitPropertyPathStr(this.labelPropertyShape.path)
+        : null,
     });
   }
 
   @action
   async submit(params) {
     this.nodeShape.targetClass = params.pivotType;
-    this.labelPropertyShape.path = params.labelPath;
+    this.labelPropertyShape.path = createPropertyPathStr(params.labelPath);
     this.args.onSubmit(this.nodeShape);
   }
 }
