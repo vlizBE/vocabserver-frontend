@@ -25,7 +25,7 @@
       @searchEnabled={{true}}
     />
   </form.element>
-  <form.submitButton>{{#if
-      @nodeShape
-    }}Update{{else}}Submit{{/if}}</form.submitButton>
+  <form.submitButton
+    disabled={{not (and this.formModel.labelPath this.formModel.pivotType)}}
+  >{{#if @nodeShape}}Update{{else}}Submit{{/if}}</form.submitButton>
 </BsForm>
