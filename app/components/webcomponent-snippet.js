@@ -7,10 +7,12 @@ import { tracked } from '@glimmer/tracking';
  * @argument dataset: uri of the dataset you want to scope the search to
  */
 export default class WebcomponentSnippetComponent extends Component {
+  @service store;
+
   @tracked query;
   @tracked searchEndpoint;
   @tracked selectedLanguages;
-  @tracked searchCurrentVocabOnly = true;
+  @tracked vocabularies;
 
   languages = [
     { label: 'Dutch', value: 'nl' },
@@ -22,6 +24,11 @@ export default class WebcomponentSnippetComponent extends Component {
     this.query = '';
     this.searchEndpoint = window.location.origin;
     this.selectedLanguages = [];
+    this.initData();
+  }
+
+  async initData() {
+    this.vocabularies = await this.store.findAll('vocabulary');
   }
 
   get scriptSrc() {
@@ -33,8 +40,8 @@ export default class WebcomponentSnippetComponent extends Component {
   }
 
   @action
-  languageSelectionChanged(params) {
-    this.selectedLanguages = params;
+  languageSelectionChanged(value) {
+    this.selectedLanguages = value;
   }
 
   get selectedLanguageString() {

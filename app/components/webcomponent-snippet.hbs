@@ -16,7 +16,7 @@
       @property='searchEndpoint'
     />
     <form.element
-      @controlType="power-select-multiple"
+      @controlType='power-select-multiple'
       @label='Search Languages'
       @onChange={{this.languageSelectionChanged}}
       @property='selectedLanguages'
@@ -24,21 +24,23 @@
       @optionLabelPath='label'
       as |el|
     >
-      <el.control
-        @searchEnabled={{true}}
-      />
-  </form.element>
-  <form.element
-    @controlType="checkbox"
-    @label="Restrict search to this vocabulary"
-    @property="searchCurrentVocabOnly"/>
+      <el.control @searchEnabled={{true}} />
+    </form.element>
+    <form.element
+      @controlType='power-select-multiple'
+      @label='Search Datasets'
+      @property='selectedVocabs'
+      @options={{this.vocabularies}}
+      @optionLabelPath='name'
+      as |el|
+    >
+      <el.control @searchEnabled={{true}} />
+    </form.element>
   </BsForm>
-  <CopyButton
-    @target='#webcomponent-snippet'
-  >
+  <CopyButton @target='#webcomponent-snippet'>
     Copy To Clipboard
-</CopyButton>
-  <pre id="webcomponent-snippet"><code>
+  </CopyButton>
+  <pre id='webcomponent-snippet'><code>
     &lt;!DOCTYPE html&gt;
     &lt;html lang="en"&gt;
       &lt;head&gt;
@@ -51,12 +53,14 @@
       &lt;body&gt;
         &lt;h1&gt;Search&lt;/h1&gt;
         &lt;vocab-search-bar{{#if this.query}}
-          query="{{this.query}}"{{/if}}{{#if this.searchCurrentVocabOnly}}
-          source-dataset="{{@dataset}}"{{/if}}{{#if this.searchEndpoint}}
-          search-endpoint="{{this.searchEndpoint}}"{{/if}}{{#if this.selectedLanguages}}
-          languages-string="{{this.selectedLanguageString}}"{{/if}}
-        &gt; &lt;/vocab-search-bar&gt;
-      &lt;/body&gt;
+          query="{{this.query}}"{{/if}}{{#if this.selectedVocabs.length}}
+          source-datasets="{{#each this.selectedVocabs as |vocab|}}{{vocab.sourceDataset.uri}},{{/each}}"{{/if}}{{#if this.searchEndpoint}}
+          search-endpoint="{{this.searchEndpoint}}"{{/if}}{{#if
+          this.selectedLanguages
+        }}
+        languages-string="{{this.selectedLanguageString}}"{{/if}}&gt; 
+        &lt;/vocab-search-bar&gt;
+      &lt;/body&gt; 
     &lt;/html&gt;
-  </code></pre>
+    </code></pre>
 </div>
