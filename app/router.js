@@ -13,4 +13,5 @@ Router.map(function () {
     path: '/vocabulary/:vocabulary_id/wizard',
   });
   this.route('search');
+  this.route('404', { path: '/*path' });
 });
