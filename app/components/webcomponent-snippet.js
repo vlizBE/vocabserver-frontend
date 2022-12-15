@@ -22,7 +22,7 @@ export default class WebcomponentSnippetComponent extends Component {
   constructor() {
     super(...arguments);
     this.query = '';
-    this.searchEndpoint = window.location.origin;
+    this.searchEndpoint = this.origin;
     this.selectedLanguages = [];
     this.initData();
   }
@@ -37,6 +37,10 @@ export default class WebcomponentSnippetComponent extends Component {
 
   get baseUrl() {
     return this.origin + '/webcomponent';
+  }
+
+  get origin() {
+    return window.location.origin;
   }
 
   @action
