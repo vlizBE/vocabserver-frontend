@@ -1,21 +1,22 @@
 <BsForm
+  {{did-insert this.initializeData}}
+  {{did-update this.initializeData @dataset}}
   @formLayout='vertical'
-  @model={{this}}
+  @model={{this.formModel}}
   @onSubmit={{this.submit}}
   as |form|
 >
   <form.element
     @controlType='radio'
     @label='Pivot type'
-    @property='type'
-    @options={{@dataset.classes}}
-    @optionLabelPath='class'
+    @property='pivotType'
+    @options={{this.formModel.pivotTypeOptions}}
   />
   <form.element
+    @controlType='power-select-multiple'
     @label='Label Path'
     @property='labelPath'
-    @options={{@dataset.properties}}
-    {{!-- @optionLabelPath='property' --}}
+    @options={{this.formModel.labelPathOptions}}
     as |el|
   >
     <el.control
@@ -24,5 +25,7 @@
       @searchEnabled={{true}}
     />
   </form.element>
-  <form.submitButton>{{#if @nodeShape}}Update{{else}}Submit{{/if}}</form.submitButton>
+  <form.submitButton
+    disabled={{not (and this.formModel.labelPath this.formModel.pivotType)}}
+  >{{#if @nodeShape}}Update{{else}}Submit{{/if}}</form.submitButton>
 </BsForm>

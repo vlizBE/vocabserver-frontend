@@ -14,4 +14,5 @@ Router.map(function () {
   });
   this.route('search');
   this.route('webcomponent-config');
+  this.route('404', { path: '/*path' });
 });

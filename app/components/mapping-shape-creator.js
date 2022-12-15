@@ -3,6 +3,37 @@ import { action } from '@ember/object';
 import { service } from '@ember/service';
 import { tracked } from '@glimmer/tracking';
 
+function splitPropertyPathStr(propertyPathStr) {
+  let properties = [];
+  let currentProperty = null;
+  for (const c of propertyPathStr) {
+    if (c === '>') {
+      properties.push(currentProperty);
+      currentProperty = null;
+      continue;
+    } else if (c === '<') {
+      currentProperty = '';
+    } else if (currentProperty !== null) {
+      currentProperty += c;
+    }
+  }
+
+  return properties;
+}
+
+function createPropertyPathStr(properties) {
+  return properties.map((x) => `<${x}>`).join('/');
+}
+
+class FormModel {
+  constructor(pivotTypeOptions, labelPathOptions, initValues) {
+    this.pivotTypeOptions = pivotTypeOptions;
+    this.labelPathOptions = labelPathOptions;
+    this.labelPath = initValues.labelPath ?? null;
+    this.pivotType = initValues.pivotType ?? null;
+  }
+}
+
 /**
  * @argument dataset
  * @argument nodeShape: optional
@@ -11,14 +42,11 @@ import { tracked } from '@glimmer/tracking';
 export default class MappingShapeCreatorComponent extends Component {
   @tracked nodeShape;
   @tracked labelPropertyShape;
+  @tracked formModel;
 
   @service store;
 
-  constructor() {
-    super(...arguments);
-    this.initializeData();
-  }
-
+  @action
   async initializeData() {
     if (this.args.nodeShape) {
       this.nodeShape = this.args.nodeShape;
@@ -35,30 +63,24 @@ export default class MappingShapeCreatorComponent extends Component {
         }
       );
     }
-  }
-
-  // TODO: getters are merely to comply with how bootstrap form "model" seems to work
-  // there might be a better way
-  get type() {
-    return this.store
-      .peekAll('dataset')
-      .filterBy('class', this.nodeShape.targetClass).firstObject;
-  }
-  set type(val) {
-    this.nodeShape.targetClass = val.class;
-  }
-
-  get labelPath() {
-    return this.labelPropertyShape.path;
-  }
-  set labelPath(val) {
-    this.labelPropertyShape.path = val;
+    const pivotTypeOptions = await this.args.dataset.classes.map(
+      (x) => x.class
+    );
+    const labelPathOptions = await this.args.dataset.properties.map(
+      (x) => x.property
+    );
+    this.formModel = new FormModel(pivotTypeOptions, labelPathOptions, {
+      pivotType: this.nodeShape.targetClass,
+      labelPath: this.labelPropertyShape.path
+        ? splitPropertyPathStr(this.labelPropertyShape.path)
+        : null,
+    });
   }
 
   @action
   async submit(params) {
-    this.nodeShape.targetClass = params.type.class;
-    this.labelPropertyShape.path = params.labelPath;
+    this.nodeShape.targetClass = params.pivotType;
+    this.labelPropertyShape.path = createPropertyPathStr(params.labelPath);
     this.args.onSubmit(this.nodeShape);
   }
 }
