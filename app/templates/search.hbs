@@ -19,7 +19,11 @@
       {{#each this.model as |term|}}
         <tr>
           <td><a href={{term.uri}}>{{term.uri}}</a></td>
-          <td>{{term.prefLabel}}</td>
+          <td>
+            {{#each-in (from-entries (entries term.prefLabel)) as |lang val|}}
+              {{lang}}: {{val}}
+            {{/each-in}}
+          </td>
           <td>{{term.schemePrefLabel}}</td>
         </tr>
       {{/each}}
