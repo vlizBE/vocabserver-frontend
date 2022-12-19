@@ -7,7 +7,7 @@
     as |form|
   >
     <form.element @invisibleLabel={{true}} @property='value' as |el|>
-      <el.control required />
+      <el.control {{did-insert this.focusInputField}} required />
     </form.element>
     <form.submitButton>Save</form.submitButton>
     {{! replace with form.element }}

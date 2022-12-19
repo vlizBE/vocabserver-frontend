@@ -12,6 +12,7 @@ export default class InlineEdit extends Component {
 
   @action
   startEdit() {
+    this.value = this.args.value;
     this.isEditing = true;
   }
 
@@ -24,5 +25,11 @@ export default class InlineEdit extends Component {
   @action
   cancel() {
     this.isEditing = false;
+  }
+
+  @action
+  focusInputField(element) {
+    element.focus();
+    element.select();
   }
 }
