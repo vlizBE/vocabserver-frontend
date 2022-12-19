@@ -1,4 +1,8 @@
-<h1>Vocabulary: {{this.model.dataset.name}}</h1>
+<h1>Vocabulary:
+  <InlineEdit
+    @value={{this.model.vocabulary.name}}
+    @onSubmit={{this.updateVocabName}}
+  >{{this.model.vocabulary.name}}</InlineEdit></h1>
 
 <BsAccordion as |acc|>
   <acc.item

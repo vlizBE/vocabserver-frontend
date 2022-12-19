@@ -78,4 +78,10 @@ export default class VocabularyMappingWizardController extends Controller {
     yield this.job.monitorProgress.perform(record);
     this.send('reloadModel');
   }
+
+  @action
+  async updateVocabName(newName) {
+    this.model.vocabulary.name = newName;
+    await this.model.vocabulary.save();
+  }
 }
