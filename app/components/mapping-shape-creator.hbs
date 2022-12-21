@@ -28,6 +28,50 @@
       @searchEnabled={{true}}
     />
   </form.element>
+  <form.element @controlType='label'>
+    Keyword filter paths
+    <small class='text-secondary'>(optional)</small></form.element>
+  {{#each-in this.formModel.keywordFilter as |keywordPathKey|}}
+    <form.element
+      @model={{this.formModel.keywordFilter}}
+      @controlType='power-select-multiple'
+      @property={{keywordPathKey}}
+      @options={{this.formModel.labelPathOptions}}
+      as |el|
+    >
+      <div class='input-group'>
+        <div class='input-group-prepend'>
+          <BsButton
+            @type='secondary'
+            @outline={{true}}
+            aria-label='Close'
+            @onClick={{fn this.removeKeywordFilter keywordPathKey}}
+          >
+            <span aria-hidden='true'>&times;</span>
+          </BsButton>
+        </div>
+        <el.control
+          @onChange={{fn this.keywordFilterChanged keywordPathKey}}
+          @placeholder='Add filter keyword path'
+          @searchEnabled={{true}}
+          {{! this is needed because of a bug in ember-bootstrap }}
+          style='flex-grow: 1'
+        />
+      </div>
+    </form.element>
+  {{/each-in}}
+  <form.element
+    @controlType='power-select-multiple'
+    @property='newKeywordPath'
+    @options={{this.formModel.labelPathOptions}}
+    @onChange={{this.keywordFilterAdded}}
+    as |el|
+  >
+    <el.control
+      @placeholder='Add filter keyword path'
+      @searchEnabled={{true}}
+    />
+  </form.element>
   <form.submitButton
     disabled={{not (and this.formModel.labelPath this.formModel.pivotType)}}
   >{{#if @nodeShape}}Update{{else}}Submit{{/if}}</form.submitButton>

@@ -1,7 +1,7 @@
 import Component from '@glimmer/component';
 import { action } from '@ember/object';
 import { service } from '@ember/service';
-import { tracked } from '@glimmer/tracking';
+import { tracked } from 'tracked-built-ins';
 
 function splitPropertyPathStr(propertyPathStr) {
   let properties = [];
@@ -29,8 +29,21 @@ class FormModel {
   constructor(pivotTypeOptions, labelPathOptions, initValues) {
     this.pivotTypeOptions = pivotTypeOptions;
     this.labelPathOptions = labelPathOptions;
+
     this.labelPath = initValues.labelPath ?? null;
     this.pivotType = initValues.pivotType ?? null;
+
+    this.newKeywordPath = null;
+
+    this._nextKeywordIndex = 0;
+    this.keywordFilter = tracked({});
+    for (const keywordPath of initValues.keywordFilter) {
+      this.insertKeywordPath(keywordPath);
+    }
+  }
+
+  insertKeywordPath(keywordPath) {
+    this.keywordFilter[this._nextKeywordIndex++] = keywordPath;
   }
 }
 
@@ -74,6 +87,9 @@ export default class MappingShapeCreatorComponent extends Component {
       labelPath: this.labelPropertyShape.path
         ? splitPropertyPathStr(this.labelPropertyShape.path)
         : null,
+      keywordFilter: [
+        splitPropertyPathStr('<http://www.w3.org/2004/02/skos/core#prefLabel>'),
+      ],
     });
   }
 
@@ -82,5 +98,25 @@ export default class MappingShapeCreatorComponent extends Component {
     this.nodeShape.targetClass = params.pivotType;
     this.labelPropertyShape.path = createPropertyPathStr(params.labelPath);
     this.args.onSubmit(this.nodeShape);
+  }
+
+  @action
+  keywordFilterChanged(keywordPathKey, keywordPath) {
+    this.formModel.keywordFilter[keywordPathKey] = keywordPath;
+    for (const [key, val] of Object.entries(this.formModel.keywordFilter)) {
+      if (val.length === 0) {
+        delete this.formModel.keywordFilter[key];
+      }
+    }
+  }
+
+  @action
+  keywordFilterAdded(keywordPath) {
+    this.formModel.insertKeywordPath(keywordPath);
+  }
+
+  @action
+  removeKeywordFilter(key) {
+    delete this.formModel.keywordFilter[key];
   }
 }
