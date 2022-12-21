@@ -1,17 +1,20 @@
 {{#if this.isEditing}}
   <BsForm
-    @formLayout='inline'
     {{! This seems broken.. }}
+    @formLayout='inline'
     @model={{this}}
     @onSubmit={{this.submit}}
     as |form|
   >
-    <form.element @invisibleLabel={{true}} @property='value' as |el|>
-      <el.control {{did-insert this.focusInputField}} required />
-    </form.element>
-    <form.submitButton>Save</form.submitButton>
-    {{! replace with form.element }}
-    <BsButton @type='secondary' @onClick={{this.cancel}}>Cancel</BsButton>
+    <div class='input-group'>
+      <form.element @invisibleLabel={{true}} @property='value' as |el|>
+        <el.control {{did-insert this.focusInputField}} required />
+      </form.element>
+      <form.submitButton>Save</form.submitButton>
+      {{! replace with form.element }}
+      <BsButton @type='secondary' @onClick={{this.cancel}}>Cancel</BsButton>
+
+    </div>
   </BsForm>
 {{else}}
   <span
