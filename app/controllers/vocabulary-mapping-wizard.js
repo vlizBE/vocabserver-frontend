@@ -63,8 +63,7 @@ export default class VocabularyMappingWizardController extends Controller {
   async handleNewMappingShape(nodeShape) {
     nodeShape.vocabulary = this.model.dataset.get('vocabulary');
     await nodeShape.save();
-    const propertyShape = nodeShape.propertyShapes.firstObject;
-    await propertyShape.save();
+    await Promise.all(nodeShape.propertyShapes.map((x) => x.save()));
     this.send('reloadModel');
   }
 

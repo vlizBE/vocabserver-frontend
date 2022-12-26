@@ -3,6 +3,9 @@ import { action } from '@ember/object';
 import { service } from '@ember/service';
 import { tracked } from 'tracked-built-ins';
 
+const LABEL_PREDICATE = 'http://www.w3.org/2004/02/skos/core#prefLabel';
+const KEYWORD_PREDICATE = 'http://www.w3.org/2004/02/skos/core#member';
+
 function splitPropertyPathStr(propertyPathStr) {
   let properties = [];
   let currentProperty = null;
@@ -61,17 +64,21 @@ export default class MappingShapeCreatorComponent extends Component {
 
   @action
   async initializeData() {
+    let propertyShapes;
     if (this.args.nodeShape) {
       this.nodeShape = this.args.nodeShape;
-      this.labelPropertyShape = this.nodeShape
-        .hasMany('propertyShapes')
-        .value().firstObject;
+      propertyShapes = await this.nodeShape.propertyShapes;
+      this.labelPropertyShape = propertyShapes.filter((x) => {
+        return x.description === LABEL_PREDICATE;
+      })[0];
     } else {
       this.nodeShape = this.store.createRecord('shacl-node-shape', {});
+      propertyShapes = [];
       // TODO: handling all potential property shapes like this isn't great
       this.labelPropertyShape = this.store.createRecord(
         'shacl-property-shape',
         {
+          description: LABEL_PREDICATE,
           nodeShape: this.nodeShape,
         }
       );
@@ -87,9 +94,10 @@ export default class MappingShapeCreatorComponent extends Component {
       labelPath: this.labelPropertyShape.path
         ? splitPropertyPathStr(this.labelPropertyShape.path)
         : null,
-      keywordFilter: [
-        splitPropertyPathStr('<http://www.w3.org/2004/02/skos/core#prefLabel>'),
-      ],
+      keywordFilter: propertyShapes
+        .filter((x) => x.description === KEYWORD_PREDICATE)
+        .map((x) => x.path)
+        .map((x) => splitPropertyPathStr(x)),
     });
   }
 
@@ -97,6 +105,19 @@ export default class MappingShapeCreatorComponent extends Component {
   async submit(params) {
     this.nodeShape.targetClass = params.pivotType;
     this.labelPropertyShape.path = createPropertyPathStr(params.labelPath);
+    // Remove all keyword properties before inserting the new ones
+    this.nodeShape.propertyShapes
+      .filter((x) => x.description === KEYWORD_PREDICATE)
+      .forEach((x) => {
+        x.destroyRecord();
+      });
+    for (const path of Object.values(params.keywordFilter)) {
+      this.store.createRecord('shacl-property-shape', {
+        description: KEYWORD_PREDICATE,
+        path: createPropertyPathStr(path),
+        nodeShape: this.nodeShape,
+      });
+    }
     this.args.onSubmit(this.nodeShape);
   }
 
