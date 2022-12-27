@@ -4,7 +4,7 @@ import { service } from '@ember/service';
 import { tracked } from 'tracked-built-ins';
 
 const LABEL_PREDICATE = 'http://www.w3.org/2004/02/skos/core#prefLabel';
-const KEYWORD_PREDICATE = 'http://www.w3.org/2004/02/skos/core#member';
+const TAG_PREDICATE = 'http://vocab-server.com/tagLabel';
 
 function splitPropertyPathStr(propertyPathStr) {
   let properties = [];
@@ -95,7 +95,7 @@ export default class MappingShapeCreatorComponent extends Component {
         ? splitPropertyPathStr(this.labelPropertyShape.path)
         : null,
       keywordFilter: propertyShapes
-        .filter((x) => x.description === KEYWORD_PREDICATE)
+        .filter((x) => x.description === TAG_PREDICATE)
         .map((x) => x.path)
         .map((x) => splitPropertyPathStr(x)),
     });
@@ -107,13 +107,13 @@ export default class MappingShapeCreatorComponent extends Component {
     this.labelPropertyShape.path = createPropertyPathStr(params.labelPath);
     // Remove all keyword properties before inserting the new ones
     this.nodeShape.propertyShapes
-      .filter((x) => x.description === KEYWORD_PREDICATE)
+      .filter((x) => x.description === TAG_PREDICATE)
       .forEach((x) => {
         x.destroyRecord();
       });
     for (const path of Object.values(params.keywordFilter)) {
       this.store.createRecord('shacl-property-shape', {
-        description: KEYWORD_PREDICATE,
+        description: TAG_PREDICATE,
         path: createPropertyPathStr(path),
         nodeShape: this.nodeShape,
       });

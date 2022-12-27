@@ -29,8 +29,10 @@
     />
   </form.element>
   <form.element @controlType='label'>
-    Keyword filter paths
-    <small class='text-secondary'>(optional)</small></form.element>
+    Tag paths
+    <small class='text-secondary'>(optional)</small><BsTooltip @placement="top">Configure paths
+      to tags that can be used in the search filter.</BsTooltip></form.element>
+
   {{#each-in this.formModel.keywordFilter as |keywordPathKey|}}
     <form.element
       @model={{this.formModel.keywordFilter}}
