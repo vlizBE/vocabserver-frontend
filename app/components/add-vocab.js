@@ -15,6 +15,7 @@ export default class AddVocabComponent extends Component {
     { label: 'RDF_XML', value: 'http://www.w3.org/ns/formats/RDF_XML' },
     { label: 'RDFa', value: 'http://www.w3.org/ns/formats/RDFa' },
     { label: 'Turtle', value: 'http://www.w3.org/ns/formats/Turtle' },
+    { label: 'JSON-LD', value: 'https://www.w3.org/ns/formats/data/JSON-LD' },
   ];
 
   @action
