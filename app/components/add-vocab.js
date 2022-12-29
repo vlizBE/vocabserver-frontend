@@ -20,13 +20,22 @@ export default class AddVocabComponent extends Component {
   @action
   async submit(params) {
     const vocabularyMeta = this.store.createRecord('vocabulary', params);
-    const sourceDataset = this.store.createRecord('dataset', params);
-    sourceDataset.downloadPage = params.downloadPage;
-    sourceDataset.format = params.format.value;
-    sourceDataset.sparqlEndpoint = params.sparqlEndpoint;
-
-    vocabularyMeta.sourceDataset = sourceDataset;
     vocabularyMeta.name = params.name;
+    const downloadUrlProps = [
+      'downloadPage1',
+      'downloadPage2',
+      'downloadPage3',
+    ];
+    for (const downloadUrlProp of downloadUrlProps) {
+      if (params[downloadUrlProp]) {
+        const sourceDataset = this.store.createRecord('dataset', params);
+        sourceDataset.downloadPage = params[downloadUrlProp];
+        sourceDataset.format = params.format.value;
+        sourceDataset.sparqlEndpoint = params.sparqlEndpoint;
+        vocabularyMeta.sourceDatasets.pushObject(sourceDataset);
+      }
+    }
+    // vocabularyMeta.sourceDatasets = [sourceDataset];
     this.args.onSubmit(vocabularyMeta);
   }
 }
