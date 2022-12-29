@@ -42,6 +42,7 @@
     @disabled={{not this.hasMeta}}
     @title='{{if this.hasMapping "✅" "❔"}} Configure unification'
   >
+    {{!-- "primary dataset"'s metadata is used to propose classes and predicates  --}}
     <MappingShapeCreator
       @dataset={{this.model.dataset}}
       @nodeShape={{this.mappingShape}}
@@ -54,7 +55,7 @@
     @title='{{if this.model.lastUnification "✅" "❔"}} Run unification'
   >
     <BsButton
-      @onClick={{perform this.createAndRunUnifyVocabJob this.model.vocabulary}}
+      @onClick={{perform this.createAndRunUnifyVocabJob}}
     >Run unification</BsButton>
     <RecentJobs
       @jobType='content-unification-job'

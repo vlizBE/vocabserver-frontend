@@ -16,8 +16,14 @@ as |modal|>
       <form.element @controlType='text' @label='Name' @property='name' as |el|>
         <el.control placeholder='Name' required />
       </form.element>
-      <form.element @controlType='text' @label='download URL' @property='downloadPage' as |el|>
+      <form.element @controlType='text' @label='download URL 1' @property='downloadPage1' as |el|>
         <el.control placeholder='URL' required />
+      </form.element>
+      <form.element @controlType='text' @label='download URL 2' @property='downloadPage2' as |el|>
+        <el.control placeholder='URL' />
+      </form.element>
+      <form.element @controlType='text' @label='download URL 3' @property='downloadPage3' as |el|>
+        <el.control placeholder='URL' />
       </form.element>
       <form.element @controlType='radio' @label='format' @options={{this.formatOptions}} @property='format' @optionLabelPath='label'/>
       <form.element @controlType='text' @label='sparqlEndpoint' @property='sparqlEndpoint' as |el|>
