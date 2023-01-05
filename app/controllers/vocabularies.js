@@ -37,6 +37,9 @@ export default class VocabulariesController extends Controller {
 
   @action
   async deleteVocab(vocabulary) {
-    await vocabulary.destroyRecord();
+    await fetch(`content-unification-jobs/delete-vocabulary/${vocabulary.id}`, {
+      method: 'POST',
+    });
+    this.send('reloadModel');
   }
 }
