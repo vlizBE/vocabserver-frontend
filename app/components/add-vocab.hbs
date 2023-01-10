@@ -12,10 +12,26 @@
       <form.element
         @controlType='text'
         @label='download URL'
-        @property='downloadPage'
+        @property='downloadPage1'
         as |el|
       >
         <el.control placeholder='URL' required />
+      </form.element>
+      <form.element
+        @controlType='text'
+        @label='download URL'
+        @property='downloadPage2'
+        as |el|
+      >
+        <el.control placeholder='URL' />
+      </form.element>
+      <form.element
+        @controlType='text'
+        @label='download URL'
+        @property='downloadPage3'
+        as |el|
+      >
+        <el.control placeholder='URL' />
       </form.element>
       <form.element
         @controlType='power-select'
