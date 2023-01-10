@@ -1,38 +1,58 @@
-<BsModal
-  @renderInPlace={{true}}
-  @onHide={{@onClose}}
-as |modal|>
+<BsModal @renderInPlace={{true}} @onHide={{@onClose}} as |modal|>
   <modal.header>
     <h4 class='modal-title'>
       Add Vocabulary
     </h4>
   </modal.header>
-  <BsForm
-    @formLayout='horizontal'
-    @onSubmit={{this.submit}}
-    as |form|
-  >
+  <BsForm @formLayout='horizontal' @onSubmit={{this.submit}} as |form|>
     <modal.body>
       <form.element @controlType='text' @label='Name' @property='name' as |el|>
         <el.control placeholder='Name' required />
       </form.element>
-      <form.element @controlType='text' @label='download URL 1' @property='downloadPage1' as |el|>
+      <form.element
+        @controlType='text'
+        @label='download URL'
+        @property='downloadPage1'
+        as |el|
+      >
         <el.control placeholder='URL' required />
       </form.element>
-      <form.element @controlType='text' @label='download URL 2' @property='downloadPage2' as |el|>
+      <form.element
+        @controlType='text'
+        @label='download URL'
+        @property='downloadPage2'
+        as |el|
+      >
         <el.control placeholder='URL' />
       </form.element>
-      <form.element @controlType='text' @label='download URL 3' @property='downloadPage3' as |el|>
+      <form.element
+        @controlType='text'
+        @label='download URL'
+        @property='downloadPage3'
+        as |el|
+      >
         <el.control placeholder='URL' />
       </form.element>
-      <form.element @controlType='radio' @label='format' @options={{this.formatOptions}} @property='format' @optionLabelPath='label'/>
-      <form.element @controlType='text' @label='sparqlEndpoint' @property='sparqlEndpoint' as |el|>
+      <form.element
+        @controlType='power-select'
+        @label='Preferred format'
+        @options={{this.formatOptions}}
+        @property='format'
+        @optionLabelPath='label'
+        as |el|
+      ><el.control @renderInPlace={{true}} /></form.element>
+      <form.element
+        @controlType='text'
+        @label='sparqlEndpoint'
+        @property='sparqlEndpoint'
+        as |el|
+      >
         <el.control placeholder='Name' />
       </form.element>
     </modal.body>
     <modal.footer>
       <BsButton @onClick={{modal.close}}>Cancel</BsButton>
-      <form.submitButton @type="success">Add</form.submitButton>
+      <form.submitButton @type='success'>Add</form.submitButton>
     </modal.footer>
   </BsForm>
 </BsModal>

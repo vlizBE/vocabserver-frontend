@@ -7,11 +7,14 @@
   as |form|
 >
   <form.element
-    @controlType='radio'
+    @controlType='power-select'
     @label='Pivot type'
     @property='pivotType'
     @options={{this.formModel.pivotTypeOptions}}
-  />
+    as |el|
+  >
+    <el.control @searchEnabled={{true}} required />
+  </form.element>
   <form.element
     @controlType='power-select-multiple'
     @label='Label Path'
@@ -22,6 +25,52 @@
     <el.control
       @searchPlaceholder='Please select a label property'
       @placeholder='Please select a label property'
+      @searchEnabled={{true}}
+    />
+  </form.element>
+  <form.element @controlType='label'>
+    Tag paths
+    <small class='text-secondary'>(optional)</small><BsTooltip @placement="top">Configure paths
+      to tags that can be used in the search filter.</BsTooltip></form.element>
+
+  {{#each-in this.formModel.keywordFilter as |keywordPathKey|}}
+    <form.element
+      @model={{this.formModel.keywordFilter}}
+      @controlType='power-select-multiple'
+      @property={{keywordPathKey}}
+      @options={{this.formModel.labelPathOptions}}
+      as |el|
+    >
+      <div class='input-group'>
+        <div class='input-group-prepend'>
+          <BsButton
+            @type='secondary'
+            @outline={{true}}
+            aria-label='Close'
+            @onClick={{fn this.removeKeywordFilter keywordPathKey}}
+          >
+            <span aria-hidden='true'>&times;</span>
+          </BsButton>
+        </div>
+        <el.control
+          @onChange={{fn this.keywordFilterChanged keywordPathKey}}
+          @placeholder='Add filter keyword path'
+          @searchEnabled={{true}}
+          {{! this is needed because of a bug in ember-bootstrap }}
+          style='flex-grow: 1'
+        />
+      </div>
+    </form.element>
+  {{/each-in}}
+  <form.element
+    @controlType='power-select-multiple'
+    @property='newKeywordPath'
+    @options={{this.formModel.labelPathOptions}}
+    @onChange={{this.keywordFilterAdded}}
+    as |el|
+  >
+    <el.control
+      @placeholder='Add filter keyword path'
       @searchEnabled={{true}}
     />
   </form.element>
