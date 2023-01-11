@@ -29,8 +29,12 @@ export default class VocabulariesController extends Controller {
 
   @action
   async handleNewVocabulary(record) {
-    record.sourceDataset = await (await record.sourceDataset).save();
+    const datasets = await record.sourceDatasets;
     await record.save();
+    for (const ds of datasets.toArray()) {
+      ds.vocabulary = record;
+      await ds.save();
+    }
     this.showCreationModal = false;
     this.router.transitionTo('vocabulary-mapping-wizard', record.id);
   }
