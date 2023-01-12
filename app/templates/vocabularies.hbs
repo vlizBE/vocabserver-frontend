@@ -3,8 +3,8 @@
   Vocabulary</BsButton>
 {{#if this.showCreationModal}}
   <AddVocab
-  @onSubmit={{this.handleNewVocabulary}}
-  @onClose={{set this 'showCreationModal' false}}
+    @onSubmit={{this.handleNewVocabulary}}
+    @onClose={{set this 'showCreationModal' false}}
   />
 {{/if}}
 {{#if @model.length}}
@@ -30,7 +30,7 @@
               @text='Are you sure you want to delete the vocabulary?'
               @confirmBtnTxt='Delete'
               @confirmBtnType='danger'
-              @buttonTxt="🗑️"
+              @buttonTxt='🗑️'
             />
           </td>
         </tr>

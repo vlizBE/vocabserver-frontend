@@ -1,10 +1,21 @@
 {{#if this.showModal}}
-<BsModal @onSubmit={{@onConfirm}} @onHide={{set this 'showModal' false}} as |modal|>
-  <modal.header>{{@text}}</modal.header>
-  <modal.footer>
-    <BsButton @onClick={{modal.close}}>{{if @cancelBtnTxt @cancelBtnTxt "Cancel"}}</BsButton>
-    <BsButton @onClick={{modal.submit}} @type={{if @confirmBtnType @confirmBtnType 'primary'}}>{{if @confirmBtnTxt @confirmBtnTxt "Confirm"}}</BsButton>
-  </modal.footer>
-</BsModal>
+  <BsModal
+    @onSubmit={{@onConfirm}}
+    @onHide={{set this 'showModal' false}}
+    as |modal|
+  >
+    <modal.header>{{@text}}</modal.header>
+    <modal.footer>
+      <BsButton @onClick={{modal.close}}>{{if
+          @cancelBtnTxt
+          @cancelBtnTxt
+          'Cancel'
+        }}</BsButton>
+      <BsButton
+        @onClick={{modal.submit}}
+        @type={{if @confirmBtnType @confirmBtnType 'primary'}}
+      >{{if @confirmBtnTxt @confirmBtnTxt 'Confirm'}}</BsButton>
+    </modal.footer>
+  </BsModal>
 {{/if}}
 <BsButton @onClick={{set this 'showModal' true}}>{{@buttonTxt}}</BsButton>
