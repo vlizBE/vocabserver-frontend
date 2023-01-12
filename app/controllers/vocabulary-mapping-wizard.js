@@ -17,7 +17,7 @@ export default class VocabularyMappingWizardController extends Controller {
 
   get hasMeta() {
     return (
-      isPresent(this.model.dataset.properties) ||
+      isPresent(this.model.dataset.properties) &&
       isPresent(this.model.dataset.classes)
     );
   }
