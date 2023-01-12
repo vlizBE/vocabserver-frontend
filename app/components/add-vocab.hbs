@@ -1,4 +1,4 @@
-<BsModal @renderInPlace={{true}} @onHide={{@onClose}} as |modal|>
+<BsModal @renderInPlace={{true}} @onHidden={{@onClose}} as |modal|>
   <modal.header>
     <h4 class='modal-title'>
       Add Vocabulary
@@ -11,7 +11,7 @@
       </form.element>
       <form.element
         @controlType='text'
-        @label='download URL'
+        @label='download URL 1'
         @property='downloadPage1'
         as |el|
       >
@@ -19,7 +19,7 @@
       </form.element>
       <form.element
         @controlType='text'
-        @label='download URL'
+        @label='download URL 2'
         @property='downloadPage2'
         as |el|
       >
@@ -27,7 +27,7 @@
       </form.element>
       <form.element
         @controlType='text'
-        @label='download URL'
+        @label='download URL 3'
         @property='downloadPage3'
         as |el|
       >
