@@ -41,6 +41,6 @@ export default class VocabulariesController extends Controller {
 
   @action
   async deleteVocab(vocabulary) {
-    vocabulary.destroyRecord();
+    await vocabulary.destroyRecord();
   }
 }
