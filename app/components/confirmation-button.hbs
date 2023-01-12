@@ -1,7 +1,7 @@
 {{#if this.showModal}}
   <BsModal
     @onSubmit={{@onConfirm}}
-    @onHide={{set this 'showModal' false}}
+    @onHidden={{set this 'showModal' false}}
     as |modal|
   >
     <modal.header>{{@text}}</modal.header>
