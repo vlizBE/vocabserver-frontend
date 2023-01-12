@@ -5,7 +5,7 @@ export default class Job extends Model {
   SUCCESS = 'http://vocab.deri.ie/cogs#Success';
   FAILED = 'http://vocab.deri.ie/cogs#Fail';
 
-  @attr('date') created;
+  @attr('datetime') created;
 
   @attr('string') sources;
 
