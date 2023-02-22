@@ -17,7 +17,7 @@ export default class VocabularyMappingWizardController extends Controller {
 
   get hasMeta() {
     return (
-      isPresent(this.model.dataset.properties) ||
+      isPresent(this.model.dataset.properties) &&
       isPresent(this.model.dataset.classes)
     );
   }
@@ -38,24 +38,30 @@ export default class VocabularyMappingWizardController extends Controller {
   }
 
   @task
-  *createAndRunDownloadJob(dataset) {
-    const record = this.store.createRecord('vocab-download-job', {
-      created: new Date(),
-      sources: dataset.get('uri'),
-    });
-    yield record.save();
-    yield this.job.monitorProgress.perform(record);
+  *createAndRunDownloadJob() {
+    const runningJobs = [];
+    for (const dataset of this.model.datasets.toArray()) {
+      const record = this.store.createRecord('vocab-download-job', {
+        created: new Date(),
+        sources: dataset.get('uri'),
+      });
+      yield record.save();
+      runningJobs.push(this.job.monitorProgress.perform(record));
+    }
+    yield Promise.all(runningJobs);
     this.send('reloadModel');
   }
 
   @task
-  *createAndRunMetadataExtractionJob(dataset) {
-    const record = this.store.createRecord('metadata-extraction-job', {
-      created: new Date(),
-      sources: dataset.get('uri'),
-    });
-    yield record.save();
-    yield this.job.monitorProgress.perform(record);
+  *createAndRunMetadataExtractionJob() {
+    for (const dataset of this.model.datasets.toArray()) {
+      const record = this.store.createRecord('metadata-extraction-job', {
+        created: new Date(),
+        sources: dataset.get('uri'),
+      });
+      yield record.save();
+      yield this.job.monitorProgress.perform(record);
+    }
     this.send('reloadModel');
   }
 
@@ -63,16 +69,15 @@ export default class VocabularyMappingWizardController extends Controller {
   async handleNewMappingShape(nodeShape) {
     nodeShape.vocabulary = this.model.dataset.get('vocabulary');
     await nodeShape.save();
-    const propertyShape = nodeShape.propertyShapes.firstObject;
-    await propertyShape.save();
+    await Promise.all(nodeShape.propertyShapes.map((x) => x.save()));
     this.send('reloadModel');
   }
 
   @task
-  *createAndRunUnifyVocabJob(dataset) {
+  *createAndRunUnifyVocabJob() {
     const record = this.store.createRecord('content-unification-job', {
       created: new Date(),
-      sources: dataset.get('uri'),
+      sources: this.model.vocabulary.get('uri'),
     });
     yield record.save();
     yield this.job.monitorProgress.perform(record);

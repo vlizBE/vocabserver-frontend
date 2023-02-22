@@ -4,8 +4,8 @@
   Vocabulary</BsButton>
 {{#if this.showCreationModal}}
   <AddVocab
-  @onSubmit={{this.handleNewVocabulary}}
-  @onClose={{set this 'showCreationModal' false}}
+    @onSubmit={{this.handleNewVocabulary}}
+    @onClose={{set this 'showCreationModal' false}}
   />
 {{/if}}
 {{#if @model.length}}
@@ -26,10 +26,14 @@
             >{{vocab.name}}</LinkTo>
           </td>
           <td>
-            <BsButton
-              @onClick={{(fn this.deleteVocab vocab)}}
-              @outline={{true}}
-            >🗑️</BsButton>
+            <ConfirmationButton
+              @onConfirm={{fn this.deleteVocab vocab}}
+              @text='Are you sure you want to delete the vocabulary?'
+              @confirmBtnTxt='Delete'
+              @confirmBtnType='danger'
+            >
+            <BsIcon @name="trash-fill" />
+            </ConfirmationButton>
           </td>
         </tr>
       {{/each}}
