@@ -4,7 +4,12 @@
       Add Vocabulary
     </h4>
   </modal.header>
-  <BsForm @formLayout='horizontal' @onSubmit={{this.submit}} as |form|>
+  <BsForm
+    @formLayout='horizontal'
+    @onSubmit={{this.submit}}
+    @model={{this}}
+    as |form|
+  >
     <modal.body>
       <form.element @controlType='text' @label='Name' @property='name' as |el|>
         <el.control placeholder='Name' required />
