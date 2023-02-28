@@ -1,0 +1,8 @@
+<div class="form-group">
+  {{#let (unique-id) as |inputId|}}
+    {{#if @label}}
+      <label for={{inputId}}>{{@label}}</label>
+    {{/if}}
+    <input type="text" class="form-control" id={{inputId}} ...attributes>
+  {{/let}}
+</div>

@@ -1,44 +1,50 @@
 {{page-title 'Vocabularies'}}
 <h1>Vocabularies</h1>
-<BsButton @type='primary' @onClick={{set this 'showCreationModal' true}}>Add
-  Vocabulary</BsButton>
 {{#if this.showCreationModal}}
   <AddVocab
     @onSubmit={{this.handleNewVocabulary}}
     @onClose={{set this 'showCreationModal' false}}
   />
 {{/if}}
-{{#if @model.length}}
-  <table class='table'>
-    <thead>
-      <tr>
-        <th>Name</th>
-        <th>Remove</th>
-      </tr>
-    </thead>
-    <tbody>
-      {{#each @model as |vocab|}}
-        <tr>
-          <td>
-            <LinkTo
-              @route='vocabulary-mapping-wizard'
-              @model={{vocab.id}}
-            >{{vocab.name}}</LinkTo>
-          </td>
-          <td>
-            <ConfirmationButton
-              @onConfirm={{fn this.deleteVocab vocab}}
-              @text='Are you sure you want to delete the vocabulary?'
-              @confirmBtnTxt='Delete'
-              @confirmBtnType='danger'
-            >
+<DataTable
+  @content={{this.model}}
+  @page={{this.page}}
+  @size={{this.size}}
+  @enableSizes={{false}}
+  @noDataMessage="No vocabularies found"
+  as |Table|
+>
+
+  <Table.menu as |Menu|>
+    <Menu.general class="d-flex flex-row-reverse">
+      <BsButton @type='primary' @onClick={{set this 'showCreationModal' true}}>Add
+        Vocabulary</BsButton>
+    </Menu.general>
+  </Table.menu>
+  <Table.content @class="table table-striped w-100" as |Content|>
+    <Content.header>
+      <ThSortable @field="name" @currentSorting={{this.sort}} @label="Name" />
+      <ThSortable @field="type" @currentSorting={{this.sort}} @label="Type" />
+      <th>Actions</th>
+    </Content.header>
+    <Content.body as |vocab|>
+        <td>
+          <LinkTo
+            @route='vocabulary-mapping-wizard'
+            @model={{vocab.id}}
+          >{{vocab.name}}</LinkTo>
+        </td>
+        <td></td>
+        <td>
+          <ConfirmationButton
+            @onConfirm={{fn this.deleteVocab vocab}}
+                       @text='Are you sure you want to delete the vocabulary?'
+            @confirmBtnTxt='Delete'
+            @confirmBtnType='danger'
+          >
             <BsIcon @name="trash-fill" />
-            </ConfirmationButton>
-          </td>
-        </tr>
-      {{/each}}
-    </tbody>
-  </table>
-{{else}}
-  <h4 class='card-header mb-4'>No vocabularies found</h4>
-{{/if}}
+          </ConfirmationButton>
+        </td>
+    </Content.body>
+  </Table.content>
+</DataTable>

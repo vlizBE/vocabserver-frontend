@@ -4,60 +4,59 @@
       Add Vocabulary
     </h4>
   </modal.header>
-  <BsForm
-    @formLayout='horizontal'
-    @onSubmit={{this.submit}}
-    @model={{this}}
-    as |form|
-  >
-    <modal.body>
-      <form.element @controlType='text' @label='Name' @property='name' as |el|>
-        <el.control placeholder='Name' required />
-      </form.element>
-      <form.element
-        @controlType='text'
-        @label='download URL 1'
-        @property='downloadPage1'
-        as |el|
-      >
-        <el.control placeholder='URL' required />
-      </form.element>
-      <form.element
-        @controlType='text'
-        @label='download URL 2'
-        @property='downloadPage2'
-        as |el|
-      >
-        <el.control placeholder='URL' />
-      </form.element>
-      <form.element
-        @controlType='text'
-        @label='download URL 3'
-        @property='downloadPage3'
-        as |el|
-      >
-        <el.control placeholder='URL' />
-      </form.element>
-      <form.element
-        @controlType='power-select'
-        @label='Preferred format'
+  <modal.body>
+    <Core::Input @label="Vocabulary name" value={{this.vocabName}} {{on "change" (pick "target.value" (fn (mut this.vocabName)))}} />
+    <div class="d-flex justify-content-between">
+      <h6 class="mt-2">Sources</h6>
+    </div>
+    {{#if this.sources.length}}
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>Type</th>
+            <th>URL</th>
+            <th></th>
+          </tr>
+        </thead>
+        {{#each this.sources as |source|}}
+          <tr>
+            <td>{{source.type.prefLabel}}</td>
+            <td>{{source.downloadPage}}</td>
+            <td>    <button type="button" class="btn btn-sm w-full btn-danger" {{on "click" (fn this.removeSource source)}}>X</button></td>
+          </tr>
+        {{/each}}
+      </table>
+    {{/if}}
+    <div class="border p-2">
+      <h6>Add source</h6>
+      <Core::Input @label="URL" value={{this.downloadUrl}} {{on "change" (pick "target.value" (fn (mut this.downloadUrl)))}} />
+    <label>Type</label>
+    <PowerSelect
+      @renderInPlace={{true}}
+      @options={{this.types}}
+      @selected={{this.downloadType}}
+      @onChange={{fn (mut this.downloadType)}}
+      as |option|
+    >
+      {{option.prefLabel}}
+    </PowerSelect>
+    {{#if this.isFileDump}}
+      <label>Preferred Format</label>
+      <PowerSelect
+        @renderInPlace={{true}}
         @options={{this.formatOptions}}
-        @property='format'
-        @optionLabelPath='label'
-        as |el|
-      ><el.control @renderInPlace={{true}} /></form.element>
-      <form.element
-        @controlType='text'
-        @label='sparqlEndpoint'
-        @property='sparqlEndpoint'
-        as |el|
+        @selected={{this.downloadFormat}}
+        @onChange={{fn (mut this.downloadFormat)}}
+        as |option|
       >
-        <el.control placeholder='Name' />
-      </form.element>
-    </modal.body>
-    <modal.footer>
-      <BsButton @onClick={{modal.close}}>Cancel</BsButton>
-      <form.submitButton @type='success'>Add</form.submitButton>
-    </modal.footer>
-  </BsForm>
+        {{option.label}}
+      </PowerSelect>
+    {{/if}}
+    <button type="button" class="mt-2 btn btn-sm w-full btn-primary" {{on "click" this.addSource}}>Add source</button>
+    </div>
+  </modal.body>
+  <modal.footer>
+    <BsButton @onClick={{modal.close}}>Cancel</BsButton>
+    <BsButton @type="primary" @onClick={{this.submit}}>Submit</BsButton>
+  </modal.footer>
 </BsModal>
