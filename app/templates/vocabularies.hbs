@@ -1,3 +1,4 @@
+{{page-title 'Vocabularies'}}
 <h1>Vocabularies</h1>
 <BsButton @type='primary' @onClick={{set this 'showCreationModal' true}}>Add
   Vocabulary</BsButton>
@@ -30,8 +31,9 @@
               @text='Are you sure you want to delete the vocabulary?'
               @confirmBtnTxt='Delete'
               @confirmBtnType='danger'
-              @buttonTxt='🗑️'
-            />
+            >
+            <BsIcon @name="trash-fill" />
+            </ConfirmationButton>
           </td>
         </tr>
       {{/each}}

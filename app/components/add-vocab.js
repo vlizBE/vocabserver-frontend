@@ -10,13 +10,15 @@ export default class AddVocabComponent extends Component {
   @service store;
 
   formatOptions = [
-    { label: 'N3', value: 'http://www.w3.org/ns/formats/N3' },
+    { label: 'JSON-LD', value: 'https://www.w3.org/ns/formats/data/JSON-LD' },
     { label: 'N-Triples', value: 'http://www.w3.org/ns/formats/N-Triples' },
+    { label: 'N3', value: 'http://www.w3.org/ns/formats/N3' },
     { label: 'RDF_XML', value: 'http://www.w3.org/ns/formats/RDF_XML' },
     { label: 'RDFa', value: 'http://www.w3.org/ns/formats/RDFa' },
     { label: 'Turtle', value: 'http://www.w3.org/ns/formats/Turtle' },
-    { label: 'JSON-LD', value: 'https://www.w3.org/ns/formats/data/JSON-LD' },
   ];
+
+  format = this.formatOptions[0];
 
   @action
   async submit(params) {
