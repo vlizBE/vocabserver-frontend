@@ -14,11 +14,17 @@
           'Cancel'
         }}
         </BsButton>
-      <BsButton
-        @onClick={{modal.submit}}
-        @type={{if @confirmBtnType @confirmBtnType 'primary'}}
-      >{{if @confirmBtnTxt @confirmBtnTxt 'Confirm'}}</BsButton>
+        <BsButton
+          @onClick={{modal.submit}}
+          @type={{if @confirmBtnType @confirmBtnType 'primary'}}
+        >
+          {{if @confirmBtnTxt @confirmBtnTxt 'Confirm'}}
+        </BsButton>
     </modal.footer>
   </BsModal>
 {{/if}}
-<BsButton @onClick={{set this 'showModal' true}}>{{yield}}</BsButton>
+<BsButton
+  @type={{if @confirmBtnType @confirmBtnType 'primary'}}
+  @onClick={{set this 'showModal' true}}>
+  {{yield}}
+</BsButton>

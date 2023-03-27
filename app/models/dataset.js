@@ -7,6 +7,8 @@ export default class Dataset extends Model {
   @attr downloadPage;
   @attr modified;
   @attr format;
+  @attr('boolean') dereferenceMembers;
+  @attr('number') maxRequests;
 
   @hasMany('file') dataDumps;
   @belongsTo('dataset-type') type;

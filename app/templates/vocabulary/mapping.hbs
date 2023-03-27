@@ -1,0 +1,38 @@
+{{page-title "Mapping"}}
+<BsAccordion as |acc|>
+  <acc.item
+    @value='1'
+    @disabled={{not this.hasDump}}
+    @title='{{if
+      this.hasMeta
+      "✅"
+      "❔"
+    }} Analyze source data structure (generate metadata)'
+  >
+    <BsButton
+      @onClick={{perform
+        this.createAndRunMetadataExtractionJob
+        this.model.dataset
+      }}
+    >Analyze source</BsButton>
+    <RecentJobs
+      @jobType='metadata-extraction-job'
+      @source={{this.model.dataset}}
+    />
+    {{#if this.hasMeta}}
+      <DatasetMetadata @dataset={{this.model.dataset}} />
+    {{/if}}
+  </acc.item>
+  <acc.item
+    @value='2'
+    @disabled={{not this.hasMeta}}
+    @title='{{if this.hasMapping "✅" "❔"}} Configure mapping'
+  >
+    {{!-- "primary dataset"'s metadata is used to propose classes and predicates  --}}
+    <MappingShapeCreator
+      @dataset={{this.model.dataset}}
+      @nodeShape={{this.mappingShape}}
+      @onSubmit={{this.handleNewMappingShape}}
+    />
+  </acc.item>
+</BsAccordion>
