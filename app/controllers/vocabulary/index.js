@@ -6,9 +6,14 @@ import { inject as service } from '@ember/service';
 
 export default class VocabularyIndexController extends Controller {
   @service store;
-  @tracked showAddSource = true;
+  @tracked showAddSource = false;
   @tracked page = 0;
   @tracked size = 20;
+
+  @action
+  async switchShowAddSource() {
+    this.showAddSource = !this.showAddSource;
+  }
 
   @action
   async deleteDataset(dataset) {

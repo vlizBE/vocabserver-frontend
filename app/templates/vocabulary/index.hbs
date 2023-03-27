@@ -11,7 +11,7 @@
   <Table.menu as |Menu|>
     <Menu.general class="d-flex flex-row-reverse">
       <BsButton
-        @onClick={{fn (mut this.showAddSource true)}}
+        @onClick={{fn this.switchShowAddSource}}
       >
         Add source
       </BsButton>
