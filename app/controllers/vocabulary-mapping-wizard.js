@@ -75,13 +75,12 @@ export default class VocabularyMappingWizardController extends Controller {
 
   @task
   *createAndRunUnifyVocabJob() {
-    const runningJobs = [];
     const record = this.store.createRecord('content-unification-job', {
       created: new Date(),
       sources: this.model.vocabulary.get('uri'),
     });
     yield record.save();
-    runningJobs.push(this.job.monitorProgress.perform(record));
+    yield this.job.monitorProgress.perform(record);
     this.send('reloadModel');
   }
 

@@ -6,16 +6,25 @@
   >
     <modal.header>{{@text}}</modal.header>
     <modal.footer>
-      <BsButton @onClick={{modal.close}}>{{if
+      <BsButton 
+        @onClick={{modal.close}}
+      >{{if
           @cancelBtnTxt
           @cancelBtnTxt
           'Cancel'
-        }}</BsButton>
-      <BsButton
-        @onClick={{modal.submit}}
-        @type={{if @confirmBtnType @confirmBtnType 'primary'}}
-      >{{if @confirmBtnTxt @confirmBtnTxt 'Confirm'}}</BsButton>
+        }}
+        </BsButton>
+        <BsButton
+          @onClick={{modal.submit}}
+          @type={{if @confirmBtnType @confirmBtnType 'primary'}}
+        >
+          {{if @confirmBtnTxt @confirmBtnTxt 'Confirm'}}
+        </BsButton>
     </modal.footer>
   </BsModal>
 {{/if}}
-<BsButton @onClick={{set this 'showModal' true}}>{{@buttonTxt}}</BsButton>
+<BsButton
+  @type={{if @confirmBtnType @confirmBtnType 'primary'}}
+  @onClick={{set this 'showModal' true}}>
+  {{yield}}
+</BsButton>
