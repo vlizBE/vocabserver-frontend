@@ -18,7 +18,11 @@ export default class VocabulariesShowIndexRoute extends Route {
         size: params.size,
       },
     };
-    options.filter = { 'vocabulary[:id:]': params.id };
-    return this.store.query('dataset', options);
+    let vocabularyId = this.modelFor('vocabulary').id;
+    options.filter = { vocabulary: { ':id:': vocabularyId } };
+    return {
+      dataset: this.store.query('dataset', options),
+      vocabulary_id: vocabularyId,
+    };
   }
 }

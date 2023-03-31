@@ -1,6 +1,6 @@
 {{page-title "Sources"}}
 <DataTable
-  @content={{this.model}}
+  @content={{this.model.dataset}}
   @page={{this.page}}
   @size={{this.size}}
   @enableSizes={{false}}
@@ -11,7 +11,7 @@
   <Table.menu as |Menu|>
     <Menu.general class="d-flex flex-row-reverse">
       <BsButton
-        @onClick={{fn (mut this.showAddSource true)}}
+        @onClick={{this.switchShowAddSource}}
       >
         Add source
       </BsButton>
@@ -53,5 +53,5 @@
   </Table.content>
 </DataTable>
 {{#if this.showAddSource}}
-  <AddSource @onSubmit={{perform this.addSource}} />
+  <AddSource @onSubmit={{perform this.addSource}} @onClose={{this.switchShowAddSource}}/>
 {{/if}}
