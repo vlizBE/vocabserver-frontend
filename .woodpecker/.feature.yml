@@ -1,0 +1,10 @@
+pipeline:
+  push-feature-build:
+    image: plugins/docker
+    settings:
+      repo: redpencil/frontend-vliz-vocabserver
+      tags: ${CI_COMMIT_SOURCE_BRANCH/\//-}
+    secrets: [ docker_username, docker_password ]
+when:
+  event: pull_request
+  # note that when you specify a "branch" here that is the *target* branch in context of a PR

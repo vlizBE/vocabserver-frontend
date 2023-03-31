@@ -1,33 +1,25 @@
-<h1>Vocabulary: {{this.model.name}}</h1>
-<h2>Download Jobs</h2>
-<table class='table'>
-  <thead>
-    <tr>
-      <th>Date</th>
-      <th>Status</th>
-      <th>Start Unification</th>
-    </tr>
-  </thead>
-  <tbody>
-    {{#each this.jobs as |job|}}
-      <tr>
-        <td>
-          {{format-date job.created "dd/MM/yyyy 'at' HH:mm"}}
-        </td>
-        <td>
-          <JobStatus @job={{job}}/>
-        </td>
-        <td>
-          <BsButton
-            @onClick={{perform this.createAndRunUnifyVocabJob job.results}}
-            @outline={{true}}
-            disabled={{not job.succeeded}}
-          >
-            ↩️
-          </BsButton>
-        </td>
-      </tr>
-    {{/each}}
-
-  </tbody>
-</table>
+{{page-title (concat "Vocabulary: " this.model.name)}}
+<div class='d-flex align-items-center'>
+  {{!-- TODO pr-2 is not working --}}
+  <h1 class="px-2">Vocabulary: </h1>
+  <h1>
+    <InlineEdit
+      @value={{this.model.name}}
+             @onSubmit={{this.updateVocabName}}
+    >{{this.model.name}}</InlineEdit>
+  </h1>
+</div>
+<div>
+  <BsNav @type="tabs" as |nav|>
+    <nav.item>
+      <nav.link-to @route="vocabulary.index" @model={{this.model.id}}>Sources</nav.link-to>
+    </nav.item>
+    <nav.item>
+      <nav.link-to @route="vocabulary.mapping" @model={{this.model.id}}>Mapping</nav.link-to>
+    </nav.item>
+    <nav.item>
+      <nav.link-to @route="vocabulary.unification" @model={{this.model.id}}>Unification</nav.link-to>
+    </nav.item>
+  </BsNav>
+  {{outlet}}
+</div>

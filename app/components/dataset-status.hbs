@@ -1,0 +1,7 @@
+{{#if this.isDump}}
+  {{#if this.job}}
+    {{format-date this.job.created "dd/MM/yyyy 'at' HH:mm"}} - <JobStatus @job={{this.job}} />
+  {{else}}
+    please init download
+  {{/if}}
+{{/if}}
