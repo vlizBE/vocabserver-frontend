@@ -1,5 +1,4 @@
 import Controller from '@ember/controller';
-import { action } from '@ember/object';
 import { service } from '@ember/service';
 import { tracked } from '@glimmer/tracking';
 import { task } from 'ember-concurrency';
@@ -12,7 +11,6 @@ export default class VocabulariesNewController extends Controller {
   @service router;
   @tracked downloadType;
   @tracked downloadUrl;
-  @tracked downloadFormat;
   @tracked vocabName;
   @tracked downloadFormat;
   @tracked ldesDereference = false;
@@ -27,17 +25,15 @@ export default class VocabulariesNewController extends Controller {
     { label: 'Turtle', value: 'http://www.w3.org/ns/formats/Turtle' },
   ];
 
-  format = this.formatOptions[0];
-
   get types() {
     return this.model;
   }
 
   get isLdes() {
-    return this.downloadType?.uri == TYPE_LDES;
+    return this.downloadType?.uri === TYPE_LDES;
   }
   get isFileDump() {
-    return this.downloadType?.uri == TYPE_FILE_DUMP;
+    return this.downloadType?.uri === TYPE_FILE_DUMP;
   }
 
   @task

@@ -15,7 +15,7 @@ export default class DatasetStatusComponent extends Component {
   }
 
   get isDump() {
-    return this.datasetType.value?.uri == TYPE_FILE_DUMP;
+    return this.datasetType.value?.uri === TYPE_FILE_DUMP;
   }
 
   datasetType = trackedFunction(this, async () => {
