@@ -1,0 +1,38 @@
+<BsModal @renderInPlace={{true}} @onHidden={{@onClose}} as |modal|>
+  <modal.header>
+    <h4 class='modal-title'>
+      Add Source dataset
+    </h4>
+  </modal.header>
+  <BsForm
+    @formLayout='horizontal'
+    @onSubmit={{this.submit}}
+    @model={{this}}
+    as |form|
+  >
+    <modal.body>
+      <form.element
+        @controlType='text'
+        @label={{if this.isFileDump "Download URL" "Feed URL"}}
+                      @property='downloadUrl'
+        as |el|
+      >
+        <el.control placeholder='URL' required />
+      </form.element>
+      <form.element
+        @controlType='power-select'
+        @label='Preferred format'
+        @options={{this.formatOptions}}
+                      @property='downloadFormat'
+        @optionLabelPath='label'
+        as |el|
+      >
+        <el.control @renderInPlace={{true}} />
+      </form.element>
+    </modal.body>
+    <modal.footer>
+      <BsButton @onClick={{modal.close}}>Cancel</BsButton>
+      <form.submitButton @type='success'>Add</form.submitButton>
+    </modal.footer>
+  </BsForm>
+</BsModal>

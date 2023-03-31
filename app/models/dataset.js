@@ -1,15 +1,17 @@
 import Model, { attr, belongsTo, hasMany } from '@ember-data/model';
 
-export default class Job extends Model {
+export default class Dataset extends Model {
   @attr uri;
 
   @attr title;
   @attr downloadPage;
   @attr modified;
   @attr format;
-  @attr sparqlEndpoint;
+  @attr('boolean') dereferenceMembers;
+  @attr('number') maxRequests;
 
   @hasMany('file') dataDumps;
+  @belongsTo('dataset-type') type;
 
   @attr property;
   @attr class;

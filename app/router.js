@@ -7,10 +7,12 @@ export default class Router extends EmberRouter {
 }
 
 Router.map(function () {
-  this.route('vocabularies');
-  this.route('vocabulary', { path: '/vocabulary/:vocabulary_id' });
-  this.route('vocabulary-mapping-wizard', {
-    path: '/vocabulary/:vocabulary_id/wizard',
+  this.route('vocabularies', function () {
+    this.route('new');
+  });
+  this.route('vocabulary', { path: '/vocabularies/show/:id' }, function () {
+    this.route('mapping');
+    this.route('unification');
   });
   this.route('search');
   this.route('webcomponent-config');

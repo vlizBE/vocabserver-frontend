@@ -1,0 +1,57 @@
+{{page-title "Sources"}}
+<DataTable
+  @content={{this.model.dataset}}
+  @page={{this.page}}
+  @size={{this.size}}
+  @enableSizes={{false}}
+  @noDataMessage="No Sources found"
+  as |Table|
+>
+
+  <Table.menu as |Menu|>
+    <Menu.general class="d-flex flex-row-reverse">
+      <BsButton
+        @onClick={{this.switchShowAddSource}}
+      >
+        Add source
+      </BsButton>
+    </Menu.general>
+  </Table.menu>
+  <Table.content @class="table table-striped w-100" as |Content|>
+    <Content.header>
+      <ThSortable @field="url" @currentSorting={{this.sort}} @label="url" />
+      <ThSortable @field="type.pref-label" @currentSorting={{this.sort}} @label="Type" />
+      <th>Last Update</th>
+      <th>Actions</th>
+    </Content.header>
+    <Content.body as |dataset|>
+      <td>
+        <a href={{dataset.downloadPage}} target="_blank" rel="noopener noreferrer">{{dataset.downloadPage}}</a>
+      </td>
+      <td>{{dataset.type.prefLabel}}</td>
+      <td>
+        <DatasetStatus @dataset={{dataset}} />
+      </td>
+      <td>
+        <BsButton
+          @type="info"
+          @onClick={{perform this.createAndRunDownloadJob dataset}}
+        >
+          <BsIcon @name="download" />
+        </BsButton>
+        <ConfirmationButton
+          @onConfirm={{fn this.deleteDataset dataset}}
+                     @text='Are you sure you want to delete the source'
+          @confirmBtnTxt='Delete'
+          @confirmBtnType='danger'
+          @type="danger"
+        >
+          <BsIcon @name="trash-fill" />
+        </ConfirmationButton>
+      </td>
+    </Content.body>
+  </Table.content>
+</DataTable>
+{{#if this.showAddSource}}
+  <AddSource @onSubmit={{perform this.addSource}} @onClose={{this.switchShowAddSource}}/>
+{{/if}}
