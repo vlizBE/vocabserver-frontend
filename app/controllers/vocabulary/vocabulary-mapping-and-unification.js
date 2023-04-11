@@ -5,7 +5,7 @@ import { task } from 'ember-concurrency';
 import { isPresent } from '@ember/utils';
 import { tracked } from '@glimmer/tracking';
 
-export default class VocabularyMappingWizardController extends Controller {
+export default class VocabularyMappingAndUnificationController extends Controller {
   @service store;
   @service job;
 

@@ -30,6 +30,7 @@ export default class VocabularyIndexController extends Controller {
       sources: dataset.get('uri'),
     });
     yield record.save();
+    this.router.refresh();
   }
 
   @task
@@ -49,5 +50,6 @@ export default class VocabularyIndexController extends Controller {
     });
     yield dataset.save();
     yield this.switchShowAddSource();
+    this.router.refresh();
   }
 }

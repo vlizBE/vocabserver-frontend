@@ -12,6 +12,14 @@ module.exports = function (defaults) {
     'ember-power-select': {
       theme: 'bootstrap',
     },
+
+    '@embroider/macros': {
+      setConfig: {
+        '@ember-data/store': {
+          polyfillUUID: true,
+        },
+      },
+    },
   });
 
   // Use `app.import` to add additional libraries to the generated
