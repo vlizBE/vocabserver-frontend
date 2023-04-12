@@ -52,12 +52,13 @@
             <span aria-hidden='true'>&times;</span>
           </BsButton>
         </div>
+        {{!-- template-lint-disable no-inline-styles --}}
         <el.control
           @onChange={{fn this.keywordFilterChanged keywordPathKey}}
           @placeholder='Add filter keyword path'
           @searchEnabled={{true}}
-          {{! this is needed because of a bug in ember-bootstrap }}
-          style='flex-grow: 1'
+         {{! this is needed because of a bug in ember-bootstrap }}
+         style='flex-grow: 1'
         />
       </div>
     </form.element>
