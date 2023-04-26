@@ -49,6 +49,7 @@ export default class VocabularyIndexController extends Controller {
       type: downloadType,
     });
     yield dataset.save();
+    yield this.createAndRunDownloadJob(dataset);
     yield this.switchShowAddSource();
     this.router.refresh();
   }

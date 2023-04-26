@@ -37,6 +37,15 @@ export default class VocabulariesNewController extends Controller {
   }
 
   @task
+  *createAndRunDownloadJob(dataset) {
+    const record = this.store.createRecord('vocab-download-job', {
+      created: new Date(),
+      sources: dataset.get('uri'),
+    });
+    yield record.save();
+  }
+
+  @task
   *submit() {
     const vocabularyMeta = this.store.createRecord('vocabulary', {
       name: this.vocabName,
@@ -51,6 +60,7 @@ export default class VocabulariesNewController extends Controller {
       type: this.downloadType,
     });
     yield dataset.save();
+    yield this.createAndRunDownloadJob(dataset);
     yield this.router.transitionTo('vocabulary', vocabularyMeta.id);
   }
 }
