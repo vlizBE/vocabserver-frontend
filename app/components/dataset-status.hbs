@@ -1,7 +1,9 @@
-{{#if this.isDump}}
-  {{#if this.job}}
-    {{format-date this.job.created "dd/MM/yyyy 'at' HH:mm"}} - <JobStatus @job={{this.job}} />
-  {{else}}
+{{#if this.job}}
+  {{format-date this.job.created "dd/MM/yyyy 'at' HH:mm"}} - <JobStatus @job={{this.job}} />
+{{else}}
+  {{#if this.isDump}}
     please init download
+  {{else}}
+    please wait for the LDES-consumer-manager to initialize the download
   {{/if}}
 {{/if}}

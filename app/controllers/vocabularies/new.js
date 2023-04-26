@@ -53,7 +53,7 @@ export default class VocabulariesNewController extends Controller {
     yield vocabularyMeta.save();
     const dataset = this.store.createRecord('dataset', {
       downloadPage: this.downloadUrl,
-      format: this.downloadFormat.value,
+      format: this.downloadFormat?.value,
       dereferenceMembers: this.ldesDereference,
       maxRequests: this.ldesMaxRequests,
       vocabulary: vocabularyMeta,
