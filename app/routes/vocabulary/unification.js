@@ -6,8 +6,9 @@ export default class VocabularyUnificationRoute extends Route {
   @service store;
 
   async model(params) {
+    const id = this.modelFor('vocabulary').id;
     const ds = await this.store.query('dataset', {
-      'filter[vocabulary][:id:]': params.vocabulary_id,
+      'filter[vocabulary][:id:]': id,
       include:
         'data-dumps,vocabulary,vocabulary.mapping-shape,vocabulary.mapping-shape.property-shapes,classes,properties',
       sort: '-classes.entities',
