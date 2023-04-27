@@ -60,7 +60,7 @@ export default class VocabulariesNewController extends Controller {
       type: this.downloadType,
     });
     yield dataset.save();
-    yield this.createAndRunDownloadJob(dataset);
+    yield this.createAndRunDownloadJob.perform(dataset);
     yield this.router.transitionTo('vocabulary', vocabularyMeta.id);
   }
 }
