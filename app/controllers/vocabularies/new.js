@@ -36,6 +36,15 @@ export default class VocabulariesNewController extends Controller {
     return this.downloadType?.uri === TYPE_FILE_DUMP;
   }
 
+  reset() {
+    this.downloadType = null;
+    this.downloadUrl = null;
+    this.vocabName = null;
+    this.downloadFormat = null;
+    this.ldesDereference = false;
+    this.ldesMaxRequests = 120;
+  }
+
   @task
   *createAndRunDownloadJob(dataset) {
     const record = this.store.createRecord('vocab-download-job', {

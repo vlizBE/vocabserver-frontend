@@ -7,4 +7,9 @@ export default class VocabulariesNewRoute extends Route {
   model() {
     return this.store.findAll('dataset-type');
   }
+
+  resetController(controller) {
+    this.controller.reset();
+
+  }
 }
