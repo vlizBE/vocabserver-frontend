@@ -57,6 +57,5 @@
       <el.control  required />
     </form.element>
   {{/if}}
-  <form.submitButton @type='success'>Add</form.submitButton>
+  <form.submitButton @type='success' disabled={{not this.downloadType}}>Add</form.submitButton>
 </BsForm>
-
