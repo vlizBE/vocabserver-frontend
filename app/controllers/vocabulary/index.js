@@ -4,6 +4,8 @@ import { tracked } from '@glimmer/tracking';
 import { task } from 'ember-concurrency';
 import { inject as service } from '@ember/service';
 
+const TYPE_FILE_DUMP = 'http://vocabsearch.data.gift/dataset-types/FileDump';
+
 export default class VocabularyIndexController extends Controller {
   @service store;
   @service router;
@@ -49,7 +51,9 @@ export default class VocabularyIndexController extends Controller {
       type: downloadType,
     });
     yield dataset.save();
-    yield this.createAndRunDownloadJob(dataset);
+    if (downloadFormat.value === TYPE_FILE_DUMP) {
+      yield this.createAndRunDownloadJob(dataset);
+    }
     yield this.switchShowAddSource();
     this.router.refresh();
   }
