@@ -7,6 +7,11 @@
   {{on 'input' (perform this.setQAndSearch)}}
 />
 
+{{#if this.isLoadingModel}}
+  <div class="spinner-border" role="status">
+    <span class="sr-only">Loading...</span>
+  </div>
+{{/if}}
 {{#if this.model.length}}
   <table class='table'>
     <thead>
