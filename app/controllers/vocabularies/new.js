@@ -2,9 +2,9 @@ import Controller from '@ember/controller';
 import { service } from '@ember/service';
 import { tracked } from '@glimmer/tracking';
 import { task } from 'ember-concurrency';
+import config from 'frontend-vocab-search-admin/config/constants';
 
-const TYPE_FILE_DUMP = 'http://vocabsearch.data.gift/dataset-types/FileDump';
-const TYPE_LDES = 'http://vocabsearch.data.gift/dataset-types/LDES';
+const FORMAT_OPTIONS = config.FORMAT_OPTIONS;
 
 export default class VocabulariesNewController extends Controller {
   @service store;
@@ -17,12 +17,12 @@ export default class VocabulariesNewController extends Controller {
   @tracked ldesMaxRequests = 120;
 
   formatOptions = [
-    { label: 'JSON-LD', value: 'https://www.w3.org/ns/formats/data/JSON-LD' },
-    { label: 'N-Triples', value: 'http://www.w3.org/ns/formats/N-Triples' },
-    { label: 'N3', value: 'http://www.w3.org/ns/formats/N3' },
-    { label: 'RDF_XML', value: 'http://www.w3.org/ns/formats/RDF_XML' },
-    { label: 'RDFa', value: 'http://www.w3.org/ns/formats/RDFa' },
-    { label: 'Turtle', value: 'http://www.w3.org/ns/formats/Turtle' },
+    FORMAT_OPTIONS.JSONLD,
+    FORMAT_OPTIONS.NTRIPLES,
+    FORMAT_OPTIONS.N3,
+    FORMAT_OPTIONS.RDFXML,
+    FORMAT_OPTIONS.RDFA,
+    FORMAT_OPTIONS.TURTLE,
   ];
 
   get types() {
@@ -30,10 +30,10 @@ export default class VocabulariesNewController extends Controller {
   }
 
   get isLdes() {
-    return this.downloadType?.uri === TYPE_LDES;
+    return this.downloadType?.uri === config.DATASET_TYPES.LDES;
   }
   get isFileDump() {
-    return this.downloadType?.uri === TYPE_FILE_DUMP;
+    return this.downloadType?.uri === config.DATASET_TYPES.FILE_DUMP;
   }
 
   reset() {
@@ -69,7 +69,7 @@ export default class VocabulariesNewController extends Controller {
       type: this.downloadType,
     });
     yield dataset.save();
-    if (this.downloadFormat?.value === TYPE_FILE_DUMP) {
+    if (this.downloadFormat?.value === config.DATASET_TYPES.FILE_DUMP) {
       yield this.createAndRunDownloadJob.perform(dataset);
     }
     yield this.router.transitionTo('vocabulary', vocabularyMeta.id);

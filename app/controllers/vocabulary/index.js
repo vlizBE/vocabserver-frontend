@@ -3,8 +3,7 @@ import { action } from '@ember/object';
 import { tracked } from '@glimmer/tracking';
 import { task } from 'ember-concurrency';
 import { inject as service } from '@ember/service';
-
-const TYPE_FILE_DUMP = 'http://vocabsearch.data.gift/dataset-types/FileDump';
+import config from 'frontend-vocab-search-admin/config/constants';
 
 export default class VocabularyIndexController extends Controller {
   @service store;
@@ -51,7 +50,7 @@ export default class VocabularyIndexController extends Controller {
       type: downloadType,
     });
     yield dataset.save();
-    if (downloadFormat.value === TYPE_FILE_DUMP) {
+    if (downloadFormat.value === config.DATASET_TYPES.FILE_DUMP) {
       yield this.createAndRunDownloadJob(dataset);
     }
     yield this.switchShowAddSource();

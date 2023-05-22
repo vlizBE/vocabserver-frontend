@@ -10,6 +10,5 @@ export default class VocabulariesNewRoute extends Route {
 
   resetController(controller) {
     this.controller.reset();
-
   }
 }
