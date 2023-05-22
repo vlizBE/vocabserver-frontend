@@ -69,7 +69,9 @@ export default class VocabulariesNewController extends Controller {
       type: this.downloadType,
     });
     yield dataset.save();
-    yield this.createAndRunDownloadJob.perform(dataset);
+    if (this.downloadFormat?.value === TYPE_FILE_DUMP) {
+      yield this.createAndRunDownloadJob.perform(dataset);
+    }
     yield this.router.transitionTo('vocabulary', vocabularyMeta.id);
   }
 }
