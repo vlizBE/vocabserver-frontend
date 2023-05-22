@@ -33,12 +33,14 @@
         <DatasetStatus @jobType='vocab-download-job' @dataset={{dataset}} />
       </td>
       <td>
+        {{#if (eq dataset.type.id (app-constant 'DATASET_TYPES.FILE_DUMP'))}}
         <BsButton
-          @type="info"
-          @onClick={{perform this.createAndRunDownloadJob dataset}}
-        >
-          <BsIcon @name="download" />
+            @type="info"
+            @onClick={{perform this.createAndRunDownloadJob dataset}}
+          >
+            <BsIcon @name="download" />
         </BsButton>
+        {{/if}}
         <ConfirmationButton
           @onConfirm={{fn this.deleteDataset dataset}}
                      @text='Are you sure you want to delete the source'
