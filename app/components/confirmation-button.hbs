@@ -24,7 +24,7 @@
   </BsModal>
 {{/if}}
 <BsButton
-  @type={{if @confirmBtnType @confirmBtnType 'primary'}}
+  @type={{if @type @type 'primary'}}
   @onClick={{set this 'showModal' true}}
 >
   {{yield to='buttonContent'}}
