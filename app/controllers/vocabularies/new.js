@@ -69,7 +69,7 @@ export default class VocabulariesNewController extends Controller {
       type: this.downloadType,
     });
     yield dataset.save();
-    if (this.downloadFormat?.value === config.DATASET_TYPES.FILE_DUMP) {
+    if (this.downloadType?.uri === config.DATASET_TYPES.FILE_DUMP) {
       yield this.createAndRunDownloadJob.perform(dataset);
     }
     yield this.router.transitionTo('vocabulary', vocabularyMeta.id);
