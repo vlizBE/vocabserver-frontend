@@ -33,7 +33,7 @@
         <DatasetStatus @jobType='vocab-download-job' @dataset={{dataset}} />
       </td>
       <td>
-        {{#if (eq dataset.type.id (app-constant 'DATASET_TYPES.FILE_DUMP'))}}
+        {{#if (fn this.isDump dataset)}}
         <BsButton
             @type="info"
             @onClick={{perform this.createAndRunDownloadJob dataset}}

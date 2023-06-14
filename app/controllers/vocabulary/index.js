@@ -20,6 +20,11 @@ export default class VocabularyIndexController extends Controller {
   }
 
   @action
+  isDump(dataset) {
+    return dataset.datasetType.value?.uri === config.DATASET_TYPES.FILE_DUMP;
+  }
+
+  @action
   async deleteDataset(dataset) {
     await dataset.destroyRecord();
   }
