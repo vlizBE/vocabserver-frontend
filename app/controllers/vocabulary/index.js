@@ -22,6 +22,7 @@ export default class VocabularyIndexController extends Controller {
   @action
   async deleteDataset(dataset) {
     await dataset.destroyRecord();
+    this.router.refresh();
   }
 
   @task
