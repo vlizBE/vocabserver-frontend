@@ -1,5 +1,6 @@
 {{page-title "Sources"}}
 <DataTable
+  class='pt-2'
   @content={{this.model.dataset}}
   @page={{this.page}}
   @size={{this.size}}
@@ -43,12 +44,16 @@
         {{/if}}
         <ConfirmationButton
           @onConfirm={{fn this.deleteDataset dataset}}
-                     @text='Are you sure you want to delete the source'
           @confirmBtnTxt='Delete'
           @confirmBtnType='danger'
           @type="danger"
         >
-          <BsIcon @name="trash-fill" />
+          <:message>
+            <p>Are you sure you want to delete <strong>{{dataset.downloadPage}}</strong>?</p>
+          </:message>
+          <:buttonContent>
+            <BsIcon @name='trash-fill' />
+          </:buttonContent>
         </ConfirmationButton>
       </td>
     </Content.body>

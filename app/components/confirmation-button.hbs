@@ -4,7 +4,7 @@
     @onHidden={{set this 'showModal' false}}
     as |modal|
   >
-    <modal.header>{{@text}}</modal.header>
+    <modal.header>{{yield to='message'}}</modal.header>
     <modal.footer>
       <BsButton 
         @onClick={{modal.close}}
@@ -24,7 +24,8 @@
   </BsModal>
 {{/if}}
 <BsButton
-  @type={{if @confirmBtnType @confirmBtnType 'primary'}}
-  @onClick={{set this 'showModal' true}}>
-  {{yield}}
+  @type={{if @type @type 'primary'}}
+  @onClick={{set this 'showModal' true}}
+>
+  {{yield to='buttonContent'}}
 </BsButton>
