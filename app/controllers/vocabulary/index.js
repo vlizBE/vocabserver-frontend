@@ -20,6 +20,11 @@ export default class VocabularyIndexController extends Controller {
   }
 
   @action
+  isDump(dataset) {
+    return dataset.datasetType.value?.uri === config.DATASET_TYPES.FILE_DUMP;
+  }
+
+  @action
   async deleteDataset(dataset) {
     await dataset.destroyRecord();
   }
@@ -50,8 +55,8 @@ export default class VocabularyIndexController extends Controller {
       type: downloadType,
     });
     yield dataset.save();
-    if (downloadFormat.value === config.DATASET_TYPES.FILE_DUMP) {
-      yield this.createAndRunDownloadJob(dataset);
+    if (downloadType?.uri === config.DATASET_TYPES.FILE_DUMP) {
+      yield this.createAndRunDownloadJob.perform(dataset);
     }
     yield this.switchShowAddSource();
     this.router.refresh();
