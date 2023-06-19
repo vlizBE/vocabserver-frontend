@@ -15,7 +15,7 @@ export default class SearchRoute extends Route {
     const sort = null; // By relevance
     this.q = params.q;
     const filter = {
-      _all: params.q,
+      ':sqs:*': params.q,
     };
     return search('concepts', page, size, sort, filter, (searchData) => {
       const entry = searchData.attributes;
