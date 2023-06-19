@@ -8,7 +8,7 @@ export default class VocabulariesNewRoute extends Route {
     return this.store.findAll('dataset-type');
   }
 
-  resetController(controller) {
-    this.controller.reset();
+  resetController(controller) {// eslint-disable-line
+    this.controller.reset();// eslint-disable-line
   }
 }
