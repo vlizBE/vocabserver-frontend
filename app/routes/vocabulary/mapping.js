@@ -5,7 +5,7 @@ import { service } from '@ember/service';
 export default class VocabulariesShowMappingRoute extends Route {
   @service store;
 
-  async model(params) {
+  async model() {
     const id = this.modelFor('vocabulary').id;
     const ds = await this.store.query('dataset', {
       'filter[vocabulary][:id:]': id,
