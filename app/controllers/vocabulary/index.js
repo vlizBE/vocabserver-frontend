@@ -3,6 +3,7 @@ import { action } from '@ember/object';
 import { tracked } from '@glimmer/tracking';
 import { task } from 'ember-concurrency';
 import { inject as service } from '@ember/service';
+import config from 'frontend-vocab-search-admin/config/constants';
 
 export default class VocabularyIndexController extends Controller {
   @service store;
@@ -16,6 +17,11 @@ export default class VocabularyIndexController extends Controller {
   @action
   async switchShowAddSource() {
     this.showAddSource = !this.showAddSource;
+  }
+
+  @action
+  isDump(dataset) {
+    return dataset.datasetType.value?.uri === config.DATASET_TYPES.FILE_DUMP;
   }
 
   @action
@@ -49,6 +55,9 @@ export default class VocabularyIndexController extends Controller {
       type: downloadType,
     });
     yield dataset.save();
+    if (downloadType?.uri === config.DATASET_TYPES.FILE_DUMP) {
+      yield this.createAndRunDownloadJob.perform(dataset);
+    }
     yield this.switchShowAddSource();
     this.router.refresh();
   }

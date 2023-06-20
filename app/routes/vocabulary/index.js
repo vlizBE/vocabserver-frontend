@@ -20,6 +20,7 @@ export default class VocabulariesShowIndexRoute extends Route {
     };
     let vocabularyId = this.modelFor('vocabulary').id;
     options.filter = { vocabulary: { ':id:': vocabularyId } };
+    options.include = 'type';
     return {
       dataset: this.store.query('dataset', options),
       vocabulary_id: vocabularyId,

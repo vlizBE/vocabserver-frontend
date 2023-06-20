@@ -20,22 +20,25 @@
       <th>Actions</th>
     </Content.header>
     <Content.body as |vocab|>
-        <td>
-          <LinkTo
-            @route='vocabulary'
-            @model={{vocab.id}}
-          >{{vocab.name}}</LinkTo>
-        </td>
-        <td>
-          <ConfirmationButton
-            @onConfirm={{fn this.deleteVocab vocab}}
-            @text='Are you sure you want to delete the vocabulary?'
-            @confirmBtnTxt='Delete'
-            @confirmBtnType='danger'
-          >
-            <BsIcon @name="trash-fill" />
-          </ConfirmationButton>
-        </td>
+      <td>
+        <LinkTo @route='vocabulary' @model={{vocab.id}}>{{vocab.name}}</LinkTo>
+      </td>
+      <td>
+        <ConfirmationButton
+          @onConfirm={{fn this.deleteVocab vocab}}
+          @confirmBtnTxt='Delete'
+          @confirmBtnType='danger'
+          @type='danger'
+        >
+          <:message>
+            <p>Are you sure you want to delete vocabulary
+              <strong>{{vocab.name}}</strong>?</p>
+          </:message>
+          <:buttonContent>
+            <BsIcon @name='trash-fill' />
+          </:buttonContent>
+        </ConfirmationButton>
+      </td>
     </Content.body>
   </Table.content>
 </DataTable>

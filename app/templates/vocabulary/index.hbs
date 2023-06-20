@@ -1,5 +1,6 @@
 {{page-title "Sources"}}
 <DataTable
+  class='pt-2'
   @content={{this.model.dataset}}
   @page={{this.page}}
   @size={{this.size}}
@@ -30,23 +31,29 @@
       </td>
       <td>{{dataset.type.prefLabel}}</td>
       <td>
-        <DatasetStatus @dataset={{dataset}} />
+        <DatasetStatus @jobType='vocab-download-job' @dataset={{dataset}} />
       </td>
       <td>
+        {{#if (fn this.isDump dataset)}}
         <BsButton
-          @type="info"
-          @onClick={{perform this.createAndRunDownloadJob dataset}}
-        >
-          <BsIcon @name="download" />
+            @type="info"
+            @onClick={{perform this.createAndRunDownloadJob dataset}}
+          >
+            <BsIcon @name="download" />
         </BsButton>
+        {{/if}}
         <ConfirmationButton
           @onConfirm={{fn this.deleteDataset dataset}}
-                     @text='Are you sure you want to delete the source'
           @confirmBtnTxt='Delete'
           @confirmBtnType='danger'
           @type="danger"
         >
-          <BsIcon @name="trash-fill" />
+          <:message>
+            <p>Are you sure you want to delete <strong>{{dataset.downloadPage}}</strong>?</p>
+          </:message>
+          <:buttonContent>
+            <BsIcon @name='trash-fill' />
+          </:buttonContent>
         </ConfirmationButton>
       </td>
     </Content.body>

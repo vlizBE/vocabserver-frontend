@@ -2,7 +2,7 @@ import Component from '@glimmer/component';
 import { service } from '@ember/service';
 import { trackedFunction } from 'ember-resources/util/function';
 
-const TYPE_FILE_DUMP = 'http://vocabsearch.data.gift/dataset-types/FileDump';
+import config from 'frontend-vocab-search-admin/config/constants';
 
 export default class DatasetStatusComponent extends Component {
   @service store;
@@ -12,7 +12,7 @@ export default class DatasetStatusComponent extends Component {
   }
 
   get isDump() {
-    return this.datasetType.value?.uri === TYPE_FILE_DUMP;
+    return this.datasetType.value?.uri === config.DATASET_TYPES.FILE_DUMP;
   }
 
   datasetType = trackedFunction(this, async () => {
@@ -28,8 +28,7 @@ export default class DatasetStatusComponent extends Component {
         sort: '-created',
         'page[size]': 1,
       });
-      console.log(jobs.length);
-      if (jobs.length == 1) return jobs.firstObject;
+      if (jobs.length === 1) return jobs.firstObject;
     }
   });
 }
