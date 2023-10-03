@@ -10,13 +10,6 @@ export default class VocabulariesIndexController extends Controller {
 
   @action
   async deleteVocab(vocabulary) {
-    const datasets = await vocabulary.sourceDatasets;
-    const promises = datasets.map((d) => d.destroyRecord());
-    const shape = await vocabulary.mappingShape;
-    await Promise.all([
-      ...promises,
-      shape?.destroyRecord(),
-      vocabulary.destroyRecord(),
-    ]);
+    vocabulary.destroyRecord();
   }
 }
