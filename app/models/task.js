@@ -1,37 +1,21 @@
 import Model, { attr, belongsTo, hasMany } from '@ember-data/model';
 
-export default class Job extends Model {
-  RUNNING = 'http://redpencil.data.gift/id/concept/JobStatus/busy';
-  SUCCESS = 'http://redpencil.data.gift/id/concept/JobStatus/success';
-  FAILED = 'http://redpencil.data.gift/id/concept/JobStatus/failed';
-
+export default class TaskModel extends Model {
   @attr('string') uri;
   @attr('string') status;
-  @attr('datetime') created;
-  @attr('string') creator;
-  @attr('datetime') modified;
+  @attr('date') created;
+  @attr('date') modified;
   @attr('string') operation;
-
-  @attr('string') sources;
-
-  @attr('string') results;
-
-  @attr('string') status;
+  @attr('string') index;
 
   // @belongsTo('job-error', { async: true, inverse: null }) error;
-  @hasMany('task', { async: true, inverse: 'job' }) tasks;
+  @belongsTo('job', { async: true, inverse: 'tasks' }) job;
 
-  get hasEnded() {
-    return this.status === this.SUCCESS || this.status === this.FAILED;
-  }
+  // @hasMany('task', { async: true, inverse: null }) parentTasks;
 
-  get succeeded() {
-    return this.status === this.SUCCESS;
-  }
-
-  get failed() {
-    return this.status === this.FAILED;
-  }
+  //Due to lack of inheritance in mu-cl-resource, we directly link to file and collection, stuff we need here.
+  @hasMany('data-container', { async: true, inverse: null }) resultsContainers;
+  @hasMany('data-container', { async: true, inverse: null }) inputContainers;
 
   //TODO: move this later to a propery modeled skos:Conceptscheme from backend
   statusesMap = {

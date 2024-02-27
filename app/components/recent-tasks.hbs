@@ -6,13 +6,13 @@
     </tr>
   </thead>
   <tbody {{did-update (perform this.loadData)  this.job.monitorProgress.performCount}}>
-    {{#each this.jobs as |job|}}
+    {{#each this.tasks as |task|}}
       <tr>
         <td>
-          {{format-date job.created "dd/MM/yyyy 'at' HH:mm"}}
+          {{format-date task.created "dd/MM/yyyy 'at' HH:mm"}}
         </td>
         <td>
-          <JobStatus @job={{job}}/>
+          <TaskStatus @task={{task}}/>
         </td>
       </tr>
     {{/each}}

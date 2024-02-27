@@ -7,7 +7,7 @@ import { tracked } from '@glimmer/tracking';
 
 export default class VocabularyMappingAndUnificationController extends Controller {
   @service store;
-  @service job;
+  @service task;
 
   @tracked vocabulary;
 
@@ -39,16 +39,16 @@ export default class VocabularyMappingAndUnificationController extends Controlle
 
   @task
   *createAndRunDownloadJob() {
-    const runningJobs = [];
+    const runningTasks = [];
     for (const dataset of this.model.datasets.toArray()) {
       const record = this.store.createRecord('vocab-download-job', {
         created: new Date(),
         sources: dataset.get('uri'),
       });
       yield record.save();
-      runningJobs.push(this.job.monitorProgress.perform(record));
+      runningTasks.push(this.task.monitorProgress.perform(record));
     }
-    yield Promise.all(runningJobs);
+    yield Promise.all(runningTasks);
     this.send('reloadModel');
   }
 
