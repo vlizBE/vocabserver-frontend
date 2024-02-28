@@ -3,6 +3,8 @@ import Model, { attr, belongsTo, hasMany } from '@ember-data/model';
 export default class Dataset extends Model {
   @attr uri;
 
+  @attr alias;
+
   @attr title;
   @attr downloadPage;
   @attr modified;
