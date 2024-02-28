@@ -54,7 +54,7 @@
         &lt;h1&gt;Search&lt;/h1&gt;
         &lt;vocab-search-bar{{#if this.query}}
           query="{{this.query}}"{{/if}}{{#if this.selectedVocabs.length}}
-          source-datasets="{{map-by "uri" (flatten (map-by "sourceDatasets" this.selectedVocabs))}}"{{/if}}{{#if this.searchEndpoint}}
+          source-datasets="{{this.aliasesOrUris (flatten (map-by "sourceDatasets" this.selectedVocabs))}}"{{/if}}{{#if this.searchEndpoint}}
           search-endpoint="{{this.searchEndpoint}}"{{/if}}{{#if
           this.selectedLanguages
         }}
