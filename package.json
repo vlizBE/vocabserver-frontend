@@ -87,6 +87,7 @@
     "date-fns": "^2.29.3",
     "ember-cli-dependency-lint": "^2.0.1",
     "ember-resources": "^5.6.3",
-    "ember-unused-components": "^1.2.0"
+    "ember-unused-components": "^1.2.0",
+    "vocab-search-search-bar": "github:x-m-el/vocabserver-webcomponent#upgrade-webcomponent-multiselect"
   }
 }
