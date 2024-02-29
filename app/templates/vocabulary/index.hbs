@@ -24,7 +24,6 @@
       <ThSortable @field="type.pref-label" @currentSorting={{this.sort}} @label="Type" />
       <th>Last Update</th>
       <th>Actions</th>
-      <th>Alias</th>
     </Content.header>
     <Content.body as |dataset|>
       <td>
@@ -56,39 +55,6 @@
             <BsIcon @name='trash-fill' />
           </:buttonContent>
         </ConfirmationButton>
-      </td>
-      <td>
-        {{#if (eq this.editableDataset.uri dataset.uri)}}
-          <div>
-            <BsForm::Element::Control::Input 
-              @value={{this.newAlias}}
-              @onChange={{this.setNewAlias}}
-            />
-            <BsButton
-                @type="info"
-                @onClick={{this.saveDatasetAlias}}
-            >
-              <BsIcon @name="spellcheck" />
-            </BsButton>
-            <BsButton
-                @type="danger"
-                @onClick={{this.stopEditingDataset}}
-            >
-              <BsIcon @name="x-square" />
-            </BsButton>
-          </div>
-          {{#if this.error}}
-            <span class="text-danger">{{this.error}}</span>
-          {{/if}}
-        {{else}}
-          {{or (this.aliasString dataset.alias) "*no alias*"}}
-          <BsButton
-              @type="info"
-              @onClick={{fn this.setDatasetEdit dataset}}
-            >
-              <BsIcon @name="pencil-square" />
-          </BsButton>
-        {{/if}}
       </td>
     </Content.body>
   </Table.content>
