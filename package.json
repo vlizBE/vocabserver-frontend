@@ -49,6 +49,7 @@
     "ember-data": "4.11.3",
     "ember-data-table": "^2.1.0",
     "ember-fetch": "^8.1.2",
+    "ember-functions-as-helper-polyfill": "^2.1.2",
     "ember-load-initializers": "^2.1.2",
     "ember-mu-transform-helpers": "^2.1.2",
     "ember-page-title": "^7.0.0",
@@ -86,6 +87,7 @@
     "date-fns": "^2.29.3",
     "ember-cli-dependency-lint": "^2.0.1",
     "ember-resources": "^5.6.3",
-    "ember-unused-components": "^1.2.0"
+    "ember-unused-components": "^1.2.0",
+    "vocab-search-search-bar": "github:x-m-el/vocabserver-webcomponent#upgrade-webcomponent-multiselect"
   }
 }

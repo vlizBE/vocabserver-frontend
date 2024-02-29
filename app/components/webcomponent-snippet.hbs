@@ -54,13 +54,21 @@
         &lt;h1&gt;Search&lt;/h1&gt;
         &lt;vocab-search-bar{{#if this.query}}
           query="{{this.query}}"{{/if}}{{#if this.selectedVocabs.length}}
-          source-datasets="{{map-by "uri" (flatten (map-by "sourceDatasets" this.selectedVocabs))}}"{{/if}}{{#if this.searchEndpoint}}
+          source-datasets="{{this.aliasesOrUris (flatten (map-by "sourceDatasets" this.selectedVocabs))}}"{{/if}}{{#if this.searchEndpoint}}
           search-endpoint="{{this.searchEndpoint}}"{{/if}}{{#if
           this.selectedLanguages
         }}
-          languages-string="{{this.selectedLanguageString}}"{{/if}}&gt; 
+          languages-string="{{this.selectedLanguageString}}"{{/if}}&gt;
         &lt;/vocab-search-bar&gt;
-      &lt;/body&gt; 
+      &lt;/body&gt;
     &lt;/html&gt;
     </code></pre>
+  <h1>Searchbar preview</h1>
+  <vocab-search-bar
+  query="{{this.query}}"
+  source-datasets="{{this.aliasesOrUris (flatten (map-by "sourceDatasets" this.selectedVocabs))}}"
+  search-endpoint="{{this.searchEndpoint}}"
+  languages-string="{{this.selectedLanguageString}}"
+  >
+  </vocab-search-bar>
 </div>
