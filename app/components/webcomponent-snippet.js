@@ -28,10 +28,8 @@ export default class WebcomponentSnippetComponent extends Component {
     this.selectedLanguages = [];
     this.initData();
   }
-
-  // use the alias of a dataset, or uri if no alias is set
-  aliasesOrUris = (datasets) =>
-    datasets.map((dataset) => dataset.alias || dataset.uri);
+  // use the alias of a vocab, or uri if no alias is set
+  aliasesOrUris = (vocabs) => vocabs?.map((vocab) => vocab.alias || vocab.uri);
 
   async initData() {
     this.vocabularies = await this.store.findAll('vocabulary');

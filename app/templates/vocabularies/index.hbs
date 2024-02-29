@@ -18,6 +18,7 @@
     <Content.header>
       <ThSortable @field="name" @currentSorting={{this.sort}} @label="Name" />
       <th>Actions</th>
+      <th>Alias</th>
     </Content.header>
     <Content.body as |vocab|>
       <td>
@@ -40,6 +41,9 @@
             <BsIcon @name='trash-fill' />
           </:buttonContent>
         </ConfirmationButton>
+      </td>
+      <td>
+        <VocabAlias @vocab={{vocab}}/>
       </td>
     </Content.body>
   </Table.content>

@@ -28,7 +28,7 @@
     </form.element>
     <form.element
       @controlType='power-select-multiple'
-      @label='Search Datasets'
+      @label='Search vocabularies'
       @property='selectedVocabs'
       @options={{this.vocabularies}}
       @optionLabelPath='name'
@@ -54,7 +54,7 @@
         &lt;h1&gt;Search&lt;/h1&gt;
         &lt;vocab-search-bar{{#if this.query}}
           query="{{this.query}}"{{/if}}{{#if this.selectedVocabs.length}}
-          source-datasets="{{this.aliasesOrUris (flatten (map-by "sourceDatasets" this.selectedVocabs))}}"{{/if}}{{#if this.searchEndpoint}}
+          source-datasets="{{this.aliasesOrUris this.selectedVocabs}}"{{/if}}{{#if this.searchEndpoint}}
           search-endpoint="{{this.searchEndpoint}}"{{/if}}{{#if
           this.selectedLanguages
         }}
@@ -66,7 +66,7 @@
   <h1>Searchbar preview</h1>
   <vocab-search-bar
   query="{{this.query}}"
-  source-datasets="{{this.aliasesOrUris (flatten (map-by "sourceDatasets" this.selectedVocabs))}}"
+  source-datasets="{{this.aliasesOrUris this.selectedVocabs}}"
   search-endpoint="{{this.searchEndpoint}}"
   languages-string="{{this.selectedLanguageString}}"
   >
