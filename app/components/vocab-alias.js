@@ -17,6 +17,15 @@ export default class VocabAliasComponent extends Component {
       : aliasUri;
   }
 
+  isValidUrl(string) {
+    try {
+      new URL(string);
+      return true;
+    } catch (err) {
+      return false;
+    }
+  }
+
   aliasUri = (aliasString) =>
     aliasString === '' ? '' : `${config.VOCABULARY_ALIAS_BASE}${aliasString}`;
 
@@ -33,15 +42,24 @@ export default class VocabAliasComponent extends Component {
     this.error = null;
   }
 
+  isValidAlias(alias) {
+    return !alias.includes(' ') && !alias.includes(',');
+  }
+
   @action
   async saveVocabAlias() {
+    this.newAlias = this.newAlias.trim();
+    if (!this.isValidAlias(this.newAlias)) {
+      this.error = `This alias is not a valid alias to use.`;
+      return;
+    }
     const newAliasUri = this.aliasUri(this.newAlias);
 
     if (this.newAlias) {
       // check if the URI does not already exist
       // this makes the assumption only vocab aliases might have this URI base
       const vocabWithSimilarUri = await this.store.query('vocabulary', {
-        'filter[alias]': newAliasUri,
+        'filter[:exact:alias]': newAliasUri,
       });
       if (vocabWithSimilarUri.length !== 0) {
         const vocab = vocabWithSimilarUri[0];
