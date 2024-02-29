@@ -2,11 +2,11 @@
   {{did-update (perform this.monitorTaskProgress @task) @task}}
   {{did-insert (perform this.monitorTaskProgress @task)}}
 >
-  {{#if @task.succeeded}}
+  {{#if (eq @task.shortStatus "success")}}
     ✅
-  {{else if @task.failed}}
+  {{else if (eq @task.shortStatus "failed")}}
     🟥
-  {{else}}
+  {{else if (eq @task.shortStatus "busy")}}
     ⏳
   {{/if}}
 </span>

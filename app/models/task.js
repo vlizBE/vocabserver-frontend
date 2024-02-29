@@ -29,4 +29,12 @@ export default class TaskModel extends Model {
   get shortStatus() {
     return this.statusesMap[this.status];
   }
+
+  get hasEnded() {
+    return [
+      'http://redpencil.data.gift/id/concept/JobStatus/success',
+      'http://redpencil.data.gift/id/concept/JobStatus/failed',
+      'http://redpencil.data.gift/id/concept/JobStatus/canceled',
+    ].includes(this.status);
+  }
 }
