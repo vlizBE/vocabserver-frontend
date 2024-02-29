@@ -17,11 +17,12 @@ export default class VocabulariesRoute extends Route {
       // We sort by descending number of class entities and consider the dataset
       // with the largest number of entities as the "primary" one.
       const lastUnification = (
-        await this.store.query('content-unification-job', {
-          'filter[sources]': vocabulary.uri,
-          'filter[status]': 'http://vocab.deri.ie/cogs#Success',
-          'page[size]': 1,
+        await this.store.query('task', {
+          'filter[input-containers][content]': vocabulary.uri,
           sort: '-created',
+          'filter[status]': 'http://redpencil.data.gift/id/concept/JobStatus/success',
+          'filter[operation]': 'http://mu.semte.ch/vocabularies/ext/ContentUnificationJob',
+          'page[size]': 1,
         })
       ).firstObject;
       return {

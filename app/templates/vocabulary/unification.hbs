@@ -20,9 +20,9 @@
     <BsButton
       @onClick={{perform this.createAndRunUnifyVocabJob}}
     >Run unification</BsButton>
-    <RecentJobs
-      @jobType='content-unification-job'
+    <RecentTasks
       @source={{this.model.vocabulary}}
+      @operation="http://mu.semte.ch/vocabularies/ext/ContentUnificationJob"
     />
   </acc.item>
 </BsAccordion>
