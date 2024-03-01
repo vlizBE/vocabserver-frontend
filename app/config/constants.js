@@ -11,5 +11,6 @@ export default {
   DATASET_TYPES: {
     FILE_DUMP: 'http://vocabsearch.data.gift/dataset-types/FileDump',
     LDES: 'http://vocabsearch.data.gift/dataset-types/LDES'
-  }
+  },
+  VOCABULARY_ALIAS_BASE: 'https://my-application.com/vocabulary-alias/'
 };

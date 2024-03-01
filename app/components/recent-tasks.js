@@ -3,11 +3,11 @@ import { service } from '@ember/service';
 import { task } from 'ember-concurrency';
 import { tracked } from '@glimmer/tracking';
 
-export default class RecentJobsComponent extends Component {
+export default class RecentTasksComponent extends Component {
   @service store;
-  @service job;
+  @service task;
 
-  @tracked jobs;
+  @tracked tasks;
 
   constructor() {
     super(...arguments);
@@ -16,9 +16,10 @@ export default class RecentJobsComponent extends Component {
 
   @task
   *loadData() {
-    this.jobs = yield this.store.query(this.args.jobType || 'job', {
-      'filter[sources]': this.args.source.uri,
+    this.tasks = yield this.store.query('task', {
+      'filter[input-containers][content]': this.args.source.uri,
       sort: '-created',
+      'filter[operation]': this.args.operation,
       'page[size]': 3,
     });
   }

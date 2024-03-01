@@ -1,5 +1,5 @@
-{{#if this.job}}
-  {{format-date this.job.created "dd/MM/yyyy 'at' HH:mm"}} - <JobStatus @job={{this.job}} />
+{{#if this.task}}
+  {{format-date this.task.created "dd/MM/yyyy 'at' HH:mm"}} - <TaskStatus @task={{this.task}} />
 {{else}}
   {{#if this.isDump}}
     please init download
