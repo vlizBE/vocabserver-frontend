@@ -20,8 +20,10 @@ export default class VocabulariesRoute extends Route {
         await this.store.query('task', {
           'filter[input-containers][content]': vocabulary.uri,
           sort: '-created',
-          'filter[status]': 'http://redpencil.data.gift/id/concept/JobStatus/success',
-          'filter[operation]': 'http://mu.semte.ch/vocabularies/ext/ContentUnificationJob',
+          'filter[status]':
+            'http://redpencil.data.gift/id/concept/JobStatus/success',
+          'filter[operation]':
+            'http://mu.semte.ch/vocabularies/ext/ContentUnificationJob',
           'page[size]': 1,
         })
       ).firstObject;

@@ -1,4 +1,4 @@
-import Model, { attr, belongsTo, hasMany } from '@ember-data/model';
+import Model, { attr, hasMany } from '@ember-data/model';
 
 export default class Job extends Model {
   RUNNING = 'http://redpencil.data.gift/id/concept/JobStatus/busy';

@@ -1,4 +1,4 @@
-import Model, { hasMany, attr } from '@ember-data/model';
+import Model, { attr } from '@ember-data/model';
 
 export default class DataContainerModel extends Model {
   @attr('string') uri;
