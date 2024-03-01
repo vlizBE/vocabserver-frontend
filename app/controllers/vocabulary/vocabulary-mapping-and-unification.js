@@ -30,13 +30,6 @@ export default class VocabularyMappingAndUnificationController extends Controlle
     return this.model.vocabulary.belongsTo('mappingShape').value();
   }
 
-  @action
-  async unifyVocab(id) {
-    await fetch(`/content-unification-jobs/${id}/run`, {
-      method: 'POST',
-    });
-  }
-
   @task
   *createAndRunDownloadJob() {
     const runningTasks = [];
@@ -70,6 +63,7 @@ export default class VocabularyMappingAndUnificationController extends Controlle
     nodeShape.vocabulary = this.model.dataset.get('vocabulary');
     await nodeShape.save();
     await Promise.all(nodeShape.propertyShapes.map((x) => x.save()));
+    await this.createAndRunUnifyVocabJob.perform();
     this.send('reloadModel');
   }
 
