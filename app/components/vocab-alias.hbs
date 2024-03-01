@@ -1,0 +1,31 @@
+{{#if this.editableVocab}}
+  <div>
+    <BsForm::Element::Control::Input 
+      @value={{this.newAlias}}
+      @onChange={{this.setNewAlias}}
+    />
+    <BsButton
+        @type="info"
+        @onClick={{this.saveVocabAlias}}
+    >
+      <BsIcon @name="spellcheck" />
+    </BsButton>
+    <BsButton
+        @type="danger"
+        @onClick={{this.stopEditingVocab}}
+    >
+      <BsIcon @name="x-square" />
+    </BsButton>
+  </div>
+  {{#if this.error}}
+    <span class="text-danger">{{this.error}}</span>
+  {{/if}}
+{{else}}
+  {{or (this.aliasString @vocab.alias) "*no alias*"}}
+  <BsButton
+      @type="info"
+      @onClick={{fn this.setVocabEdit @vocab}}
+    >
+      <BsIcon @name="pencil-square" />
+  </BsButton>
+{{/if}}

@@ -13,18 +13,6 @@ export default class VocabularyIndexController extends Controller {
   @tracked size = 20;
   @tracked ldesDereference = false;
   @tracked ldesMaxRequests = 120;
-  @tracked editableDataset = null;
-  @tracked newAlias = null;
-  @tracked error = null;
-
-  aliasString(aliasUri) {
-    return aliasUri && aliasUri.startsWith(config.DATASET_ALIAS_BASE)
-      ? aliasUri.replace(config.DATASET_ALIAS_BASE, '')
-      : aliasUri;
-  }
-
-  aliasUri = (aliasString) =>
-    aliasString === '' ? '' : `${config.DATASET_ALIAS_BASE}${aliasString}`;
 
   @action
   async switchShowAddSource() {
@@ -73,50 +61,5 @@ export default class VocabularyIndexController extends Controller {
     }
     yield this.switchShowAddSource();
     this.router.refresh();
-  }
-
-  @action
-  setDatasetEdit(dataset) {
-    this.editableDataset = dataset;
-    this.newAlias = this.aliasString(dataset.alias);
-  }
-
-  @action
-  stopEditingDataset() {
-    this.editableDataset = null;
-    this.newAlias = null;
-    this.error = null;
-  }
-
-  @action
-  async saveDatasetAlias() {
-    const newAliasUri = this.aliasUri(this.newAlias);
-
-    if (this.newAlias) {
-      // check if the URI does not already exist
-      // this makes the assumption only dataset aliases might have this URI base
-      const datasetWithSimilarUri = await this.store.query('dataset', {
-        'filter[alias]': newAliasUri,
-        include: 'vocabulary',
-      });
-      if (datasetWithSimilarUri.length !== 0) {
-        const dataset = datasetWithSimilarUri[0];
-        this.error = `This alias is already used by the dataset '${
-          dataset.downloadPage
-        }' in vocabulary '${dataset.get('vocabulary.name')}'`;
-        return;
-      }
-    }
-
-    // if empty, just remove the alias
-    this.editableDataset.alias = newAliasUri === '' ? null : newAliasUri;
-    await this.editableDataset.save();
-    this.stopEditingDataset();
-  }
-
-  @action
-  setNewAlias(newVal) {
-    this.newAlias = newVal;
-    this.error = null;
   }
 }
