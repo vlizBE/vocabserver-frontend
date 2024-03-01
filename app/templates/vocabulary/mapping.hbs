@@ -14,8 +14,8 @@
         this.model.dataset
       }}
     >Analyze source</BsButton>
-    <RecentJobs
-      @jobType='metadata-extraction-job'
+    <RecentTasks
+      @operation='http://mu.semte.ch/vocabularies/ext/MetadataExtractionJob'
       @source={{this.model.dataset}}
     />
     {{#if this.hasMeta}}
