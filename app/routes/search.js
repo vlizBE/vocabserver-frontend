@@ -14,8 +14,16 @@ export default class SearchRoute extends Route {
     const size = 15;
     const sort = null; // By relevance
     this.q = params.q;
+    // this makes this query the same as the webcomponent base query
+    const qStartMatch =
+      !this.q || this.q?.trim() === ''
+        ? '*'
+        : this.q
+            .split(' ')
+            .map((word) => `(${word}*|${word})`)
+            .join(' ');
     const filter = {
-      ':sqs:*': params.q,
+      ':sqs:prefLabel.*,tagLabels': qStartMatch,
     };
     return search('concepts', page, size, sort, filter, (searchData) => {
       const entry = searchData.attributes;
