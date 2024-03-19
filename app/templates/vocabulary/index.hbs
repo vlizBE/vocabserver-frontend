@@ -31,7 +31,7 @@
       </td>
       <td>{{dataset.type.prefLabel}}</td>
       <td>
-        <DatasetStatus @jobType='vocab-download-job' @dataset={{dataset}} />
+        <DatasetStatus @dataset={{dataset}} />
       </td>
       <td>
         {{#if (fn this.isDump dataset)}}

@@ -7,8 +7,8 @@ import config from 'frontend-vocab-search-admin/config/constants';
 export default class DatasetStatusComponent extends Component {
   @service store;
 
-  get job() {
-    return this.lastJob.value;
+  get task() {
+    return this.lastTask.value;
   }
 
   get isDump() {
@@ -19,16 +19,18 @@ export default class DatasetStatusComponent extends Component {
     return await this.args.dataset?.type;
   });
 
-  lastJob = trackedFunction(this, async () => {
+  lastTask = trackedFunction(this, async () => {
     const datasetId = this.args.dataset?.id;
     if (datasetId) {
       await Promise.resolve();
-      const jobs = await this.store.query(this.args.jobType || 'job', {
-        'filter[sources]': this.args.dataset.uri,
+      const tasks = await this.store.query('task', {
+        'filter[input-containers][content]': this.args.dataset.uri,
         sort: '-created',
+        'filter[operation]':
+          'http://mu.semte.ch/vocabularies/ext/VocabDownloadJob',
         'page[size]': 1,
       });
-      if (jobs.length === 1) return jobs.firstObject;
+      if (tasks.length === 1) return tasks.firstObject;
     }
   });
 }

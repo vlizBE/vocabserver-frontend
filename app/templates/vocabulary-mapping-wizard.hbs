@@ -17,7 +17,10 @@
     <BsButton
       @onClick={{perform this.createAndRunDownloadJob this.model.dataset}}
     >Download dump</BsButton>
-    <RecentJobs @jobType='vocab-download-job' @source={{this.model.dataset}} />
+    <RecentTasks
+      @operation='http://mu.semte.ch/vocabularies/ext/VocabDownloadJob'
+      @source={{this.model.dataset}}
+    />
   </acc.item>
   <acc.item
     @value='2'
@@ -34,8 +37,8 @@
         this.model.dataset
       }}
     >Analyze source</BsButton>
-    <RecentJobs
-      @jobType='metadata-extraction-job'
+    <RecentTasks
+      @operation='http://mu.semte.ch/vocabularies/ext/MetadataExtractionJob'
       @source={{this.model.dataset}}
     />
     {{#if this.hasMeta}}
@@ -62,8 +65,8 @@
     <BsButton
       @onClick={{perform this.createAndRunUnifyVocabJob}}
     >Run unification</BsButton>
-    <RecentJobs
-      @jobType='content-unification-job'
+    <RecentTasks
+      @operation='todo'
       @source={{this.model.vocabulary}}
     />
   </acc.item>
