@@ -8,6 +8,9 @@ export default class TaskStatusComponent extends Component {
       yield timeout(1000);
       yield task.reload();
     }
+    if (this.args.onTaskFinished) {
+      this.args.onTaskFinished(task);
+    }
     return task;
   }
 }
