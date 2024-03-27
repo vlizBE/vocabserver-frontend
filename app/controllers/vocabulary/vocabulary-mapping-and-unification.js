@@ -55,12 +55,20 @@ export default class VocabularyMappingAndUnificationController extends Controlle
   @task
   *createAndRunMetadataExtractionJob() {
     for (const dataset of this.model.datasets.toArray()) {
-      const record = this.store.createRecord('metadata-extraction-job', {
-        created: new Date(),
-        sources: dataset.get('uri'),
+      const now = new Date();
+      const container = this.store.createRecord('data-container', {
+        content: [dataset.get('uri')],
       });
-      yield record.save();
-      yield this.task.monitorProgress.perform(record);
+      yield container.save();
+      const task = this.store.createRecord('task', {
+        inputContainers: [container],
+        operation: 'http://mu.semte.ch/vocabularies/ext/MetadataExtractionJob',
+        status: 'http://redpencil.data.gift/id/concept/JobStatus/scheduled',
+        index: '0',
+        created: now,
+        modified: now,
+      });
+      yield task.save();
     }
     this.send('reloadModel');
   }
