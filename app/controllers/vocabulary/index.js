@@ -24,6 +24,10 @@ export default class VocabularyIndexController extends Controller {
     return dataset.datasetType.value?.uri === config.DATASET_TYPES.FILE_DUMP;
   }
 
+  get types() {
+    return this.model.types;
+  }
+
   @action
   async deleteDataset(dataset) {
     await dataset.destroyRecord();
@@ -61,7 +65,13 @@ export default class VocabularyIndexController extends Controller {
   }
 
   @task
-  *addSource(downloadType, downloadUrl, downloadFormat) {
+  *addSource(
+    downloadType,
+    downloadUrl,
+    downloadFormat,
+    ldesDereference = false,
+    ldesMaxRequests = 120
+  ) {
     const vocabularyMeta = this.store.findRecord(
       'vocabulary',
       this.model.vocabulary_id
@@ -69,9 +79,9 @@ export default class VocabularyIndexController extends Controller {
     yield vocabularyMeta;
     const dataset = this.store.createRecord('dataset', {
       downloadPage: downloadUrl,
-      format: downloadFormat.value,
-      dereferenceMembers: this.ldesDereference,
-      maxRequests: this.ldesMaxRequests,
+      format: downloadFormat?.value,
+      dereferenceMembers: ldesDereference,
+      maxRequests: ldesMaxRequests,
       vocabulary: vocabularyMeta,
       type: downloadType,
     });

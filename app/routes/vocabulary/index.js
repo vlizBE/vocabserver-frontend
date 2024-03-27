@@ -19,11 +19,13 @@ export default class VocabulariesShowIndexRoute extends Route {
       },
     };
     let vocabularyId = this.modelFor('vocabulary').id;
+    const types = await this.store.findAll('dataset-type');
     options.filter = { vocabulary: { ':id:': vocabularyId } };
     options.include = 'type';
     return {
       dataset: this.store.query('dataset', options),
       vocabulary_id: vocabularyId,
+      types: types,
     };
   }
 }
