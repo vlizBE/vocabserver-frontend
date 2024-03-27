@@ -24,7 +24,10 @@ export default class DownloadVocabs extends Component {
 
   @dropTask
   *setAllAsSelection() {
-    const vocabs = yield this.store.query('vocabulary', { page: 0, size: 999 });
+    const vocabs = yield this.store.query('vocabulary', {
+      'page[number]': 0,
+      'page[size]': 999,
+    });
     this.selection = vocabs;
   }
 
