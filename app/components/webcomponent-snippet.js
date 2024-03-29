@@ -32,7 +32,10 @@ export default class WebcomponentSnippetComponent extends Component {
   aliasesOrUris = (vocabs) => vocabs?.map((vocab) => vocab.alias || vocab.uri);
 
   async initData() {
-    this.vocabularies = await this.store.findAll('vocabulary');
+    this.vocabularies = await this.store.query('vocabulary', {
+      'page[number]': 0,
+      'page[size]': 999,
+    });
   }
 
   get scriptSrc() {
