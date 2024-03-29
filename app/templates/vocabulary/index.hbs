@@ -60,5 +60,5 @@
   </Table.content>
 </DataTable>
 {{#if this.showAddSource}}
-  <AddSource @onSubmit={{perform this.addSource}} @onClose={{this.switchShowAddSource}}/>
+  <AddSource @onSubmit={{perform this.addSource}} @onClose={{this.switchShowAddSource}} @types={{this.types}}/>
 {{/if}}

@@ -3,19 +3,13 @@ import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
 import { inject as service } from '@ember/service';
 import config from 'frontend-vocab-search-admin/config/constants';
-
+import aliasString from '../helpers/alias-string';
 export default class VocabAliasComponent extends Component {
   @service store;
 
   @tracked editableVocab = null;
   @tracked newAlias = null;
   @tracked error = null;
-
-  aliasString(aliasUri) {
-    return aliasUri && aliasUri.startsWith(config.VOCABULARY_ALIAS_BASE)
-      ? aliasUri.replace(config.VOCABULARY_ALIAS_BASE, '')
-      : aliasUri;
-  }
 
   isValidUrl(string) {
     try {
@@ -32,7 +26,7 @@ export default class VocabAliasComponent extends Component {
   @action
   setVocabEdit(vocab) {
     this.editableVocab = vocab;
-    this.newAlias = this.aliasString(vocab.alias);
+    this.newAlias = aliasString(vocab.alias);
   }
 
   @action

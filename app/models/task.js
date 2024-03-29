@@ -37,4 +37,10 @@ export default class TaskModel extends Model {
       'http://redpencil.data.gift/id/concept/JobStatus/canceled',
     ].includes(this.status);
   }
+
+  get isSuccessful() {
+    return (
+      this.status === 'http://redpencil.data.gift/id/concept/JobStatus/success'
+    );
+  }
 }

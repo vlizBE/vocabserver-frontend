@@ -8,5 +8,7 @@
     🟥
   {{else if (eq @task.shortStatus "busy")}}
     ⏳
+  {{else if (eq @task.shortStatus "scheduled")}}  
+    🕕
   {{/if}}
 </span>

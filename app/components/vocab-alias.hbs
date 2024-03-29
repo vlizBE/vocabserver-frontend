@@ -21,7 +21,7 @@
     <span class="text-danger">{{this.error}}</span>
   {{/if}}
 {{else}}
-  {{or (this.aliasString @vocab.alias) "*no alias*"}}
+  {{or (alias-string @vocab.alias) "*no alias*"}}
   <BsButton
       @type="info"
       @onClick={{fn this.setVocabEdit @vocab}}
