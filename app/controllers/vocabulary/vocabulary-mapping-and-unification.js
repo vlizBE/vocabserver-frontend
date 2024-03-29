@@ -78,6 +78,7 @@ export default class VocabularyMappingAndUnificationController extends Controlle
     nodeShape.vocabulary = this.model.dataset.get('vocabulary');
     await nodeShape.save();
     await Promise.all(nodeShape.propertyShapes.map((x) => x.save()));
+    await this.createAndRunUnifyVocabJob.perform();
     this.send('reloadModel');
   }
 
