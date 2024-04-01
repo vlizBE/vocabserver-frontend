@@ -23,7 +23,7 @@
     <tbody>
       {{#each this.model as |term|}}
         <tr>
-          <td><a href={{term.uri}}>{{term.uri}}</a></td>
+          <td><a href={{term.datasetEntityUri}}>{{term.datasetEntityUri}}</a></td>
           <td>
             {{#each-in (from-entries (entries term.prefLabel)) as |lang val|}}
               {{lang}}: {{val}}
