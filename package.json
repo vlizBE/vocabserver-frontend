@@ -90,6 +90,6 @@
     "ember-cli-dependency-lint": "^2.0.1",
     "ember-resources": "^5.6.3",
     "ember-unused-components": "^1.2.0",
-    "vocab-search-search-bar": "github:x-m-el/vocabserver-webcomponent#upgrade-webcomponent-multiselect"
+    "vocab-search-search-bar": "github:x-m-el/vocabserver-webcomponent#d2b6659984cb706a51e2313ea9ae330e561dff98"
   }
 }
