@@ -16,7 +16,7 @@
   </Table.menu>
   <Table.content @class="table table-striped w-100" as |Content|>
     <Content.header>
-      <ThSortable @field="name" @currentSorting={{this.sort}} @label="Name" />
+      <ThSortable @field=":no-case:name" @currentSorting={{this.sort}} @label="Name" />
       <th>Actions</th>
       <th>Alias</th>
     </Content.header>
