@@ -24,23 +24,54 @@ export default class VocabularyIndexController extends Controller {
     return dataset.datasetType.value?.uri === config.DATASET_TYPES.FILE_DUMP;
   }
 
+  get types() {
+    return this.model.types;
+  }
+
   @action
   async deleteDataset(dataset) {
     await dataset.destroyRecord();
-  }
-
-  @task
-  *createAndRunDownloadJob(dataset) {
-    const record = this.store.createRecord('vocab-download-job', {
-      created: new Date(),
-      sources: dataset.get('uri'),
-    });
-    yield record.save();
     this.router.refresh();
   }
 
   @task
-  *addSource(downloadType, downloadUrl, downloadFormat) {
+  *createAndRunDownloadJob(dataset) {
+    const now = new Date();
+    const container = this.store.createRecord('data-container', {
+      content: [dataset.get('uri')],
+      status: 'http://redpencil.data.gift/id/concept/JobStatus/scheduled',
+    });
+    yield container.save();
+    const job = this.store.createRecord('job', {
+      created: now,
+      creator: 'empty', // needs some content for job-controller to work
+      modified: now,
+      operation:
+        'http://lblod.data.gift/id/jobs/concept/JobOperation/vocab-download',
+      status: 'http://redpencil.data.gift/id/concept/JobStatus/scheduled',
+    });
+    yield job.save();
+    const task = this.store.createRecord('task', {
+      job,
+      inputContainers: [container],
+      operation: 'http://mu.semte.ch/vocabularies/ext/VocabDownloadJob',
+      status: 'http://redpencil.data.gift/id/concept/JobStatus/scheduled',
+      index: '0',
+      created: now,
+      modified: now,
+    });
+    yield task.save();
+    this.router.refresh();
+  }
+
+  @task
+  *addSource(
+    downloadType,
+    downloadUrl,
+    downloadFormat,
+    ldesDereference = false,
+    ldesMaxRequests = 120
+  ) {
     const vocabularyMeta = this.store.findRecord(
       'vocabulary',
       this.model.vocabulary_id
@@ -48,9 +79,9 @@ export default class VocabularyIndexController extends Controller {
     yield vocabularyMeta;
     const dataset = this.store.createRecord('dataset', {
       downloadPage: downloadUrl,
-      format: downloadFormat.value,
-      dereferenceMembers: this.ldesDereference,
-      maxRequests: this.ldesMaxRequests,
+      format: downloadFormat?.value,
+      dereferenceMembers: ldesDereference,
+      maxRequests: ldesMaxRequests,
       vocabulary: vocabularyMeta,
       type: downloadType,
     });

@@ -12,23 +12,53 @@
   >
     <modal.body>
       <form.element
-        @controlType='text'
-        @label={{if this.isFileDump "Download URL" "Feed URL"}}
-                      @property='downloadUrl'
-        as |el|
-      >
-        <el.control placeholder='URL' required />
+        @controlType="power-select"
+        @label="Primary Source type"
+        @property="downloadType"
+        @options={{this.types}}
+        @optionLabelPath="prefLabel"
+        as |el| >
+        <el.control required @renderInPlace={{true}} />
       </form.element>
-      <form.element
-        @controlType='power-select'
-        @label='Preferred format'
-        @options={{this.formatOptions}}
-                      @property='downloadFormat'
-        @optionLabelPath='label'
-        as |el|
-      >
+      {{#if this.downloadType}}
+        <form.element
+          @controlType='text'
+          @label={{if this.isFileDump "Download URL" "Feed URL"}}
+          @property='downloadUrl'
+          as |el|
+        >
+          <el.control placeholder='URL' required />
+        </form.element>
+      {{/if}}
+      {{#if this.isFileDump}}
+        <form.element
+          @controlType='power-select'
+          @label='Preferred format'
+          @options={{this.formatOptions}}
+          @property='downloadFormat'
+          @optionLabelPath='label'
+          as |el|
+        >
         <el.control @renderInPlace={{true}} />
-      </form.element>
+        </form.element>
+      {{else if this.isLdes}}
+        <form.element
+          @controlType='checkbox'
+          @label='Dereference members'
+          @property='ldesDereference'
+          as |el|
+        >
+          <el.control  />
+        </form.element>
+        <form.element
+          @controlType='number'
+          @label='Max requests per minute'
+          @property='ldesMaxRequests'
+          as |el|
+        >
+          <el.control  required />
+        </form.element>
+      {{/if}}
     </modal.body>
     <modal.footer>
       <BsButton @onClick={{modal.close}}>Cancel</BsButton>

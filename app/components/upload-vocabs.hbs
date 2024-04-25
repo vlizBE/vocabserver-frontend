@@ -1,0 +1,28 @@
+{{#if this.importTask.isSuccessful}}
+  Following vocabs successfully added:
+  <ul>
+  {{#each this.newVocabs.value as |vocab| }}
+      <li><LinkTo @route="vocabulary" @model={{vocab.id}}>
+      {{#if vocab.alias}}
+      ({{alias-string vocab.alias}})
+      {{/if}} {{vocab.name}} 
+      </LinkTo></li>
+  {{/each}}
+  </ul>
+{{else if this.file}}
+  <h4> Upload file</h4>
+    {{#if this.importTask}}
+      <div>Status importing vocabs: <TaskStatus @task={{this.importTask}} /></div>
+    {{/if}}
+    <div>filename: {{this.file.name}}</div>
+    {{#if (not (or this.importTask this.importTask.hasEnded))}}
+      <BsButton {{on "click" (perform this.uploadImport)}} >Upload file and start import </BsButton>
+    {{/if}}
+{{/if}}
+<h4> Choose file to upload </h4>
+{{#let (file-queue name="import-vocabs" onFileAdded=this.setImportFile) as |queue|}}
+  <label>
+    Choose and import file for vocabs (.ttl)
+    <input type="file" {{queue.selectFile}}>
+  </label>
+{{/let}}

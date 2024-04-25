@@ -14,6 +14,7 @@ Router.map(function () {
     this.route('mapping');
     this.route('unification');
   });
+  this.route('migration');
   this.route('search');
   this.route('webcomponent-config');
   this.route('404', { path: '/*path' });

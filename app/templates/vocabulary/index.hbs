@@ -31,7 +31,7 @@
       </td>
       <td>{{dataset.type.prefLabel}}</td>
       <td>
-        <DatasetStatus @jobType='vocab-download-job' @dataset={{dataset}} />
+        <DatasetStatus @dataset={{dataset}} />
       </td>
       <td>
         {{#if (fn this.isDump dataset)}}
@@ -60,5 +60,5 @@
   </Table.content>
 </DataTable>
 {{#if this.showAddSource}}
-  <AddSource @onSubmit={{perform this.addSource}} @onClose={{this.switchShowAddSource}}/>
+  <AddSource @onSubmit={{perform this.addSource}} @onClose={{this.switchShowAddSource}} @types={{this.types}}/>
 {{/if}}

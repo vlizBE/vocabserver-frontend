@@ -2,6 +2,7 @@ import Component from '@glimmer/component';
 import { action } from '@ember/object';
 import { service } from '@ember/service';
 import { tracked } from 'tracked-built-ins';
+import { restartableTask } from 'ember-concurrency';
 
 const LABEL_PREDICATE = 'http://www.w3.org/2004/02/skos/core#prefLabel';
 const TAG_PREDICATE = 'http://vocab-server.com/tagLabel';
@@ -101,8 +102,8 @@ export default class MappingShapeCreatorComponent extends Component {
     });
   }
 
-  @action
-  async submit(params) {
+  @restartableTask
+  *submit(params) {
     this.nodeShape.targetClass = params.pivotType;
     this.labelPropertyShape.path = createPropertyPathStr(params.labelPath);
     // Remove all keyword properties before inserting the new ones
@@ -118,7 +119,7 @@ export default class MappingShapeCreatorComponent extends Component {
         nodeShape: this.nodeShape,
       });
     }
-    this.args.onSubmit(this.nodeShape);
+    yield this.args.onSubmit(this.nodeShape);
   }
 
   @action

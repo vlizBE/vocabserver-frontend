@@ -2,32 +2,46 @@ import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
 import { inject as service } from '@ember/service';
+import config from 'frontend-vocab-search-admin/config/constants';
+
+const FORMAT_OPTIONS = config.FORMAT_OPTIONS;
 
 export default class AddSourceComponent extends Component {
   @service store;
   @tracked downloadType;
   @tracked downloadUrl;
   @tracked downloadFormat;
+  @tracked ldesDereference = false;
+  @tracked ldesMaxRequests = 120;
 
   formatOptions = [
-    { label: 'JSON-LD', value: 'https://www.w3.org/ns/formats/data/JSON-LD' },
-    { label: 'N-Triples', value: 'http://www.w3.org/ns/formats/N-Triples' },
-    { label: 'N3', value: 'http://www.w3.org/ns/formats/N3' },
-    { label: 'RDF_XML', value: 'http://www.w3.org/ns/formats/RDF_XML' },
-    { label: 'RDFa', value: 'http://www.w3.org/ns/formats/RDFa' },
-    { label: 'Turtle', value: 'http://www.w3.org/ns/formats/Turtle' },
+    FORMAT_OPTIONS.JSONLD,
+    FORMAT_OPTIONS.NTRIPLES,
+    FORMAT_OPTIONS.N3,
+    FORMAT_OPTIONS.RDFXML,
+    FORMAT_OPTIONS.RDFA,
+    FORMAT_OPTIONS.TURTLE,
   ];
+
+  get types() {
+    return this.args.types;
+  }
+
+  get isLdes() {
+    return this.downloadType?.uri === config.DATASET_TYPES.LDES;
+  }
+  get isFileDump() {
+    return this.downloadType?.uri === config.DATASET_TYPES.FILE_DUMP;
+  }
 
   @action
   async submit() {
-    let data = await this.store.findAll('dataset-type');
-    // TODO: add downloadFormat options
-    this.downloadType = data.findBy('prefLabel', 'File dump');
-
     this.args.onSubmit(
       this.downloadType,
       this.downloadUrl,
-      this.downloadFormat
+      this.downloadFormat,
+      this.ldesDereference,
+      this.ldesMaxRequests
     );
   }
 }

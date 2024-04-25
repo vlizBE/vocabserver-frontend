@@ -1,0 +1,21 @@
+<PowerSelectMultiple
+  @onChange={{this.onVocabsChanged}}
+  @placeholder='Add vocabs to export'
+  @searchEnabled={{true}}
+  @options={{this.options}}
+  @selected={{this.selection}}
+  @search={{this.fetchOptions}} as |vocab| >
+    {{#if vocab.alias}}
+    (<em>{{alias-string vocab.alias}}</em>)
+    {{/if}} {{vocab.name}} 
+  </PowerSelectMultiple>
+  <BsButton {{on "click" (perform this.startExport)}} disabled={{is-empty this.selection}}>
+    Start export
+  </BsButton>
+  {{#if this.task}}
+    Status of export: <TaskStatus @task={{this.task}} @onTaskFinished={{this.showDownload}}/>
+  {{/if}}
+  {{#if (and this.downloadLink this.task.isSuccessful)}}
+  <BsButton ><a href={{this.downloadLink}} download>Download export</a>
+</BsButton>
+  {{/if}}

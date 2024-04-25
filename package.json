@@ -1,6 +1,6 @@
 {
   "name": "frontend-vocab-search-admin",
-  "version": "0.0.0",
+  "version": "2.5.0",
   "private": true,
   "description": "Small description for frontend-vocab-search-admin goes here",
   "repository": "",
@@ -49,10 +49,13 @@
     "ember-data": "4.11.3",
     "ember-data-table": "^2.1.0",
     "ember-fetch": "^8.1.2",
+    "ember-file-upload": "^9.0.0",
+    "ember-functions-as-helper-polyfill": "^2.1.2",
     "ember-load-initializers": "^2.1.2",
     "ember-mu-transform-helpers": "^2.1.2",
     "ember-page-title": "^7.0.0",
     "ember-power-select": "^6.0.1",
+    "ember-promise-helpers": "^2.0.0",
     "ember-qunit": "^5.1.5",
     "ember-resolver": "^8.0.3",
     "ember-set-helper": "^2.0.1",
@@ -86,6 +89,7 @@
     "date-fns": "^2.29.3",
     "ember-cli-dependency-lint": "^2.0.1",
     "ember-resources": "^5.6.3",
-    "ember-unused-components": "^1.2.0"
+    "ember-unused-components": "^1.2.0",
+    "vocab-search-search-bar": "github:x-m-el/vocabserver-webcomponent#d2b6659984cb706a51e2313ea9ae330e561dff98"
   }
 }

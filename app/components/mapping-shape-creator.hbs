@@ -3,7 +3,7 @@
   {{did-update this.initializeData @dataset}}
   @formLayout='vertical'
   @model={{this.formModel}}
-  @onSubmit={{this.submit}}
+  @onSubmit={{perform this.submit}}
   as |form|
 >
   <form.element
@@ -76,6 +76,6 @@
     />
   </form.element>
   <form.submitButton
-    disabled={{not (and this.formModel.labelPath this.formModel.pivotType)}}
-  >{{#if @nodeShape}}Update{{else}}Submit{{/if}}</form.submitButton>
+    disabled={{or (not (and this.formModel.labelPath this.formModel.pivotType)) this.submit.isRunning}}
+  >{{#if this.submit.isRunning}}Updating...{{else if @nodeShape}}Update{{else}}Submit{{/if}}</form.submitButton>
 </BsForm>
