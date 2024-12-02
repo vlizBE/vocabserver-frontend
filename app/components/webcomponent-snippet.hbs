@@ -70,6 +70,8 @@
       </strong>
     </p>
   <h1>Searchbar preview</h1>
+  {{!-- Note that the sources for the webcomponent don't get loaded by means of a script tag here.
+        ember-cli-build.js includes the sources for the webcomponent in the admin app codebundle. --}}
   <vocab-search-bar
   query="{{this.query}}"
   source-vocabularies="{{this.aliasesOrUris this.selectedVocabs}}"
