@@ -11,7 +11,6 @@ export default class VocabularyIndexController extends Controller {
   @tracked showAddSource = false;
   @tracked page = 0;
   @tracked size = 20;
-  @tracked ldesDereference = false;
   @tracked ldesMaxRequests = 120;
 
   @action
@@ -69,7 +68,6 @@ export default class VocabularyIndexController extends Controller {
     downloadType,
     downloadUrl,
     downloadFormat,
-    ldesDereference = false,
     ldesMaxRequests = 120
   ) {
     const vocabularyMeta = this.store.findRecord(
@@ -80,7 +78,6 @@ export default class VocabularyIndexController extends Controller {
     const dataset = this.store.createRecord('dataset', {
       downloadPage: downloadUrl,
       format: downloadFormat?.value,
-      dereferenceMembers: ldesDereference,
       maxRequests: ldesMaxRequests,
       vocabulary: vocabularyMeta,
       type: downloadType,

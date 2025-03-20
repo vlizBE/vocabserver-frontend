@@ -11,7 +11,6 @@ export default class AddSourceComponent extends Component {
   @tracked downloadType;
   @tracked downloadUrl;
   @tracked downloadFormat;
-  @tracked ldesDereference = false;
   @tracked ldesMaxRequests = 120;
 
   formatOptions = [
@@ -40,7 +39,6 @@ export default class AddSourceComponent extends Component {
       this.downloadType,
       this.downloadUrl,
       this.downloadFormat,
-      this.ldesDereference,
       this.ldesMaxRequests
     );
   }

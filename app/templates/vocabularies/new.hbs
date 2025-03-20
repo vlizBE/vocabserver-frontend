@@ -41,14 +41,6 @@
     </form.element>
   {{else if this.isLdes}}
     <form.element
-      @controlType='checkbox'
-      @label='Dereference members'
-      @property='ldesDereference'
-      as |el|
-    >
-      <el.control  />
-    </form.element>
-    <form.element
       @controlType='number'
       @label='Max requests per minute'
       @property='ldesMaxRequests'
