@@ -13,7 +13,6 @@ export default class VocabulariesNewController extends Controller {
   @tracked downloadUrl;
   @tracked vocabName;
   @tracked downloadFormat;
-  @tracked ldesDereference = false;
   @tracked ldesMaxRequests = 120;
 
   formatOptions = [
@@ -41,7 +40,6 @@ export default class VocabulariesNewController extends Controller {
     this.downloadUrl = null;
     this.vocabName = null;
     this.downloadFormat = null;
-    this.ldesDereference = false;
     this.ldesMaxRequests = 120;
   }
 
@@ -83,7 +81,6 @@ export default class VocabulariesNewController extends Controller {
     const dataset = this.store.createRecord('dataset', {
       downloadPage: this.downloadUrl,
       format: this.downloadFormat?.value,
-      dereferenceMembers: this.ldesDereference,
       maxRequests: this.ldesMaxRequests,
       vocabulary: vocabularyMeta,
       type: this.downloadType,
