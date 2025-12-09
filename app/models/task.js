@@ -15,7 +15,7 @@ export default class TaskModel extends Model {
 
   //Due to lack of inheritance in mu-cl-resource, we directly link to file and collection, stuff we need here.
   @hasMany('data-container', { async: true, inverse: null }) resultsContainers;
-  @hasMany('data-container', { async: true, inverse: null }) inputContainers;
+  @hasMany('data-container', { async: true, inverse: 'inputFromTasks' }) inputContainers;
 
   //TODO: move this later to a propery modeled skos:Conceptscheme from backend
   statusesMap = {
