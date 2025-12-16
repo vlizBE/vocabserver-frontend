@@ -21,34 +21,44 @@
       <th>Alias</th>
     </Content.header>
     <Content.body as |vocab|>
-      <td>
-        <LinkTo @route='vocabulary' @model={{vocab.id}}>{{vocab.name}}</LinkTo>
-      </td>
-      <td>
-        {{#if (await vocab.deleting)}}
-          Deleting <TaskStatus @task={{await vocab.deletingTask}} @onTaskFinished={{action 'refresh'}} />
-        {{else}}
-          <ConfirmationButton
-            @onConfirm={{fn this.deleteVocab vocab}}
-            @confirmBtnTxt='Delete'
-            @confirmBtnType='danger'
-            @type='danger'
-          >
-            <:message>
-              <p>Are you sure you want to delete vocabulary
-                <strong>{{vocab.name}}</strong>?<br><br>
-                <i>Note that deleting large vocabularies may take a long time. Make sure to refresh the page manually.</i>
-              </p>
-            </:message>
-            <:buttonContent>
-              <BsIcon @name='trash-fill' />
-            </:buttonContent>
-          </ConfirmationButton>
-        {{/if}}
-      </td>
-      <td>
-        <VocabAlias @vocab={{vocab}}/>
-      </td>
+      {{#let (await vocab.deleting) (await vocab.deleteWaiting) as | deleting waiting | }}
+        <td>
+          {{#if (or deleting waiting)}}
+            {{vocab.name}}
+          {{else}}
+            <LinkTo @route='vocabulary' @model={{vocab.id}}>{{vocab.name}}</LinkTo>
+          {{/if}}
+        </td>
+        <td>
+          {{#if deleting}}
+            Deleting <TaskStatus @task={{await vocab.deletingTask}} @onTaskFinished={{action 'refresh'}} />
+          {{else if waiting}}
+            Waiting for search <TaskStatus @task={{await vocab.deleteWaitingTask}} @onTaskFinished={{action 'refresh'}} />
+          {{else}}
+            <ConfirmationButton
+              @onConfirm={{fn this.deleteVocab vocab}}
+              @confirmBtnTxt='Delete'
+              @confirmBtnType='danger'
+              @type='danger'
+            >
+              <:message>
+                <p>Are you sure you want to delete vocabulary
+                  <strong>{{vocab.name}}</strong>?<br><br>
+                  <i>Note that deleting large vocabularies may take a long time. Make sure to refresh the page manually.</i>
+                </p>
+              </:message>
+              <:buttonContent>
+                <BsIcon @name='trash-fill' />
+              </:buttonContent>
+            </ConfirmationButton>
+          {{/if}}
+        </td>
+        <td>
+          {{#if (not (or deleting waiting))}}
+            <VocabAlias @vocab={{vocab}}/>
+          {{/if}}
+        </td>
+      {{/let}}
     </Content.body>
   </Table.content>
 </DataTable>
