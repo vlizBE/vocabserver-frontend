@@ -1,6 +1,9 @@
 import Model, { attr, belongsTo, hasMany } from '@ember-data/model';
+import { inject as service } from '@ember/service';
 
 export default class VocabularyModel extends Model {
+  @service store;
+
   @attr('string') name;
 
   @attr('string') uri;
@@ -11,19 +14,36 @@ export default class VocabularyModel extends Model {
   @hasMany('data-container') dataContainers;
 
   get deleting() {
-    return this.deletingTask
+    return this.deletingTask.then((t) => t && !t.hasEnded)
   }
   get deletingTask() {
     return this._getDeletingTask()
   }
 
-  async _getDeletingTask() {
-    const dataContainers = await this.dataContainers
-    const tasks = await Promise.all(dataContainers.map((dc) => dc.inputFromTasks))
+  get deleteWaiting() {
+    return this.deleteWaitingTask.then((t) => t && !t.hasEnded)
+  }
+  get deleteWaitingTask() {
+    return this._getDeleteWaitingTask()
+  }
 
-    return tasks.flat().find((task) => {
-      console.log(task.operation)
-      return task.operation === 'http://mu.semte.ch/vocabularies/ext/VocabDeleteJob'
+  async _getDeletingTask() {
+    const tasks = await this.store.query('task', {
+      'filter[input-containers][content]': this.uri,
+      'filter[operation]': 'http://mu.semte.ch/vocabularies/ext/VocabDeleteJob',
+      sort: '-created',
+      'page[size]': 1
     })
+    return tasks.firstObject
+  }
+
+  async _getDeleteWaitingTask() {
+    const tasks = await this.store.query('task', {
+      'filter[input-containers][content]': this.uri,
+      'filter[operation]': 'http://mu.semte.ch/vocabularies/ext/VocabDeleteWaitJob',
+      sort: '-created',
+      'page[size]': 1
+    })
+    return tasks.firstObject
   }
 }
