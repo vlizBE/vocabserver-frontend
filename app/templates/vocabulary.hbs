@@ -3,7 +3,7 @@
   {{!-- TODO pr-2 is not working --}}
   <h1 class="px-2">Vocabulary: </h1>
   <h1>
-    {{#if (or (await this.model.deleting) (await this.model.deleteWaiting))}}
+    {{#if (or (await (vocab-is-deleting this.model)) (await (vocab-is-delete-waiting this.model)))}}
       {{this.model.name}}
     {{else}}
       <InlineEdit
@@ -14,7 +14,7 @@
   </h1>
 </div>
 <div>
-  {{#if (or (await this.model.deleting) (await this.model.deleteWaiting))}}
+  {{#if (or (await (vocab-is-deleting this.model)) (await (vocab-is-delete-waiting this.model)))}}
     <BsAlert @type="danger" @dismissible={{false}}>
       <:header>
         This vocabulary is being deleted!
