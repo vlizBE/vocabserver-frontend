@@ -31,9 +31,9 @@
         </td>
         <td>
           {{#if deleting}}
-            Deleting <TaskStatus @task={{await vocab.deletingTask}} @onTaskFinished={{action 'refresh'}} />
+            Deleting <TaskStatus @task={{await vocab.deletingTask}} @onTaskFinished={{this.refresh}} />
           {{else if waiting}}
-            Waiting for search <TaskStatus @task={{await vocab.deleteWaitingTask}} @onTaskFinished={{action 'refresh'}} />
+            Waiting for search <TaskStatus @task={{await vocab.deleteWaitingTask}} @onTaskFinished={{this.refresh}} />
           {{else}}
             <ConfirmationButton
               @onConfirm={{fn this.deleteVocab vocab}}
