@@ -21,7 +21,7 @@
       <th>Alias</th>
     </Content.header>
     <Content.body as |vocab|>
-      {{#let (await vocab.deleting) (await vocab.deleteWaiting) as | deleting waiting | }}
+      {{#let (await (vocab-is-deleting vocab)) (await (vocab-is-delete-waiting vocab)) as | deleting waiting | }}
         <td>
           {{#if (or deleting waiting)}}
             {{vocab.name}}
@@ -31,9 +31,9 @@
         </td>
         <td>
           {{#if deleting}}
-            Deleting <TaskStatus @task={{await vocab.deletingTask}} @onTaskFinished={{this.refresh}} />
+            Deleting <TaskStatus @task={{await (vocab-get-deleting-task vocab)}} @onTaskFinished={{this.refresh}} />
           {{else if waiting}}
-            Waiting for search <TaskStatus @task={{await vocab.deleteWaitingTask}} @onTaskFinished={{this.refresh}} />
+            Waiting for search <TaskStatus @task={{await (vocab-get-delete-waiting-task vocab)}} @onTaskFinished={{this.refresh}} />
           {{else}}
             <ConfirmationButton
               @onConfirm={{fn this.deleteVocab vocab}}
