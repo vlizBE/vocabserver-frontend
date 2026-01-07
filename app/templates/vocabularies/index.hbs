@@ -31,9 +31,19 @@
         </td>
         <td>
           {{#if deleting}}
-            Deleting <TaskStatus @task={{await (vocab-get-deleting-task vocab)}} @onTaskFinished={{this.refresh}} />
+            {{#let (await (vocab-get-deleting-task vocab)) as | task |}}
+            {{! `task` is null while we await }}
+              {{#if task}}
+                Deleting <TaskStatus @task={{task}} @onTaskFinished={{this.refresh}} />
+              {{/if}}
+            {{/let}}
           {{else if waiting}}
-            Waiting for search <TaskStatus @task={{await (vocab-get-delete-waiting-task vocab)}} @onTaskFinished={{this.refresh}} />
+            {{#let (await (vocab-get-delete-waiting-task vocab)) as | task |}}
+            {{! `task` is null while we await }}
+              {{#if task}}
+                Waiting for search <TaskStatus @task={{task}} @onTaskFinished={{this.refresh}} />
+              {{/if}}
+            {{/let}}
           {{else}}
             <ConfirmationButton
               @onConfirm={{fn this.deleteVocab vocab}}
