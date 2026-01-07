@@ -1,9 +1,12 @@
 import Controller from '@ember/controller';
 import { action } from '@ember/object';
 import { service } from '@ember/service';
-import { task } from 'ember-concurrency';
+import { task, timeout } from 'ember-concurrency';
 import { isPresent } from '@ember/utils';
 import { tracked } from '@glimmer/tracking';
+import { getTaskByInputAndOperation } from '../../helpers/get-task-by-input-and-operation';
+
+const METADATA_EXTRACTION_OPERATION = 'http://mu.semte.ch/vocabularies/ext/MetadataExtractionJob';
 
 export default class VocabularyMappingAndUnificationController extends Controller {
   @service store;
@@ -28,6 +31,29 @@ export default class VocabularyMappingAndUnificationController extends Controlle
 
   get mappingShape() {
     return this.model.vocabulary.belongsTo('mappingShape').value();
+  }
+
+  @task
+  *awaitMeta() {
+    const metaDataExtractionTask = yield getTaskByInputAndOperation(this.store, this.model.dataset, METADATA_EXTRACTION_OPERATION)
+    if (!metaDataExtractionTask.hasEnded) {
+      // Task still running -> wait for task
+      yield this.task.monitorProgress.perform(metaDataExtractionTask);
+      yield this.model.dataset.classes.reload();
+      this.send('reloadModel');
+    } else if (metaDataExtractionTask.isSuccessful) {
+      // Task finished -> look for metadata
+      if (!this.hasMeta) {
+        while (!isPresent(this.model.dataset.classes)) {
+          console.log("Waiting for metadata to appear...")
+          yield timeout(5000);
+          yield this.model.dataset.classes.reload();
+        }
+        this.send('reloadModel');
+      }
+    // } else {
+    //   // Task failed -> do nothing
+    }
   }
 
   @task
