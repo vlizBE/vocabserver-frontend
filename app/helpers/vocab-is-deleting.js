@@ -4,6 +4,6 @@ export default class VocabIsDeleting extends VocabGetDeletingTask {
 
   async compute([vocab]) {
     const task = await super.compute([vocab])
-    return task && !task.hasEnded
+    return task && !task.isSuccessful
   }
 }

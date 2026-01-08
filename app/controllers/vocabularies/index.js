@@ -16,6 +16,13 @@ export default class VocabulariesIndexController extends Controller {
   }
 
   @action
+  async handleDeleteTaskFinished(task) {
+    if (task.isSuccessful) {
+      return this.refresh();
+    }
+  }
+
+  @action
   async refresh() {
     this.router.refresh();
   }

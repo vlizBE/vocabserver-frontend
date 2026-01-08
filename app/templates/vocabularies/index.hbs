@@ -34,14 +34,14 @@
             {{#let (await (vocab-get-deleting-task vocab)) as | task |}}
             {{! `task` is null while we await }}
               {{#if task}}
-                Deleting <TaskStatus @task={{task}} @onTaskFinished={{this.refresh}} />
+                Deleting <TaskStatus @task={{task}} @onTaskFinished={{this.handleDeleteTaskFinished}} />
               {{/if}}
             {{/let}}
           {{else if waiting}}
             {{#let (await (vocab-get-delete-waiting-task vocab)) as | task |}}
             {{! `task` is null while we await }}
               {{#if task}}
-                Waiting for search <TaskStatus @task={{task}} @onTaskFinished={{this.refresh}} />
+                Waiting for search <TaskStatus @task={{task}} @onTaskFinished={{this.handleDeleteTaskFinished}} />
               {{/if}}
             {{/let}}
           {{else}}
