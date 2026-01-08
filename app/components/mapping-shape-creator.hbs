@@ -16,6 +16,14 @@
     <el.control @searchEnabled={{true}} required />
   </form.element>
   <form.element
+    @controlType='text'
+    @label='SPARQL filter query'
+    @property='filter'
+    as |el|
+  >
+    <el.control />
+  </form.element>
+  <form.element
     @controlType='power-select-multiple'
     @label='Label Path'
     @property='labelPath'

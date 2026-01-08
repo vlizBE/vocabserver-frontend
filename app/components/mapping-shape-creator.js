@@ -36,6 +36,7 @@ class FormModel {
 
     this.labelPath = initValues.labelPath ?? null;
     this.pivotType = initValues.pivotType ?? null;
+    this.filter = initValues.filter ?? null;
 
     this.newKeywordPath = null;
 
@@ -92,6 +93,7 @@ export default class MappingShapeCreatorComponent extends Component {
     );
     this.formModel = new FormModel(pivotTypeOptions, labelPathOptions, {
       pivotType: this.nodeShape.targetClass,
+      filter: this.nodeShape.filter,
       labelPath: this.labelPropertyShape.path
         ? splitPropertyPathStr(this.labelPropertyShape.path)
         : null,
@@ -105,6 +107,7 @@ export default class MappingShapeCreatorComponent extends Component {
   @restartableTask
   *submit(params) {
     this.nodeShape.targetClass = params.pivotType;
+    this.nodeShape.filter = params.filter;
     this.labelPropertyShape.path = createPropertyPathStr(params.labelPath);
     // Remove all keyword properties before inserting the new ones
     this.nodeShape.propertyShapes
