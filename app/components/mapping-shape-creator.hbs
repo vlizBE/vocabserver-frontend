@@ -16,14 +16,6 @@
     <el.control @searchEnabled={{true}} required />
   </form.element>
   <form.element
-    @controlType='text'
-    @label='SPARQL filter query'
-    @property='filter'
-    as |el|
-  >
-    <el.control />
-  </form.element>
-  <form.element
     @controlType='power-select-multiple'
     @label='Label Path'
     @property='labelPath'
@@ -83,6 +75,37 @@
       @searchEnabled={{true}}
     />
   </form.element>
+  <form.element
+    @controlType='textarea'
+    @label='SPARQL filter query'
+    @property='filter'
+    @customError={{if this.filterMessage "Filter Query Failed"}}
+    @helpText="Enter a SPARQL expression to filter the entities before unifying them. The entitiy is available as variable ?entity."
+    as |el|
+  >
+    <div class="input-group">
+      <el.control class="font-monospace"
+      placeholder="# Enter a sparql query e.g.:
+FILTER NOT EXISTS {?entity owl:deprecated &quot;true&quot;^^xsd:bool .}"
+      />
+      <BsButton @outline={{true}} @type="success" @onClick={{this.testFilter}}>
+        Test
+      </BsButton>
+    </div>
+  </form.element>
+  {{#if (or this.filterCount (eq this.filterCount 0))}}
+    <BsAlert @type={{if (eq this.filterCount 0) "warning" "success"}}>
+      Counted {{this.filterCount}} entities.
+    </BsAlert>
+  {{/if}}
+  {{#if (not this.filterValid)}}
+    <BsAlert @type="danger">
+      <:header>Filter query failed!</:header>
+      <:body>
+        {{this.filterErrorMessage}}
+      </:body>
+    </BsAlert>
+  {{/if}}
   <form.submitButton
     disabled={{or (not (and this.formModel.labelPath this.formModel.pivotType)) this.submit.isRunning}}
   >{{#if this.submit.isRunning}}Updating...{{else if @nodeShape}}Update{{else}}Submit{{/if}}</form.submitButton>
