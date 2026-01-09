@@ -35,6 +35,11 @@
             {{! `task` is null while we await }}
               {{#if task}}
                 Deleting <TaskStatus @task={{task}} @onTaskFinished={{this.handleDeleteTaskFinished}} />
+                <BsButton
+                  @type='danger'
+                  @onClick={{fn this.restartTask task}}>
+                  Try Again
+                </BsButton>
               {{/if}}
             {{/let}}
           {{else if waiting}}
@@ -42,6 +47,11 @@
             {{! `task` is null while we await }}
               {{#if task}}
                 Waiting for search <TaskStatus @task={{task}} @onTaskFinished={{this.handleDeleteTaskFinished}} />
+                <BsButton
+                  @type='danger'
+                  @onClick={{fn this.restartTask task}}>
+                  Try Again
+                </BsButton>
               {{/if}}
             {{/let}}
           {{else}}

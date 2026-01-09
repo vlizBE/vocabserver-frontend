@@ -2,6 +2,7 @@ import Controller from '@ember/controller';
 import { service } from '@ember/service';
 import { action } from '@ember/object';
 import { tracked } from '@glimmer/tracking';
+
 export default class VocabulariesIndexController extends Controller {
   @service store;
   @service router;
@@ -20,6 +21,22 @@ export default class VocabulariesIndexController extends Controller {
     if (task.isSuccessful) {
       return this.refresh();
     }
+  }
+
+  @action
+  async restartTask(task) {
+    const now = new Date()
+    const newTask = this.store.createRecord('task', {
+      created: now,
+      modified: now,
+      status: 'http://redpencil.data.gift/id/concept/JobStatus/scheduled',
+      operation: task.operation,
+      index: task.index,
+      job: await task.job,
+      inputContainers: await task.inputContainers
+    });
+    await newTask.save();
+    this.router.refresh();
   }
 
   @action
