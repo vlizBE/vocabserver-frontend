@@ -36,6 +36,7 @@ class FormModel {
 
     this.labelPath = initValues.labelPath ?? null;
     this.pivotType = initValues.pivotType ?? null;
+    this.filter = initValues.filter ?? '';
 
     this.newKeywordPath = null;
 
@@ -49,6 +50,23 @@ class FormModel {
   insertKeywordPath(keywordPath) {
     this.keywordFilter[this._nextKeywordIndex++] = keywordPath;
   }
+
+  async testFilter(dataset) {
+    const params = new URLSearchParams({
+      "dataset_uri": dataset.uri,
+      "class": this.pivotType,
+      "source_path_string": this.labelPath,
+      "filter": this.filter,
+    });
+
+    const res = await fetch(`/filter-count/?${params}`, {
+      headers: {
+        "Accept": "application/json"
+      }
+    });
+
+    return res
+  }
 }
 
 /**
@@ -60,6 +78,12 @@ export default class MappingShapeCreatorComponent extends Component {
   @tracked nodeShape;
   @tracked labelPropertyShape;
   @tracked formModel;
+
+  @tracked filterCount = null;
+  @tracked filterValid = true;
+  @tracked filterErrorMessage = '';
+  @tracked filterErroredQuery = '';
+  @tracked filterWarningMessage = '';
 
   @service store;
 
@@ -92,6 +116,7 @@ export default class MappingShapeCreatorComponent extends Component {
     );
     this.formModel = new FormModel(pivotTypeOptions, labelPathOptions, {
       pivotType: this.nodeShape.targetClass,
+      filter: this.nodeShape.filter,
       labelPath: this.labelPropertyShape.path
         ? splitPropertyPathStr(this.labelPropertyShape.path)
         : null,
@@ -102,9 +127,30 @@ export default class MappingShapeCreatorComponent extends Component {
     });
   }
 
+  @action
+  async testFilter() {
+    const res = await this.formModel.testFilter(this.args.dataset);
+
+    if (!res.ok) {
+      this.filterValid = false;
+      this.filterErrorMessage = `Fatal Error: Could not test filter. Status code: ${res.status} ${res.statusText}. Please contact an administrator.`;
+      console.error("Could not test filter query, check the server! Response:\n",await res.text());
+      return;
+    }
+
+    const { meta: { valid, count, error, query, warning }} = await res.json();
+
+    this.filterValid = valid;
+    this.filterCount = count;
+    this.filterErrorMessage = error;
+    this.filterErroredQuery = query;
+    this.filterWarningMessage = warning;
+  }
+
   @restartableTask
   *submit(params) {
     this.nodeShape.targetClass = params.pivotType;
+    this.nodeShape.filter = params.filter;
     this.labelPropertyShape.path = createPropertyPathStr(params.labelPath);
     // Remove all keyword properties before inserting the new ones
     this.nodeShape.propertyShapes

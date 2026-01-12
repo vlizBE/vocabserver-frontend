@@ -30,7 +30,7 @@
   </form.element>
   <form.element @controlType='label'>
     Tag paths
-    <small class='text-secondary'>(optional)</small><BsTooltip @placement="top">Configure paths
+    <small class='text-secondary'>(optional)</small><BsTooltip @renderInPlace={{true}} @placement="top">Configure paths
       to tags that can be used in the search filter.</BsTooltip></form.element>
 
   {{#each-in this.formModel.keywordFilter as |keywordPathKey|}}
@@ -75,6 +75,46 @@
       @searchEnabled={{true}}
     />
   </form.element>
+  <form.element
+    @controlType='textarea'
+    @label='SPARQL filter query'
+    @property='filter'
+    @customError={{if this.filterErrorMessage "Filter Query Failed"}}
+    @helpText="Enter a SPARQL expression to filter the entities before unifying them. Use full URIs without prefixes. The entity is available as variable ?entity. "
+    as |el|
+  >
+    <div class="input-group">
+      <el.control class="font-monospace"
+      placeholder="# Enter a sparql query e.g.:
+FILTER NOT EXISTS {?entity <http://www.w3.org/2002/07/owl#deprecated> &quot;true&quot; .}"
+      />
+      <BsButton @outline={{true}} @type="success" @onClick={{this.testFilter}}>
+        Test
+      </BsButton>
+    </div>
+  </form.element>
+  {{#if (or this.filterCount (eq this.filterCount 0))}}
+    <BsAlert @type={{if (eq this.filterCount 0) "warning" "success"}}>
+      Counted {{this.filterCount}} entities.
+    </BsAlert>
+  {{/if}}
+  {{#if this.filterWarningMessage}}
+    <BsAlert @type="warning">
+      <:header>Warning</:header>
+      <:body>
+        {{this.filterWarningMessage}}
+      </:body>
+    </BsAlert>
+  {{/if}}
+  {{#unless this.filterValid}}
+    <BsAlert @type="danger">
+      <:header>Filter query failed!</:header>
+      <:body>
+        <p>{{this.filterErrorMessage}}</p>
+        <p> For count query: {{this.filterErroredQuery}}</p>
+      </:body>
+    </BsAlert>
+  {{/unless}}
   <form.submitButton
     disabled={{or (not (and this.formModel.labelPath this.formModel.pivotType)) this.submit.isRunning}}
   >{{#if this.submit.isRunning}}Updating...{{else if @nodeShape}}Update{{else}}Submit{{/if}}</form.submitButton>
