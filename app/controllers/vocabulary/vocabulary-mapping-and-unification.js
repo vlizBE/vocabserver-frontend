@@ -45,7 +45,7 @@ export default class VocabularyMappingAndUnificationController extends Controlle
       // Task finished -> look for metadata
       if (!this.hasMeta) {
         while (!isPresent(this.model.dataset.classes)) {
-          console.log('Waiting for metadata to appear...');
+          console.log('Waiting for metadata to appear...')
           yield timeout(3000);
           yield this.model.dataset.classes.reload();
         }
