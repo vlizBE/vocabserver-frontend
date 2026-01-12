@@ -110,7 +110,8 @@ FILTER NOT EXISTS {?entity <http://www.w3.org/2002/07/owl#deprecated> &quot;true
     <BsAlert @type="danger">
       <:header>Filter query failed!</:header>
       <:body>
-        {{this.filterErrorMessage}}
+        <p>{{this.filterErrorMessage}}</p>
+        <p> For count query: {{this.filterErroredQuery}}</p>
       </:body>
     </BsAlert>
   {{/unless}}

@@ -82,6 +82,7 @@ export default class MappingShapeCreatorComponent extends Component {
   @tracked filterCount = null;
   @tracked filterValid = true;
   @tracked filterErrorMessage = '';
+  @tracked filterErroredQuery = '';
   @tracked filterWarningMessage = '';
 
   @service store;
@@ -137,11 +138,12 @@ export default class MappingShapeCreatorComponent extends Component {
       return;
     }
 
-    const { meta: { valid, count, error, warning }} = await res.json()
+    const { meta: { valid, count, error, query, warning }} = await res.json();
 
     this.filterValid = valid;
     this.filterCount = count;
     this.filterErrorMessage = error;
+    this.filterErroredQuery = query;
     this.filterWarningMessage = warning;
   }
 
