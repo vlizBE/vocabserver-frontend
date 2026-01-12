@@ -24,6 +24,20 @@ export default class VocabulariesIndexController extends Controller {
   }
 
   @action
+  async refresh() {
+    this.router.refresh();
+    await vocabulary.destroyRecord();
+    this.router.refresh();
+  }
+
+  @action
+  async handleDeleteTaskFinished(task) {
+    if (task.isSuccessful) {
+      return this.refresh();
+    }
+  }
+
+  @action
   async restartTask(task) {
     const now = new Date()
     const newTask = this.store.createRecord('task', {
