@@ -80,13 +80,13 @@
     @label='SPARQL filter query'
     @property='filter'
     @customError={{if this.filterErrorMessage "Filter Query Failed"}}
-    @helpText="Enter a SPARQL expression to filter the entities before unifying them. The entitiy is available as variable ?entity."
+    @helpText="Enter a SPARQL expression to filter the entities before unifying them. Use full URIs without prefixes. The entity is available as variable ?entity. "
     as |el|
   >
     <div class="input-group">
       <el.control class="font-monospace"
       placeholder="# Enter a sparql query e.g.:
-FILTER NOT EXISTS {?entity owl:deprecated &quot;true&quot;^^xsd:bool .}"
+FILTER NOT EXISTS {?entity <http://www.w3.org/2002/07/owl#deprecated> &quot;true&quot; .}"
       />
       <BsButton @outline={{true}} @type="success" @onClick={{this.testFilter}}>
         Test
