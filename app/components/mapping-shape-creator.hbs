@@ -106,14 +106,14 @@ FILTER NOT EXISTS {?entity <http://www.w3.org/2002/07/owl#deprecated> &quot;true
       </:body>
     </BsAlert>
   {{/if}}
-  {{#if (not this.filterValid)}}
+  {{#unless this.filterValid}}
     <BsAlert @type="danger">
       <:header>Filter query failed!</:header>
       <:body>
         {{this.filterErrorMessage}}
       </:body>
     </BsAlert>
-  {{/if}}
+  {{/unless}}
   <form.submitButton
     disabled={{or (not (and this.formModel.labelPath this.formModel.pivotType)) this.submit.isRunning}}
   >{{#if this.submit.isRunning}}Updating...{{else if @nodeShape}}Update{{else}}Submit{{/if}}</form.submitButton>
