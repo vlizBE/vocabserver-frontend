@@ -79,7 +79,7 @@
     @controlType='textarea'
     @label='SPARQL filter query'
     @property='filter'
-    @customError={{if this.filterMessage "Filter Query Failed"}}
+    @customError={{if this.filterErrorMessage "Filter Query Failed"}}
     @helpText="Enter a SPARQL expression to filter the entities before unifying them. The entitiy is available as variable ?entity."
     as |el|
   >
@@ -96,6 +96,14 @@ FILTER NOT EXISTS {?entity owl:deprecated &quot;true&quot;^^xsd:bool .}"
   {{#if (or this.filterCount (eq this.filterCount 0))}}
     <BsAlert @type={{if (eq this.filterCount 0) "warning" "success"}}>
       Counted {{this.filterCount}} entities.
+    </BsAlert>
+  {{/if}}
+  {{#if this.filterWarningMessage}}
+    <BsAlert @type="warning">
+      <:header>Warning</:header>
+      <:body>
+        {{this.filterWarningMessage}}
+      </:body>
     </BsAlert>
   {{/if}}
   {{#if (not this.filterValid)}}
