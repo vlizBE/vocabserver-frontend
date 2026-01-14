@@ -88,9 +88,12 @@
       placeholder="# Enter a sparql query e.g.:
 FILTER NOT EXISTS {?entity <http://www.w3.org/2002/07/owl#deprecated> &quot;true&quot; .}"
       />
-      <BsButton @outline={{true}} @type="success" @onClick={{this.testFilter}}>
-        Test
-      </BsButton>
+      <BsButton
+        @outline={{true}}
+        @type="success"
+        @onClick={{this.testFilter}}
+        @defaultText="Test"
+        @pendingText="Testing..." />
     </div>
   </form.element>
   {{#if (or this.filterCount (eq this.filterCount 0))}}
