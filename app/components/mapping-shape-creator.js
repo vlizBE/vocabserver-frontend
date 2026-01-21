@@ -52,14 +52,15 @@ class FormModel {
   }
 
   async testFilter(dataset) {
-    const params = new URLSearchParams({
-      "dataset_uri": dataset.uri,
-      "class": this.pivotType,
-      "source_path_string": this.labelPath,
-      "filter": this.filter,
-    });
+    let params = new FormData();
+    params.append("dataset_uri", dataset.uri);
+    params.append("class", this.pivotType);
+    params.append("source_path_string", createPropertyPathStr(this.labelPath));
+    params.append("filter", this.filter);
 
-    const res = await fetch(`/filter-count/?${params}`, {
+    const res = await fetch('/filter-count/', {
+      method: 'POST',
+      body: params,
       headers: {
         "Accept": "application/json"
       }
@@ -86,6 +87,15 @@ export default class MappingShapeCreatorComponent extends Component {
   @tracked filterWarningMessage = '';
 
   @service store;
+
+  get dataset() { return this.args.dataset; }
+
+  get filterCountInputs() {
+    return this.dataset.filterCountInputs.sortBy('created').reverse();
+  }
+  get filterCountOutputs() {
+    return this.dataset.filterCountOutputs.sortBy('created').reverse();
+  }
 
   @action
   async initializeData() {
@@ -132,19 +142,11 @@ export default class MappingShapeCreatorComponent extends Component {
     const res = await this.formModel.testFilter(this.args.dataset);
 
     if (!res.ok) {
-      this.filterValid = false;
-      this.filterErrorMessage = `Fatal Error: Could not test filter. Status code: ${res.status} ${res.statusText}. Please contact an administrator.`;
-      console.error("Could not test filter query, check the server! Response:\n",await res.text());
+      console.error("Could not test filter query, check the server! Response:\n", await res.text());
       return;
     }
 
-    const { meta: { valid, count, error, query, warning }} = await res.json();
-
-    this.filterValid = valid;
-    this.filterCount = count;
-    this.filterErrorMessage = error;
-    this.filterErroredQuery = query;
-    this.filterWarningMessage = warning;
+    this.args.dataset.filterCountInputs.reload()
   }
 
   @restartableTask
@@ -186,5 +188,20 @@ export default class MappingShapeCreatorComponent extends Component {
   @action
   removeKeywordFilter(key) {
     delete this.formModel.keywordFilter[key];
+  }
+
+  @action
+  deleteModel(model) {
+    model.destroyRecord();
+    // Return false to keep the alert open until the model is actually removed.
+    return false;
+  }
+
+  @action
+  reloadFilterIO() {
+    return Promise.all([
+      this.args.dataset.filterCountInputs.reload(),
+      this.args.dataset.filterCountOutputs.reload()
+    ])
   }
 }
