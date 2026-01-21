@@ -26,20 +26,11 @@ export default class VocabulariesIndexController extends Controller {
   @action
   async refresh() {
     this.router.refresh();
-    await vocabulary.destroyRecord();
-    this.router.refresh();
-  }
-
-  @action
-  async handleDeleteTaskFinished(task) {
-    if (task.isSuccessful) {
-      await this.router.refresh();
-    }
   }
 
   @action
   async restartTask(task) {
-    const now = new Date()
+    const now = new Date();
     const newTask = this.store.createRecord('task', {
       created: now,
       modified: now,
@@ -47,14 +38,17 @@ export default class VocabulariesIndexController extends Controller {
       operation: task.operation,
       index: task.index,
       job: await task.job,
-      inputContainers: await task.inputContainers
+      inputContainers: await task.inputContainers,
     });
     await newTask.save();
     this.router.refresh();
   }
+<<<<<<< HEAD
 
   @action
   async refresh() {
     await this.router.refresh();
   }
+=======
+>>>>>>> origin/master
 }
