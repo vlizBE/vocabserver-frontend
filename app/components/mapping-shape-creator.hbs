@@ -96,28 +96,55 @@ FILTER NOT EXISTS {?entity <http://www.w3.org/2002/07/owl#deprecated> &quot;true
         @pendingText="Testing..." />
     </div>
   </form.element>
-  {{#if (or this.filterCount (eq this.filterCount 0))}}
-    <BsAlert @type={{if (eq this.filterCount 0) "warning" "success"}}>
-      Counted {{this.filterCount}} entities.
-    </BsAlert>
-  {{/if}}
-  {{#if this.filterWarningMessage}}
-    <BsAlert @type="warning">
-      <:header>Warning</:header>
+  {{#each this.filterCountInputs as |filterInput| }}
+    {{#let (await (filter-count-input-get-task filterInput)) as |task|}}
+      <BsAlert @type="secondary" @onDismiss={{fn this.deleteModel filterInput}}>
+        <:header>
+          {{log task}}
+          Performing filter test...{{#if task}} <TaskStatus @task={{task}} @onTaskFinished={{this.reloadFilterIO}} /> {{/if}}
+        </:header>
+        <:body>
+          <dl>
+            <dt>Pivot entitiy:</dt>
+            <dd>{{filterInput.sourceClass}}</dd>
+            <dt>Label path:</dt>
+            <dd>{{filterInput.sourcePathString}}</dd>
+            <dt>SPARQL Filter:</dt>
+            <dd class="font-monospace">{{filterInput.sourceFilter}}</dd>
+          </dl>
+        </:body>
+      </BsAlert>
+    {{/let}}
+  {{/each}}
+  {{#each this.filterCountOutputs as |filterOutput| }}
+    <BsAlert @type={{filterOutput.status}} @onDismiss={{fn this.deleteModel filterOutput}}>
+      <:header>
+        Filter Test Result:
+      </:header>
       <:body>
-        {{this.filterWarningMessage}}
+        <dl>
+          {{#if (or filterOutput.count (eq filterOutput.count 0))}}
+            <dt>Count:</dt>
+            <dd>{{filterOutput.count}}</dd>
+          {{/if}}
+          {{#if filterOutput.warning}}
+            <dt>Warning:</dt>
+            <dd>{{filterOutput.warning}}</dd>
+          {{/if}}
+          {{#if filterOutput.error}}
+            <dt>Error:</dt>
+            <dd>{{filterOutput.error}}</dd>
+          {{/if}}
+          {{#if filterOutput.query}}
+            <details>
+              <summary class="fw-bold">Query:</summary>
+              <pre class="card card-body bg-light text-body mt-2">{{filterOutput.query}}</pre>
+            </details>
+          {{/if}}
+        </dl>
       </:body>
     </BsAlert>
-  {{/if}}
-  {{#unless this.filterValid}}
-    <BsAlert @type="danger">
-      <:header>Filter query failed!</:header>
-      <:body>
-        <p>{{this.filterErrorMessage}}</p>
-        <p> For count query: {{this.filterErroredQuery}}</p>
-      </:body>
-    </BsAlert>
-  {{/unless}}
+  {{/each}}
   <form.submitButton
     disabled={{or (not (and this.formModel.labelPath this.formModel.pivotType)) this.submit.isRunning}}
   >{{#if this.submit.isRunning}}Updating...{{else if @nodeShape}}Update{{else}}Submit{{/if}}</form.submitButton>

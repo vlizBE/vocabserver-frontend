@@ -33,7 +33,7 @@ export default class VocabulariesIndexController extends Controller {
   @action
   async handleDeleteTaskFinished(task) {
     if (task.isSuccessful) {
-      return this.refresh();
+      await this.router.refresh();
     }
   }
 
@@ -55,6 +55,6 @@ export default class VocabulariesIndexController extends Controller {
 
   @action
   async refresh() {
-    this.router.refresh();
+    await this.router.refresh();
   }
 }
