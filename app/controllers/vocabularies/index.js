@@ -43,12 +43,4 @@ export default class VocabulariesIndexController extends Controller {
     await newTask.save();
     this.router.refresh();
   }
-<<<<<<< HEAD
-
-  @action
-  async refresh() {
-    await this.router.refresh();
-  }
-=======
->>>>>>> origin/master
 }
