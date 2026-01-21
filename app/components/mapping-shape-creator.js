@@ -52,14 +52,15 @@ class FormModel {
   }
 
   async testFilter(dataset) {
-    const params = new URLSearchParams({
-      "dataset_uri": dataset.uri,
-      "class": this.pivotType,
-      "source_path_string": createPropertyPathStr(this.labelPath),
-      "filter": this.filter,
-    });
+    let params = new FormData();
+    params.append("dataset_uri", dataset.uri);
+    params.append("class", this.pivotType);
+    params.append("source_path_string", createPropertyPathStr(this.labelPath));
+    params.append("filter", this.filter);
 
-    const res = await fetch(`/filter-count/?${params}`, {
+    const res = await fetch('/filter-count/', {
+      method: 'POST',
+      body: params,
       headers: {
         "Accept": "application/json"
       }
