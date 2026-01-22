@@ -100,7 +100,6 @@ FILTER NOT EXISTS {?entity <http://www.w3.org/2002/07/owl#deprecated> &quot;true
     {{#let (await (filter-count-input-get-task filterInput)) as |task|}}
       <BsAlert @type="secondary" @onDismiss={{fn this.deleteModel filterInput}}>
         <:header>
-          {{log task}}
           Performing filter test...{{#if task}} <TaskStatus @task={{task}} @onTaskFinished={{this.reloadFilterIO}} /> {{/if}}
         </:header>
         <:body>
