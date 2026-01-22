@@ -19,5 +19,8 @@ export default class Dataset extends Model {
   @hasMany('dataset', { inverse: null }) classes;
   @hasMany('dataset', { inverse: null }) properties;
 
+  @hasMany('filter-count-input', {inverse: 'dataset'}) filterCountInputs;
+  @hasMany('filter-count-output', {inverse: 'dataset'}) filterCountOutputs;
+
   @belongsTo('vocabulary') vocabulary;
 }

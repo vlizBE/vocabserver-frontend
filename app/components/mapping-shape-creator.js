@@ -36,6 +36,7 @@ class FormModel {
 
     this.labelPath = initValues.labelPath ?? null;
     this.pivotType = initValues.pivotType ?? null;
+    this.filter = initValues.filter ?? '';
 
     this.newKeywordPath = null;
 
@@ -49,6 +50,24 @@ class FormModel {
   insertKeywordPath(keywordPath) {
     this.keywordFilter[this._nextKeywordIndex++] = keywordPath;
   }
+
+  async testFilter(dataset) {
+    let params = new FormData();
+    params.append("dataset_uri", dataset.uri);
+    params.append("class", this.pivotType);
+    params.append("source_path_string", createPropertyPathStr(this.labelPath));
+    params.append("filter", this.filter);
+
+    const res = await fetch('/filter-count/', {
+      method: 'POST',
+      body: params,
+      headers: {
+        "Accept": "application/json"
+      }
+    });
+
+    return res
+  }
 }
 
 /**
@@ -61,7 +80,22 @@ export default class MappingShapeCreatorComponent extends Component {
   @tracked labelPropertyShape;
   @tracked formModel;
 
+  @tracked filterCount = null;
+  @tracked filterValid = true;
+  @tracked filterErrorMessage = '';
+  @tracked filterErroredQuery = '';
+  @tracked filterWarningMessage = '';
+
   @service store;
+
+  get dataset() { return this.args.dataset; }
+
+  get filterCountInputs() {
+    return this.dataset.filterCountInputs.sortBy('created').reverse();
+  }
+  get filterCountOutputs() {
+    return this.dataset.filterCountOutputs.sortBy('created').reverse();
+  }
 
   @action
   async initializeData() {
@@ -92,6 +126,7 @@ export default class MappingShapeCreatorComponent extends Component {
     );
     this.formModel = new FormModel(pivotTypeOptions, labelPathOptions, {
       pivotType: this.nodeShape.targetClass,
+      filter: this.nodeShape.filter,
       labelPath: this.labelPropertyShape.path
         ? splitPropertyPathStr(this.labelPropertyShape.path)
         : null,
@@ -102,9 +137,22 @@ export default class MappingShapeCreatorComponent extends Component {
     });
   }
 
+  @action
+  async testFilter() {
+    const res = await this.formModel.testFilter(this.args.dataset);
+
+    if (!res.ok) {
+      console.error("Could not test filter query, check the server! Response:\n", await res.text());
+      return;
+    }
+
+    this.args.dataset.filterCountInputs.reload()
+  }
+
   @restartableTask
   *submit(params) {
     this.nodeShape.targetClass = params.pivotType;
+    this.nodeShape.filter = params.filter;
     this.labelPropertyShape.path = createPropertyPathStr(params.labelPath);
     // Remove all keyword properties before inserting the new ones
     this.nodeShape.propertyShapes
@@ -140,5 +188,20 @@ export default class MappingShapeCreatorComponent extends Component {
   @action
   removeKeywordFilter(key) {
     delete this.formModel.keywordFilter[key];
+  }
+
+  @action
+  deleteModel(model) {
+    model.destroyRecord();
+    // Return false to keep the alert open until the model is actually removed.
+    return false;
+  }
+
+  @action
+  reloadFilterIO() {
+    return Promise.all([
+      this.args.dataset.filterCountInputs.reload(),
+      this.args.dataset.filterCountOutputs.reload()
+    ])
   }
 }
