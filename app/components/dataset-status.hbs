@@ -2,8 +2,8 @@
   {{format-date this.task.created "dd/MM/yyyy 'at' HH:mm"}} - <TaskStatus @task={{this.task}} />
 {{else}}
   {{#if this.isDump}}
-    please init download
+    please start download
   {{else}}
-    please wait for the LDES-consumer-manager to initialize the download
+    LDES-consumer-manager manages LDES feed. Press button to start pipeline with already consumed data.
   {{/if}}
 {{/if}}

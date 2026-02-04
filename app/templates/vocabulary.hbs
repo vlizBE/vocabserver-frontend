@@ -3,23 +3,38 @@
   {{!-- TODO pr-2 is not working --}}
   <h1 class="px-2">Vocabulary: </h1>
   <h1>
-    <InlineEdit
-      @value={{this.model.name}}
-             @onSubmit={{this.updateVocabName}}
-    >{{this.model.name}}</InlineEdit>
+    {{#if (or (await (vocab-is-deleting this.model)) (await (vocab-is-delete-waiting this.model)))}}
+      {{this.model.name}}
+    {{else}}
+      <InlineEdit
+        @value={{this.model.name}}
+               @onSubmit={{this.updateVocabName}}
+      >{{this.model.name}}</InlineEdit>
+    {{/if}}
   </h1>
 </div>
 <div>
-  <BsNav @type="tabs" as |nav|>
-    <nav.item>
-      <nav.link-to @route="vocabulary.index" @model={{this.model.id}}>Sources</nav.link-to>
-    </nav.item>
-    <nav.item>
-      <nav.link-to @route="vocabulary.mapping" @model={{this.model.id}}>Mapping</nav.link-to>
-    </nav.item>
-    <nav.item>
-      <nav.link-to @route="vocabulary.unification" @model={{this.model.id}}>Unification</nav.link-to>
-    </nav.item>
-  </BsNav>
-  {{outlet}}
+  {{#if (or (await (vocab-is-deleting this.model)) (await (vocab-is-delete-waiting this.model)))}}
+    <BsAlert @type="danger" @dismissible={{false}}>
+      <:header>
+        This vocabulary is being deleted!
+      </:header>
+      <:body>
+        This vocabulary is being removed from the database!
+      </:body>
+    </BsAlert>
+  {{else}}
+    <BsNav @type="tabs" as |nav|>
+      <nav.item>
+        <nav.link-to @route="vocabulary.index" @model={{this.model.id}}>Sources</nav.link-to>
+      </nav.item>
+      <nav.item>
+        <nav.link-to @route="vocabulary.mapping" @model={{this.model.id}}>Mapping</nav.link-to>
+      </nav.item>
+      <nav.item>
+        <nav.link-to @route="vocabulary.unification" @model={{this.model.id}}>Unification</nav.link-to>
+      </nav.item>
+    </BsNav>
+    {{outlet}}
+  {{/if}}
 </div>

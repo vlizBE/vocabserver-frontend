@@ -19,6 +19,7 @@ export default class VocabulariesIndexRoute extends Route {
         number: params.page,
         size: params.size,
       },
+      include: 'data-containers.input-from-tasks'
     };
 
     if (params.filter) {

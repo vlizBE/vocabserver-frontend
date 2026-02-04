@@ -21,30 +21,63 @@
       <th>Alias</th>
     </Content.header>
     <Content.body as |vocab|>
-      <td>
-        <LinkTo @route='vocabulary' @model={{vocab.id}}>{{vocab.name}}</LinkTo>
-      </td>
-      <td>
-        <ConfirmationButton
-          @onConfirm={{fn this.deleteVocab vocab}}
-          @confirmBtnTxt='Delete'
-          @confirmBtnType='danger'
-          @type='danger'
-        >
-          <:message>
-            <p>Are you sure you want to delete vocabulary
-              <strong>{{vocab.name}}</strong>?<br><br>
-              <i>Note that deleting large vocabularies may take a long time. Make sure to refresh the page manually.</i>
-            </p>
-          </:message>
-          <:buttonContent>
-            <BsIcon @name='trash-fill' />
-          </:buttonContent>
-        </ConfirmationButton>
-      </td>
-      <td>
-        <VocabAlias @vocab={{vocab}}/>
-      </td>
+      {{#let (await (vocab-is-deleting vocab)) (await (vocab-is-delete-waiting vocab)) as | deleting waiting | }}
+        <td>
+          {{#if (or deleting waiting)}}
+            {{vocab.name}}
+          {{else}}
+            <LinkTo @route='vocabulary' @model={{vocab.id}}>{{vocab.name}}</LinkTo>
+          {{/if}}
+        </td>
+        <td>
+          {{#if deleting}}
+            {{#let (await (vocab-get-deleting-task vocab)) as | task |}}
+            {{! `task` is null while we await }}
+              {{#if task}}
+                Deleting <TaskStatus @task={{task}} @onTaskFinished={{this.handleDeleteTaskFinished}} />
+                <BsButton
+                  @type='danger'
+                  @onClick={{fn this.restartTask task}}>
+                  Try Again
+                </BsButton>
+              {{/if}}
+            {{/let}}
+          {{else if waiting}}
+            {{#let (await (vocab-get-delete-waiting-task vocab)) as | task |}}
+            {{! `task` is null while we await }}
+              {{#if task}}
+                Waiting for search <TaskStatus @task={{task}} @onTaskFinished={{this.handleDeleteTaskFinished}} />
+                <BsButton
+                  @type='danger'
+                  @onClick={{fn this.restartTask task}}>
+                  Try Again
+                </BsButton>
+              {{/if}}
+            {{/let}}
+          {{else}}
+            <ConfirmationButton
+              @onConfirm={{fn this.deleteVocab vocab}}
+              @confirmBtnTxt='Delete'
+              @confirmBtnType='danger'
+              @type='danger'
+            >
+              <:message>
+                <p>Are you sure you want to delete vocabulary
+                  <strong>{{vocab.name}}</strong>?<br><br>
+                </p>
+              </:message>
+              <:buttonContent>
+                <BsIcon @name='trash-fill' />
+              </:buttonContent>
+            </ConfirmationButton>
+          {{/if}}
+        </td>
+        <td>
+          {{#if (not (or deleting waiting))}}
+            <VocabAlias @vocab={{vocab}}/>
+          {{/if}}
+        </td>
+      {{/let}}
     </Content.body>
   </Table.content>
 </DataTable>
